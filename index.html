@@ -3,752 +3,614 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Свадьба Александра & Виктория</title>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=Josefin+Sans:wght@300;400&family=Great+Vibes&display=swap" rel="stylesheet">
+<title>Дмитрий & Полина · 08.08.2026</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Raleway:wght@300;400&family=Tangerine:wght@400;700&display=swap" rel="stylesheet">
 <style>
-  :root {
-    --cream: #FDF8F0;
-    --warm-white: #FFFAF5;
-    --gold: #C9A96E;
-    --gold-light: #E8D5A8;
-    --gold-dark: #8B6914;
-    --sage: #A8B5A0;
-    --sage-dark: #7A8F6F;
-    --text-dark: #3A3028;
-    --text-medium: #6B5D4F;
-    --text-light: #9B8E80;
-    --blush: #F0DDD5;
-    --rose: #D4A5A5;
-    --green: #6B9A6B;
-    --red-soft: #C27A7A;
-  }
+:root {
+  --white: #FEFCF9;
+  --linen: #F7F3ED;
+  --olive: #8A9A5B;
+  --olive-light: #C5D1A5;
+  --olive-pale: #E8EDDA;
+  --sage: #B4C4A1;
+  --sand: #D4C9B0;
+  --bark: #6B5B4A;
+  --text: #3D3528;
+  --text-mid: #6B5F50;
+  --text-soft: #9E9283;
+  --terracotta: #C17C4E;
+  --green-deep: #5A6E3A;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth;overflow-x:hidden}
+body{font-family:'Raleway',sans-serif;background:var(--white);color:var(--text);overflow-x:hidden}
 
-  * { margin: 0; padding: 0; box-sizing: border-box; }
-  html { scroll-behavior: smooth; overflow-x: hidden; }
-  body {
-    font-family: 'Josefin Sans', sans-serif;
-    background: var(--cream);
-    color: var(--text-dark);
-    overflow-x: hidden;
-  }
+/* ===== INTRO OVERLAY ===== */
+.intro-overlay{
+  position:fixed;inset:0;z-index:10000;background:var(--white);
+  display:flex;align-items:center;justify-content:center;flex-direction:column;
+  transition:opacity 1.2s ease,visibility 1.2s ease;
+}
+.intro-overlay.hidden{opacity:0;visibility:hidden;pointer-events:none}
 
-  .preloader {
-    position: fixed; inset: 0; background: var(--cream);
-    z-index: 9999; display: flex; align-items: center; justify-content: center;
-    transition: opacity 0.8s ease, visibility 0.8s ease;
-  }
-  .preloader.hidden { opacity: 0; visibility: hidden; pointer-events: none; }
-  .preloader-heart { font-size: 2rem; color: var(--gold); animation: heartbeat 1.2s ease infinite; }
-  @keyframes heartbeat {
-    0%,100%{transform:scale(1)} 25%{transform:scale(1.15)} 40%{transform:scale(1)} 60%{transform:scale(1.1)}
-  }
+.intro-photo{
+  width:clamp(160px,40vw,240px);height:clamp(160px,40vw,240px);
+  border-radius:50%;overflow:hidden;border:3px solid var(--olive-light);
+  opacity:0;transform:scale(0.7);
+  animation:introPhoto 1.2s cubic-bezier(0.16,1,0.3,1) 0.3s forwards;
+  box-shadow:0 8px 40px rgba(90,110,58,0.12);
+}
+.intro-photo img{width:100%;height:100%;object-fit:cover;object-position:center 15%}
 
-  .ornament { display:block; margin:0 auto; color:var(--gold); font-size:1.4rem; letter-spacing:0.5em; opacity:0.6; }
-  .divider { width:120px; height:1px; background:linear-gradient(90deg,transparent,var(--gold),transparent); margin:1.5rem auto; }
+.intro-names{
+  font-family:'Tangerine',cursive;font-weight:700;
+  font-size:clamp(2.5rem,7vw,4rem);color:var(--text);
+  margin-top:1.5rem;opacity:0;
+  animation:introNames 1s ease 1s forwards;
+  letter-spacing:0.02em;
+}
+.intro-amp{
+  font-family:'Cormorant Garamond',serif;font-style:italic;
+  font-weight:300;font-size:0.45em;color:var(--olive);
+  margin:0 0.15em;vertical-align:middle;
+}
+.intro-date{
+  font-family:'Raleway',sans-serif;font-weight:300;font-size:0.7rem;
+  letter-spacing:0.5em;color:var(--text-soft);text-transform:uppercase;
+  margin-top:0.8rem;opacity:0;animation:introDate 1s ease 1.5s forwards;
+}
+.intro-enter{
+  font-family:'Raleway',sans-serif;font-weight:300;font-size:0.65rem;
+  letter-spacing:0.4em;text-transform:uppercase;padding:0.8rem 2rem;
+  background:transparent;border:1px solid var(--olive);color:var(--olive);
+  cursor:pointer;margin-top:2.5rem;opacity:0;
+  animation:introDate 1s ease 2s forwards;
+  transition:all 0.3s;
+}
+.intro-enter:hover{background:var(--olive);color:var(--white)}
 
-  .page { display: none; }
-  .page.active { display: block; }
+@keyframes introPhoto{
+  0%{opacity:0;transform:scale(0.7)}
+  100%{opacity:1;transform:scale(1)}
+}
+@keyframes introNames{
+  0%{opacity:0;transform:translateY(15px)}
+  100%{opacity:1;transform:translateY(0)}
+}
+@keyframes introDate{
+  0%{opacity:0}100%{opacity:1}
+}
 
-  /* ===== HERO ===== */
-  .hero {
-    min-height:100vh; display:flex; align-items:center; justify-content:center; position:relative;
-    background: radial-gradient(ellipse at 20% 50%,rgba(201,169,110,0.08) 0%,transparent 50%),
-      radial-gradient(ellipse at 80% 20%,rgba(168,181,160,0.1) 0%,transparent 50%),
-      radial-gradient(ellipse at 50% 80%,rgba(240,221,213,0.15) 0%,transparent 50%), var(--cream);
-    overflow:hidden;
-  }
-  .hero::before {
-    content:''; position:absolute; top:-50%; left:-50%; width:200%; height:200%;
-    background: repeating-linear-gradient(45deg,transparent,transparent 100px,rgba(201,169,110,0.015) 100px,rgba(201,169,110,0.015) 101px);
-    animation: subtleRotate 120s linear infinite;
-  }
-  @keyframes subtleRotate { from{transform:rotate(0)} to{transform:rotate(360deg)} }
+/* ===== MUSIC ===== */
+.music-btn{
+  position:fixed;bottom:20px;right:20px;z-index:200;
+  width:44px;height:44px;border-radius:50%;
+  background:var(--white);border:1px solid var(--olive-light);
+  cursor:pointer;display:flex;align-items:center;justify-content:center;
+  transition:all 0.3s;box-shadow:0 2px 12px rgba(90,110,58,0.08);
+  opacity:0;pointer-events:none;
+}
+.music-btn.show{opacity:1;pointer-events:auto}
+.music-btn:hover{transform:scale(1.08)}
+.music-bars{display:flex;align-items:flex-end;gap:2px;height:14px}
+.music-bars span{width:2.5px;background:var(--olive);border-radius:1px;animation:bar 0.8s ease infinite alternate}
+.music-btn:not(.playing) .music-bars span{animation:none;height:2px!important}
+.music-btn.playing{background:var(--olive);border-color:var(--olive)}
+.music-btn.playing .music-bars span{background:var(--white)}
+.music-bars span:nth-child(1){animation-delay:0s;height:5px}
+.music-bars span:nth-child(2){animation-delay:.12s;height:10px}
+.music-bars span:nth-child(3){animation-delay:.24s;height:7px}
+.music-bars span:nth-child(4){animation-delay:.08s;height:12px}
+@keyframes bar{0%{height:3px}100%{height:14px}}
 
-  .hero-border { position:absolute; inset:20px; border:1px solid var(--gold-light); pointer-events:none; opacity:0.4; }
-  .hero-border::before { content:''; position:absolute; inset:8px; border:1px solid var(--gold-light); opacity:0.3; }
-  .hero-content { text-align:center; position:relative; z-index:2; padding:2rem; }
-  .hero-top-text {
-    font-family:'Josefin Sans',sans-serif; font-weight:300; font-size:0.85rem;
-    letter-spacing:0.45em; text-transform:uppercase; color:var(--text-light);
-    margin-bottom:2rem; opacity:0; animation:fadeUp 1s ease 0.5s forwards;
-  }
-  .names {
-    font-family:'Great Vibes',cursive; font-size:clamp(3rem,8vw,6.5rem);
-    color:var(--text-dark); line-height:1.2; margin-bottom:0.5rem;
-    opacity:0; animation:fadeUp 1s ease 0.8s forwards;
-  }
-  .names .amp { display:block; font-size:0.5em; color:var(--gold); margin:-0.2em 0; }
-  .wedding-date-hero {
-    font-family:'Cormorant Garamond',serif; font-size:clamp(1.2rem,3vw,1.8rem);
-    font-weight:300; letter-spacing:0.2em; color:var(--text-medium);
-    margin-top:2rem; opacity:0; animation:fadeUp 1s ease 1.1s forwards;
-  }
-  .scroll-indicator {
-    position:absolute; bottom:40px; left:50%; transform:translateX(-50%);
-    display:flex; flex-direction:column; align-items:center; gap:8px;
-    opacity:0; animation:fadeUp 1s ease 1.5s forwards;
-  }
-  .scroll-indicator span { font-size:0.65rem; letter-spacing:0.3em; text-transform:uppercase; color:var(--text-light); }
-  .scroll-line { width:1px; height:40px; background:var(--gold-light); position:relative; overflow:hidden; }
-  .scroll-line::after { content:''; position:absolute; top:-100%; left:0; width:100%; height:100%; background:var(--gold); animation:scrollDown 2s ease infinite; }
-  @keyframes scrollDown { 0%{top:-100%} 100%{top:100%} }
+/* ===== PAGES ===== */
+.page{display:none}.page.active{display:block}
 
-  section { padding:6rem 2rem; max-width:800px; margin:0 auto; position:relative; }
-  .section-label { font-family:'Josefin Sans',sans-serif; font-weight:300; font-size:0.7rem; letter-spacing:0.5em; text-transform:uppercase; color:var(--gold); text-align:center; margin-bottom:1rem; }
-  .section-title { font-family:'Cormorant Garamond',serif; font-size:clamp(2rem,5vw,3.2rem); font-weight:300; text-align:center; color:var(--text-dark); margin-bottom:0.5rem; }
-  .section-text { font-family:'Cormorant Garamond',serif; font-size:1.15rem; font-weight:300; line-height:1.9; color:var(--text-medium); text-align:center; max-width:560px; margin:2rem auto; }
+/* ===== HERO ===== */
+.hero{
+  min-height:100vh;display:flex;align-items:center;justify-content:center;
+  position:relative;text-align:center;padding:2rem;background:var(--white);
+}
+.hero-bg{position:absolute;inset:0;overflow:hidden;pointer-events:none}
+.hero-bg .leaf{position:absolute;opacity:0.04;color:var(--olive)}
+.hero-bg .leaf:nth-child(1){top:-5%;right:-5%;font-size:clamp(80px,20vw,200px);transform:rotate(25deg)}
+.hero-bg .leaf:nth-child(2){bottom:-5%;left:-8%;font-size:clamp(80px,20vw,200px);transform:rotate(-40deg)}
 
-  .invitation-section { background: radial-gradient(ellipse at 50% 0%,rgba(201,169,110,0.06) 0%,transparent 60%), var(--cream); }
-  .invitation-card {
-    background:var(--warm-white); border:1px solid rgba(201,169,110,0.2);
-    padding:3.5rem 2.5rem; max-width:600px; margin:2rem auto; position:relative; text-align:center;
-  }
-  .invitation-card::before,.invitation-card::after { content:'✦'; position:absolute; color:var(--gold-light); font-size:0.8rem; }
-  .invitation-card::before { top:16px; left:16px; }
-  .invitation-card::after { bottom:16px; right:16px; }
-  .invitation-text { font-family:'Cormorant Garamond',serif; font-size:1.1rem; font-weight:400; line-height:2; color:var(--text-medium); font-style:italic; }
-  .invitation-names-highlight { font-family:'Great Vibes',cursive; font-size:2rem; color:var(--text-dark); display:block; margin:1rem 0; }
+.hero-content{position:relative;z-index:2}
 
-  .details-grid { display:grid; grid-template-columns:1fr 1fr; gap:2rem; margin-top:3rem; }
-  @media(max-width:600px){ .details-grid{grid-template-columns:1fr} }
-  .detail-card {
-    background:var(--warm-white); border:1px solid rgba(201,169,110,0.15);
-    padding:2.5rem 2rem; text-align:center; transition:transform 0.4s ease,box-shadow 0.4s ease;
-  }
-  .detail-card:hover { transform:translateY(-4px); box-shadow:0 20px 60px rgba(201,169,110,0.1); }
-  .detail-icon { font-size:1.8rem; margin-bottom:1rem; display:block; }
-  .detail-card h3 { font-family:'Cormorant Garamond',serif; font-size:1.4rem; font-weight:400; color:var(--text-dark); margin-bottom:0.8rem; }
-  .detail-card p { font-family:'Josefin Sans',sans-serif; font-weight:300; font-size:0.85rem; line-height:1.8; color:var(--text-medium); letter-spacing:0.02em; }
-  .detail-card .highlight { font-family:'Cormorant Garamond',serif; font-size:1.1rem; color:var(--text-dark); font-weight:500; display:block; margin-top:0.3rem; }
+.hero-photo{
+  width:clamp(180px,45vw,280px);height:clamp(240px,55vw,360px);
+  overflow:hidden;margin:0 auto 2rem;border:3px solid var(--olive-light);
+  box-shadow:0 12px 50px rgba(90,110,58,0.1);
+  opacity:0;animation:heroReveal 1s ease 0.2s forwards;
+}
+.hero-photo img{width:100%;height:100%;object-fit:cover;object-position:center 15%}
 
-  .timeline { position:relative; margin:3rem auto; max-width:500px; }
-  .timeline::before { content:''; position:absolute; left:50%; top:0; bottom:0; width:1px; background:linear-gradient(to bottom,transparent,var(--gold-light),transparent); }
-  .timeline-item { display:flex; align-items:center; margin-bottom:2.5rem; position:relative; }
-  .timeline-item:nth-child(odd) { flex-direction:row; text-align:right; padding-right:calc(50% + 30px); }
-  .timeline-item:nth-child(even) { flex-direction:row-reverse; text-align:left; padding-left:calc(50% + 30px); }
-  .timeline-dot { position:absolute; left:50%; transform:translateX(-50%); width:10px; height:10px; background:var(--gold); border-radius:50%; border:2px solid var(--cream); box-shadow:0 0 0 4px rgba(201,169,110,0.15); }
-  .timeline-time { font-family:'Cormorant Garamond',serif; font-size:1.3rem; font-weight:500; color:var(--gold-dark); display:block; margin-bottom:0.2rem; }
-  .timeline-event { font-family:'Josefin Sans',sans-serif; font-weight:300; font-size:0.8rem; letter-spacing:0.1em; color:var(--text-medium); }
+.hero-date-top{
+  font-family:'Raleway',sans-serif;font-weight:300;font-size:0.65rem;
+  letter-spacing:0.6em;text-transform:uppercase;color:var(--olive);margin-bottom:1.5rem;
+  opacity:0;animation:heroReveal 1s ease 0.5s forwards;
+}
+.hero-names{
+  font-family:'Tangerine',cursive;font-weight:700;
+  font-size:clamp(3rem,9vw,5.5rem);color:var(--text);
+  line-height:1.15;margin-bottom:0.3rem;
+  opacity:0;animation:heroReveal 1s ease 0.7s forwards;
+  letter-spacing:0.02em;
+}
+.hero-names .amp{
+  font-family:'Cormorant Garamond',serif;font-style:italic;
+  font-weight:300;font-size:0.35em;color:var(--olive);
+  margin:0 0.2em;vertical-align:middle;
+}
+.hero-line{
+  width:50px;height:1px;background:var(--olive-light);margin:1.5rem auto;
+  opacity:0;animation:heroReveal 1s ease 0.9s forwards;
+}
+.hero-date{
+  font-family:'Cormorant Garamond',serif;font-size:clamp(1rem,2.5vw,1.3rem);
+  font-weight:400;letter-spacing:0.15em;color:var(--text-mid);
+  opacity:0;animation:heroReveal 1s ease 1s forwards;
+}
+.hero-venue{
+  font-family:'Raleway',sans-serif;font-weight:300;font-size:0.72rem;
+  letter-spacing:0.2em;color:var(--text-soft);margin-top:0.4rem;
+  opacity:0;animation:heroReveal 1s ease 1.1s forwards;
+}
+@keyframes heroReveal{
+  0%{opacity:0;transform:translateY(20px)}
+  100%{opacity:1;transform:translateY(0)}
+}
 
-  .quote-section { padding:5rem 2rem; text-align:center; max-width:650px; margin:0 auto; }
-  .quote-text { font-family:'Cormorant Garamond',serif; font-size:clamp(1.3rem,3vw,1.8rem); font-weight:300; font-style:italic; line-height:1.8; color:var(--text-medium); }
-  .quote-mark { font-family:'Great Vibes',cursive; font-size:4rem; color:var(--gold-light); line-height:0.5; display:block; margin-bottom:1rem; }
+.scroll-hint{
+  position:absolute;bottom:28px;left:50%;transform:translateX(-50%);
+  opacity:0;animation:heroReveal 1s ease 1.4s forwards;
+}
+.scroll-hint span{
+  display:block;width:1px;height:28px;background:var(--olive-light);margin:0 auto;
+  position:relative;overflow:hidden;
+}
+.scroll-hint span::after{content:'';position:absolute;top:-100%;left:0;width:100%;height:100%;background:var(--olive);animation:scrollLine 2s ease infinite}
+@keyframes scrollLine{0%{top:-100%}100%{top:100%}}
 
-  .countdown-section { background: linear-gradient(135deg,rgba(168,181,160,0.08) 0%,transparent 50%), var(--cream); }
-  .countdown { display:flex; justify-content:center; gap:2.5rem; margin:2rem 0; flex-wrap:wrap; }
-  .countdown-item { text-align:center; min-width:80px; }
-  .countdown-number { font-family:'Cormorant Garamond',serif; font-size:clamp(2.5rem,6vw,3.5rem); font-weight:300; color:var(--text-dark); line-height:1; display:block; }
-  .countdown-label { font-family:'Josefin Sans',sans-serif; font-weight:300; font-size:0.65rem; letter-spacing:0.35em; text-transform:uppercase; color:var(--text-light); margin-top:0.5rem; display:block; }
+/* ===== SECTIONS ===== */
+section{padding:5rem 1.5rem;max-width:680px;margin:0 auto}
+.s-label{
+  font-family:'Raleway',sans-serif;font-weight:300;font-size:0.6rem;
+  letter-spacing:0.6em;text-transform:uppercase;color:var(--olive);text-align:center;
+  margin-bottom:0.8rem;
+}
+.s-title{
+  font-family:'Cormorant Garamond',serif;font-size:clamp(1.6rem,4vw,2.2rem);
+  font-weight:400;text-align:center;color:var(--text);margin-bottom:0.3rem;
+}
+.s-text{
+  font-family:'Cormorant Garamond',serif;font-size:1rem;font-weight:400;
+  line-height:2;color:var(--text-mid);text-align:center;max-width:480px;margin:1.5rem auto;
+}
+.s-div{width:40px;height:1px;background:var(--olive-light);margin:0 auto 1.5rem}
 
-  .rsvp-section { background: radial-gradient(ellipse at 50% 100%,rgba(240,221,213,0.15) 0%,transparent 60%), var(--cream); }
-  .rsvp-form { max-width:480px; margin:2rem auto; display:flex; flex-direction:column; gap:1.5rem; }
-  .form-group { position:relative; }
-  .form-group input,.form-group select,.form-group textarea {
-    width:100%; padding:1rem 0; border:none; border-bottom:1px solid var(--gold-light);
-    background:transparent; font-family:'Cormorant Garamond',serif; font-size:1.1rem;
-    color:var(--text-dark); outline:none; transition:border-color 0.3s ease;
-  }
-  .form-group input::placeholder,.form-group textarea::placeholder { color:var(--text-light); font-style:italic; }
-  .form-group input:focus,.form-group select:focus,.form-group textarea:focus { border-bottom-color:var(--gold); }
-  .form-group select { -webkit-appearance:none; cursor:pointer; }
-  .form-group textarea { resize:vertical; min-height:80px; }
-  .form-row { display:grid; grid-template-columns:1fr 1fr; gap:1.5rem; }
-  @media(max-width:500px){ .form-row{grid-template-columns:1fr} }
+/* ===== INVITATION ===== */
+.inv-card{
+  border:1px solid var(--olive-pale);padding:2.5rem 2rem;max-width:520px;margin:1.5rem auto;text-align:center;
+}
+.inv-text{
+  font-family:'Cormorant Garamond',serif;font-size:1.05rem;font-weight:400;
+  line-height:2.2;color:var(--text-mid);font-style:italic;
+}
+.inv-names{
+  font-family:'Tangerine',cursive;font-weight:700;font-size:2.2rem;
+  color:var(--text);display:block;margin:0.8rem 0;letter-spacing:0.02em;
+}
 
-  .rsvp-btn {
-    font-family:'Josefin Sans',sans-serif; font-weight:300; font-size:0.8rem;
-    letter-spacing:0.4em; text-transform:uppercase; padding:1.2rem 3rem;
-    background:transparent; border:1px solid var(--gold); color:var(--gold-dark);
-    cursor:pointer; transition:all 0.4s ease; margin-top:1rem; align-self:center;
-  }
-  .rsvp-btn:hover { background:var(--gold); color:var(--warm-white); }
-  .rsvp-btn:disabled { opacity:0.5; cursor:not-allowed; }
+/* ===== DETAILS ===== */
+.details-row{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;margin-top:2rem}
+@media(max-width:550px){.details-row{grid-template-columns:1fr}}
+.d-card{text-align:center;padding:2rem 1.5rem;border:1px solid var(--olive-pale);transition:transform 0.3s}
+.d-card:hover{transform:translateY(-3px)}
+.d-icon{font-size:1.2rem;margin-bottom:0.8rem;display:block}
+.d-card h3{font-family:'Cormorant Garamond',serif;font-size:1.15rem;font-weight:400;color:var(--text);margin-bottom:0.5rem}
+.d-card p{font-family:'Raleway',sans-serif;font-weight:300;font-size:0.78rem;line-height:1.7;color:var(--text-mid)}
+.d-card .d-val{font-family:'Cormorant Garamond',serif;font-size:0.95rem;color:var(--text);display:block;margin-top:0.2rem;font-weight:500}
 
-  .form-error { color: var(--red-soft); font-size: 0.8rem; text-align: center; margin-top: 0.5rem; font-style: italic; font-family:'Cormorant Garamond',serif; }
-  .form-success {
-    text-align:center; padding:3rem; font-family:'Cormorant Garamond',serif;
-    font-size:1.3rem; color:var(--text-medium); line-height:1.8;
-  }
-  .form-success .check { font-size:3rem; display:block; margin-bottom:1rem; color:var(--sage); }
+/* ===== TIMELINE ===== */
+.tl{position:relative;margin:2rem auto;max-width:420px}
+.tl::before{content:'';position:absolute;left:50%;top:0;bottom:0;width:1px;background:var(--olive-pale)}
+.tl-item{display:flex;align-items:center;margin-bottom:2rem;position:relative}
+.tl-item:nth-child(odd){text-align:right;padding-right:calc(50% + 24px)}
+.tl-item:nth-child(even){flex-direction:row-reverse;text-align:left;padding-left:calc(50% + 24px)}
+.tl-dot{
+  position:absolute;left:50%;transform:translateX(-50%);
+  width:7px;height:7px;background:var(--olive);border-radius:50%;
+  border:2px solid var(--white);box-shadow:0 0 0 3px var(--olive-pale);
+}
+.tl-time{font-family:'Cormorant Garamond',serif;font-size:1.15rem;font-weight:500;color:var(--olive);display:block;margin-bottom:0.15rem}
+.tl-event{font-family:'Raleway',sans-serif;font-weight:300;font-size:0.72rem;letter-spacing:0.05em;color:var(--text-mid)}
 
-  .footer { text-align:center; padding:4rem 2rem; border-top:1px solid rgba(201,169,110,0.15); }
-  .footer-names { font-family:'Great Vibes',cursive; font-size:2.5rem; color:var(--text-dark); }
-  .footer-date { font-family:'Josefin Sans',sans-serif; font-weight:300; font-size:0.75rem; letter-spacing:0.4em; color:var(--text-light); margin-top:0.5rem; }
-  .footer-hashtag { font-family:'Cormorant Garamond',serif; font-size:1rem; font-style:italic; color:var(--gold); margin-top:1.5rem; }
+/* ===== PHOTO SECTION ===== */
+.photo-section{
+  padding:3rem 1.5rem;text-align:center;
+  background:var(--linen);
+}
+.photo-full{
+  max-width:500px;margin:0 auto;overflow:hidden;
+  border:3px solid var(--olive-light);
+  box-shadow:0 12px 50px rgba(90,110,58,0.08);
+}
+.photo-full img{width:100%;display:block}
+.photo-caption{
+  font-family:'Cormorant Garamond',serif;font-size:0.9rem;
+  font-style:italic;color:var(--text-soft);margin-top:1rem;
+}
 
-  /* ===== ADMIN ===== */
-  .admin-header {
-    text-align:center; padding:3rem 2rem 2rem;
-    background: radial-gradient(ellipse at 50% 0%,rgba(201,169,110,0.08) 0%,transparent 60%), var(--cream);
-  }
-  .admin-header h1 { font-family:'Great Vibes',cursive; font-size:2.5rem; color:var(--text-dark); }
-  .admin-header p { font-family:'Josefin Sans',sans-serif; font-weight:300; font-size:0.75rem; letter-spacing:0.3em; text-transform:uppercase; color:var(--text-light); margin-top:0.5rem; }
+/* ===== COUNTDOWN ===== */
+.cd-section{background:var(--linen);margin:0;max-width:100%;padding:4rem 1.5rem}
+.cd-section section{padding:0;max-width:680px;margin:0 auto}
+.cd{display:flex;justify-content:center;gap:2rem;margin:1.5rem 0;flex-wrap:wrap}
+.cd-item{text-align:center;min-width:70px}
+.cd-num{font-family:'Cormorant Garamond',serif;font-size:clamp(2rem,5vw,2.8rem);font-weight:400;color:var(--text);line-height:1}
+.cd-lbl{font-family:'Raleway',sans-serif;font-weight:300;font-size:0.6rem;letter-spacing:0.3em;text-transform:uppercase;color:var(--text-soft);margin-top:0.3rem}
 
-  .admin-stats { display:flex; justify-content:center; gap:2rem; padding:2rem; flex-wrap:wrap; max-width:700px; margin:0 auto; }
-  .stat-card {
-    background:var(--warm-white); border:1px solid rgba(201,169,110,0.15);
-    padding:1.5rem 2rem; text-align:center; min-width:130px; flex:1;
-  }
-  .stat-number { font-family:'Cormorant Garamond',serif; font-size:2.5rem; font-weight:300; color:var(--text-dark); display:block; }
-  .stat-label { font-family:'Josefin Sans',sans-serif; font-weight:300; font-size:0.65rem; letter-spacing:0.3em; text-transform:uppercase; color:var(--text-light); margin-top:0.3rem; display:block; }
+/* ===== RSVP ===== */
+.rsvp-form{max-width:420px;margin:1.5rem auto;display:flex;flex-direction:column;gap:1.2rem}
+.fg input,.fg select,.fg textarea{
+  width:100%;padding:0.8rem 0;border:none;border-bottom:1px solid var(--olive-pale);
+  background:transparent;font-family:'Cormorant Garamond',serif;font-size:1rem;
+  color:var(--text);outline:none;transition:border-color 0.3s;
+}
+.fg input::placeholder,.fg textarea::placeholder{color:var(--text-soft);font-style:italic}
+.fg input:focus,.fg select:focus,.fg textarea:focus{border-bottom-color:var(--olive)}
+.fg select{-webkit-appearance:none;cursor:pointer}
+.fg textarea{resize:vertical;min-height:60px}
+.fr{display:grid;grid-template-columns:1fr 1fr;gap:1.2rem}
+@media(max-width:480px){.fr{grid-template-columns:1fr}}
+.form-err{color:var(--terracotta);font-size:0.78rem;text-align:center;font-style:italic;font-family:'Cormorant Garamond',serif}
+.rsvp-btn{
+  font-family:'Raleway',sans-serif;font-weight:300;font-size:0.72rem;
+  letter-spacing:0.4em;text-transform:uppercase;padding:1rem 2.5rem;
+  background:transparent;border:1px solid var(--olive);color:var(--olive);
+  cursor:pointer;transition:all 0.3s;align-self:center;margin-top:0.5rem;
+}
+.rsvp-btn:hover{background:var(--olive);color:var(--white)}
+.rsvp-btn:disabled{opacity:0.4;cursor:not-allowed}
+.form-ok{text-align:center;padding:2rem;font-family:'Cormorant Garamond',serif;font-size:1.1rem;color:var(--text-mid);line-height:1.8}
+.form-ok .chk{font-size:2rem;display:block;margin-bottom:0.8rem;color:var(--olive)}
 
-  .admin-table-wrap { max-width:850px; margin:2rem auto; padding:0 2rem; overflow-x:auto; }
-  .admin-table {
-    width:100%; border-collapse:collapse; background:var(--warm-white);
-    border:1px solid rgba(201,169,110,0.15);
-  }
-  .admin-table th {
-    font-family:'Josefin Sans',sans-serif; font-weight:400; font-size:0.7rem;
-    letter-spacing:0.2em; text-transform:uppercase; color:var(--text-light);
-    padding:1rem; text-align:left; border-bottom:1px solid rgba(201,169,110,0.15);
-    background:rgba(201,169,110,0.04);
-  }
-  .admin-table td {
-    font-family:'Cormorant Garamond',serif; font-size:1rem; color:var(--text-medium);
-    padding:0.9rem 1rem; border-bottom:1px solid rgba(201,169,110,0.08); vertical-align:top;
-  }
-  .admin-table tr:last-child td { border-bottom:none; }
+/* ===== FOOTER ===== */
+.footer{text-align:center;padding:3rem 1.5rem;border-top:1px solid var(--olive-pale)}
+.footer-names{font-family:'Tangerine',cursive;font-weight:700;font-size:2.2rem;color:var(--text);letter-spacing:0.02em}
+.footer-date{font-family:'Raleway',sans-serif;font-weight:300;font-size:0.65rem;letter-spacing:0.4em;color:var(--text-soft);margin-top:0.3rem}
+.footer-tag{font-family:'Cormorant Garamond',serif;font-size:0.85rem;font-style:italic;color:var(--olive);margin-top:1rem}
+.admin-link{font-family:'Raleway',sans-serif;font-size:0.5rem;letter-spacing:0.2em;color:var(--text-soft);text-decoration:none;opacity:0.3;transition:opacity 0.3s;display:inline-block;margin-top:1.5rem}
+.admin-link:hover{opacity:0.7}
 
-  .status-badge {
-    display:inline-block; padding:0.2rem 0.7rem; border-radius:20px;
-    font-family:'Josefin Sans',sans-serif; font-size:0.65rem; letter-spacing:0.1em; text-transform:uppercase;
-  }
-  .status-badge.yes { background:rgba(107,154,107,0.12); color:var(--green); }
-  .status-badge.no { background:rgba(194,122,122,0.12); color:var(--red-soft); }
+/* ===== ADMIN ===== */
+.admin-header{text-align:center;padding:2.5rem 1.5rem 1.5rem;background:var(--linen)}
+.admin-header h1{font-family:'Tangerine',cursive;font-weight:700;font-size:2.2rem;color:var(--text);letter-spacing:0.02em}
+.admin-header p{font-family:'Raleway',sans-serif;font-weight:300;font-size:0.65rem;letter-spacing:0.3em;text-transform:uppercase;color:var(--text-soft);margin-top:0.3rem}
+.admin-back{display:inline-flex;align-items:center;gap:4px;font-family:'Raleway',sans-serif;font-weight:300;font-size:0.7rem;letter-spacing:0.1em;color:var(--olive);text-decoration:none;transition:opacity 0.3s}
+.admin-back:hover{opacity:0.6}
+.admin-stats{display:flex;justify-content:center;gap:1.5rem;padding:1.5rem;flex-wrap:wrap;max-width:600px;margin:0 auto}
+.st-card{border:1px solid var(--olive-pale);padding:1.2rem 1.5rem;text-align:center;min-width:110px;flex:1}
+.st-num{font-family:'Cormorant Garamond',serif;font-size:2rem;font-weight:400;color:var(--text)}
+.st-lbl{font-family:'Raleway',sans-serif;font-weight:300;font-size:0.6rem;letter-spacing:0.25em;text-transform:uppercase;color:var(--text-soft);margin-top:0.2rem}
+.admin-actions{display:flex;justify-content:space-between;align-items:center;max-width:700px;margin:1rem auto 0;padding:0 1.5rem;flex-wrap:wrap;gap:0.8rem}
+.admin-refresh{font-family:'Raleway',sans-serif;font-weight:300;font-size:0.65rem;letter-spacing:0.2em;text-transform:uppercase;padding:0.6rem 1.2rem;background:transparent;border:1px solid var(--olive-pale);color:var(--olive);cursor:pointer;transition:all 0.3s}
+.admin-refresh:hover{background:var(--olive);color:var(--white);border-color:var(--olive)}
+.admin-tw{max-width:700px;margin:1.5rem auto;padding:0 1.5rem;overflow-x:auto}
+.admin-t{width:100%;border-collapse:collapse;background:var(--white);border:1px solid var(--olive-pale)}
+.admin-t th{font-family:'Raleway',sans-serif;font-weight:400;font-size:0.6rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--text-soft);padding:0.8rem;text-align:left;border-bottom:1px solid var(--olive-pale);background:var(--linen)}
+.admin-t td{font-family:'Cormorant Garamond',serif;font-size:0.9rem;color:var(--text-mid);padding:0.7rem 0.8rem;border-bottom:1px solid rgba(197,209,165,0.3);vertical-align:top}
+.badge{display:inline-block;padding:0.15rem 0.6rem;border-radius:20px;font-family:'Raleway',sans-serif;font-size:0.6rem;letter-spacing:0.08em;text-transform:uppercase}
+.badge.y{background:var(--olive-pale);color:var(--green-deep)}
+.badge.n{background:#F0E0D6;color:var(--terracotta)}
+.empty-st{text-align:center;padding:3rem;font-family:'Cormorant Garamond',serif;font-size:1rem;color:var(--text-soft);font-style:italic}
+.pin-overlay{position:fixed;inset:0;background:rgba(254,252,249,0.97);z-index:10000;display:flex;align-items:center;justify-content:center}
+.pin-overlay.hidden{display:none}
+.pin-box{text-align:center;max-width:320px;padding:2rem}
+.pin-box h2{font-family:'Cormorant Garamond',serif;font-size:1.5rem;font-weight:400;color:var(--text);margin-bottom:0.3rem}
+.pin-box p{font-family:'Raleway',sans-serif;font-weight:300;font-size:0.75rem;color:var(--text-soft);margin-bottom:1.5rem}
+.pin-input{width:160px;padding:0.7rem;border:1px solid var(--olive-pale);background:transparent;font-family:'Cormorant Garamond',serif;font-size:1.2rem;text-align:center;letter-spacing:0.5em;color:var(--text);outline:none;transition:border-color 0.3s}
+.pin-input:focus{border-color:var(--olive)}
+.pin-err{color:var(--terracotta);font-size:0.75rem;margin-top:0.6rem;font-style:italic;font-family:'Cormorant Garamond',serif}
 
-  .empty-state {
-    text-align:center; padding:4rem 2rem;
-    font-family:'Cormorant Garamond',serif; font-size:1.2rem;
-    color:var(--text-light); font-style:italic;
-  }
+/* ===== ANIMATIONS ===== */
+@keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+.rv{opacity:0;transform:translateY(24px);transition:opacity 0.8s ease,transform 0.8s ease}
+.rv.vis{opacity:1;transform:translateY(0)}
 
-  .admin-back {
-    display:inline-flex; align-items:center; gap:6px;
-    font-family:'Josefin Sans',sans-serif; font-weight:300; font-size:0.75rem;
-    letter-spacing:0.15em; color:var(--gold); text-decoration:none;
-    padding:0.5rem 0; border-bottom:1px solid transparent; transition:border-color 0.3s;
-  }
-  .admin-back:hover { border-bottom-color:var(--gold); }
+/* Stagger children */
+.rv.vis .stagger>*{opacity:0;animation:fadeUp 0.6s ease forwards}
+.rv.vis .stagger>*:nth-child(1){animation-delay:0s}
+.rv.vis .stagger>*:nth-child(2){animation-delay:0.1s}
+.rv.vis .stagger>*:nth-child(3){animation-delay:0.15s}
+.rv.vis .stagger>*:nth-child(4){animation-delay:0.2s}
 
-  .admin-actions {
-    display:flex; justify-content:space-between; align-items:center;
-    max-width:850px; margin:1.5rem auto 0; padding:0 2rem; flex-wrap:wrap; gap:1rem;
-  }
-  .admin-refresh {
-    font-family:'Josefin Sans',sans-serif; font-weight:300; font-size:0.7rem;
-    letter-spacing:0.2em; text-transform:uppercase; padding:0.7rem 1.5rem;
-    background:transparent; border:1px solid var(--gold-light); color:var(--gold-dark);
-    cursor:pointer; transition:all 0.3s;
-  }
-  .admin-refresh:hover { background:var(--gold); color:white; border-color:var(--gold); }
-  .admin-footer { text-align:center; padding:3rem; }
+/* Slide in from sides for timeline */
+.rv.vis .tl-item{opacity:0;animation:fadeUp 0.6s ease forwards}
+.rv.vis .tl-item:nth-child(1){animation-delay:0s}
+.rv.vis .tl-item:nth-child(2){animation-delay:0.1s}
+.rv.vis .tl-item:nth-child(3){animation-delay:0.15s}
+.rv.vis .tl-item:nth-child(4){animation-delay:0.2s}
+.rv.vis .tl-item:nth-child(5){animation-delay:0.25s}
+.rv.vis .tl-item:nth-child(6){animation-delay:0.3s}
 
-  /* PIN overlay */
-  .pin-overlay {
-    position:fixed; inset:0; background:rgba(253,248,240,0.97);
-    z-index:10000; display:flex; align-items:center; justify-content:center;
-  }
-  .pin-overlay.hidden { display:none; }
-  .pin-box { text-align:center; max-width:360px; padding:2rem; }
-  .pin-box h2 { font-family:'Cormorant Garamond',serif; font-size:1.8rem; font-weight:300; color:var(--text-dark); margin-bottom:0.5rem; }
-  .pin-box p { font-family:'Josefin Sans',sans-serif; font-weight:300; font-size:0.8rem; color:var(--text-light); margin-bottom:2rem; }
-  .pin-input {
-    width:200px; padding:0.8rem; border:1px solid var(--gold-light); background:transparent;
-    font-family:'Cormorant Garamond',serif; font-size:1.3rem; text-align:center;
-    letter-spacing:0.5em; color:var(--text-dark); outline:none; transition:border-color 0.3s;
-  }
-  .pin-input:focus { border-color:var(--gold); }
-  .pin-input::placeholder { letter-spacing:0.2em; color:var(--text-light); font-size:1rem; }
-  .pin-error { color:var(--red-soft); font-size:0.8rem; margin-top:0.8rem; font-style:italic; font-family:'Cormorant Garamond',serif; }
+.loading-spinner{display:inline-block;width:14px;height:14px;border:1.5px solid var(--olive-pale);border-top-color:var(--olive);border-radius:50%;animation:spin 0.8s linear infinite;vertical-align:middle;margin-right:4px}
+@keyframes spin{to{transform:rotate(360deg)}}
 
-  /* MUSIC BUTTON */
-  .music-btn {
-    position:fixed; bottom:24px; right:24px; z-index:200;
-    width:48px; height:48px; border-radius:50%;
-    background:var(--warm-white); border:1px solid var(--gold-light);
-    cursor:pointer; display:flex; align-items:center; justify-content:center;
-    transition:all 0.4s ease; box-shadow:0 4px 20px rgba(201,169,110,0.15);
-  }
-  .music-btn:hover { transform:scale(1.1); box-shadow:0 6px 30px rgba(201,169,110,0.25); }
-  .music-btn svg { width:18px; height:18px; fill:var(--gold); transition:fill 0.3s; }
-  .music-btn.playing { background:var(--gold); border-color:var(--gold); }
-  .music-btn.playing svg { fill:var(--warm-white); }
-
-  .music-bars {
-    display:flex; align-items:flex-end; gap:2px; height:16px;
-  }
-  .music-bars span {
-    width:3px; background:var(--gold); border-radius:1px;
-    animation: musicBar 0.8s ease infinite alternate;
-  }
-  .music-btn.playing .music-bars span { background:var(--warm-white); }
-  .music-btn:not(.playing) .music-bars span { animation:none; height:3px !important; }
-  .music-bars span:nth-child(1) { animation-delay:0s; height:6px; }
-  .music-bars span:nth-child(2) { animation-delay:0.15s; height:12px; }
-  .music-bars span:nth-child(3) { animation-delay:0.3s; height:8px; }
-  .music-bars span:nth-child(4) { animation-delay:0.1s; height:14px; }
-  @keyframes musicBar {
-    0% { height:4px; }
-    100% { height:16px; }
-  }
-
-  /* NAV DOTS */
-  .nav-dots {
-    position:fixed; right:20px; top:50%; transform:translateY(-50%);
-    z-index:100; display:flex; flex-direction:column; gap:12px;
-  }
-  @media(max-width:768px){ .nav-dots{display:none} }
-  .nav-dot {
-    width:8px; height:8px; border-radius:50%; background:var(--gold-light);
-    cursor:pointer; transition:all 0.3s ease; border:none; padding:0;
-  }
-  .nav-dot.active { background:var(--gold); transform:scale(1.4); }
-  .nav-dot:hover { background:var(--gold); }
-
-  @keyframes fadeUp { from{opacity:0;transform:translateY(25px)} to{opacity:1;transform:translateY(0)} }
-  .reveal { opacity:0; transform:translateY(30px); transition:opacity 0.8s ease,transform 0.8s ease; }
-  .reveal.visible { opacity:1; transform:translateY(0); }
-
-  .petal { position:fixed; pointer-events:none; z-index:1; opacity:0; font-size:1rem; color:var(--blush); }
-  @keyframes floatPetal {
-    0%{opacity:0;transform:translateY(-20px) rotate(0deg) translateX(0)}
-    10%{opacity:0.6} 90%{opacity:0.3}
-    100%{opacity:0;transform:translateY(100vh) rotate(360deg) translateX(80px)}
-  }
-
-  .loading-spinner {
-    display:inline-block; width:16px; height:16px; border:2px solid var(--gold-light);
-    border-top-color:var(--gold); border-radius:50%; animation:spin 0.8s linear infinite;
-    vertical-align:middle; margin-right:6px;
-  }
-  @keyframes spin { to{transform:rotate(360deg)} }
-
-  @media(max-width:600px){
-    section{padding:4rem 1.5rem} .invitation-card{padding:2.5rem 1.5rem}
-    .countdown{gap:1.5rem} .hero-border{inset:12px}
-    .timeline-item:nth-child(odd){padding-right:calc(50% + 20px)}
-    .timeline-item:nth-child(even){padding-left:calc(50% + 20px)}
-    .admin-table th,.admin-table td{padding:0.7rem 0.5rem; font-size:0.85rem;}
-  }
+@media(max-width:550px){
+  section{padding:3.5rem 1.2rem}
+  .inv-card{padding:2rem 1.2rem}
+  .cd{gap:1.2rem}
+  .tl-item:nth-child(odd){padding-right:calc(50% + 16px)}
+  .tl-item:nth-child(even){padding-left:calc(50% + 16px)}
+}
 </style>
 </head>
 <body>
 
-<!-- ==================== INVITATION PAGE ==================== -->
-<div class="page active" id="invitationPage">
-
-  <div class="preloader" id="preloader"><div class="preloader-heart">♥</div></div>
-
-  <audio id="bgMusic" loop preload="auto">
-    <source src="wedding-music.mp3" type="audio/mpeg">
-  </audio>
-
-  <button class="music-btn" id="musicBtn" onclick="toggleMusic()" title="Включить/выключить музыку">
-    <div class="music-bars">
-      <span></span><span></span><span></span><span></span>
-    </div>
-  </button>
-
-  <nav class="nav-dots" id="navDots">
-    <button class="nav-dot active" data-section="hero"></button>
-    <button class="nav-dot" data-section="invitation"></button>
-    <button class="nav-dot" data-section="details"></button>
-    <button class="nav-dot" data-section="schedule"></button>
-    <button class="nav-dot" data-section="countdown"></button>
-    <button class="nav-dot" data-section="rsvp"></button>
-  </nav>
-
-  <header class="hero" id="hero">
-    <div class="hero-border"></div>
-    <div class="hero-content">
-      <p class="hero-top-text">Мы приглашаем вас на нашу свадьбу</p>
-      <div class="divider"></div>
-      <h1 class="names">Александр<span class="amp">&</span>Виктория</h1>
-      <div class="divider"></div>
-      <p class="wedding-date-hero">12 сентября 2026</p>
-    </div>
-    <div class="scroll-indicator"><span>листайте</span><div class="scroll-line"></div></div>
-  </header>
-
-  <section class="invitation-section" id="invitation">
-    <div class="reveal">
-      <p class="section-label">Приглашение</p>
-      <h2 class="section-title">Дорогие и любимые</h2>
-      <div class="invitation-card">
-        <p class="invitation-text">
-          С радостью и трепетом в сердцах<br>мы приглашаем вас разделить с нами<br>
-          один из самых счастливых дней нашей жизни —<br>день, когда мы станем семьёй.
-          <span class="invitation-names-highlight">Александр & Виктория</span>
-          Будем рады видеть вас<br>на торжестве в честь нашей свадьбы.<br>
-          Ваше присутствие — лучший подарок для нас.
-        </p>
-      </div>
-    </div>
-  </section>
-
-  <section id="details">
-    <div class="reveal">
-      <p class="section-label">Детали</p>
-      <h2 class="section-title">Когда и где</h2>
-      <div class="details-grid">
-        <div class="detail-card"><span class="detail-icon">🗓</span><h3>Дата</h3><p>Суббота<span class="highlight">12 сентября 2026</span></p></div>
-        <div class="detail-card"><span class="detail-icon">🕐</span><h3>Время</h3><p>Сбор гостей<span class="highlight">15:00</span></p></div>
-        <div class="detail-card"><span class="detail-icon">⛪</span><h3>Церемония</h3><p>Усадьба «Архангельское»<span class="highlight">Красногорск, МО</span></p></div>
-        <div class="detail-card"><span class="detail-icon">🥂</span><h3>Банкет</h3><p>Ресторан «Белый сад»<span class="highlight">на территории усадьбы</span></p></div>
-      </div>
-    </div>
-  </section>
-
-  <section id="schedule">
-    <div class="reveal">
-      <p class="section-label">Расписание</p>
-      <h2 class="section-title">Программа дня</h2>
-      <div class="timeline">
-        <div class="timeline-item"><div class="timeline-dot"></div><div><span class="timeline-time">15:00</span><span class="timeline-event">Сбор гостей · Welcome drink</span></div></div>
-        <div class="timeline-item"><div class="timeline-dot"></div><div><span class="timeline-time">16:00</span><span class="timeline-event">Торжественная церемония</span></div></div>
-        <div class="timeline-item"><div class="timeline-dot"></div><div><span class="timeline-time">17:00</span><span class="timeline-event">Фуршет и фотосессия</span></div></div>
-        <div class="timeline-item"><div class="timeline-dot"></div><div><span class="timeline-time">18:30</span><span class="timeline-event">Праздничный ужин</span></div></div>
-        <div class="timeline-item"><div class="timeline-dot"></div><div><span class="timeline-time">21:00</span><span class="timeline-event">Торт · Первый танец</span></div></div>
-        <div class="timeline-item"><div class="timeline-dot"></div><div><span class="timeline-time">22:00</span><span class="timeline-event">Вечеринка и танцы</span></div></div>
-      </div>
-    </div>
-  </section>
-
-  <div class="quote-section reveal">
-    <span class="quote-mark">„</span>
-    <p class="quote-text">Любовь — это не значит смотреть друг на друга,<br>любовь — значит смотреть вместе в одном направлении.</p>
-    <div class="divider" style="margin-top:2rem;"></div>
-    <p style="font-family:'Josefin Sans';font-size:0.7rem;letter-spacing:0.3em;color:var(--text-light);text-transform:uppercase;margin-top:1rem;">Антуан де Сент-Экзюпери</p>
-  </div>
-
-  <section class="countdown-section" id="countdown">
-    <div class="reveal">
-      <p class="section-label">Обратный отсчёт</p>
-      <h2 class="section-title">До нашего дня</h2>
-      <div class="countdown">
-        <div class="countdown-item"><span class="countdown-number" id="days">---</span><span class="countdown-label">дней</span></div>
-        <div class="countdown-item"><span class="countdown-number" id="hours">--</span><span class="countdown-label">часов</span></div>
-        <div class="countdown-item"><span class="countdown-number" id="minutes">--</span><span class="countdown-label">минут</span></div>
-        <div class="countdown-item"><span class="countdown-number" id="seconds">--</span><span class="countdown-label">секунд</span></div>
-      </div>
-    </div>
-  </section>
-
-  <section class="rsvp-section" id="rsvp">
-    <div class="reveal">
-      <p class="section-label">Подтверждение</p>
-      <h2 class="section-title">Ждём вас</h2>
-      <p class="section-text">Пожалуйста, подтвердите своё присутствие до 1 августа 2026 года.</p>
-      <div id="rsvpFormContainer">
-        <div class="rsvp-form" id="rsvpForm">
-          <div class="form-group"><input type="text" id="guestName" placeholder="Ваше имя и фамилия" required></div>
-          <div class="form-row">
-            <div class="form-group">
-              <select id="guestAttending">
-                <option value="" disabled selected>Присутствие</option>
-                <option value="yes">С радостью приду!</option>
-                <option value="no">К сожалению, не смогу</option>
-              </select>
-            </div>
-            <div class="form-group">
-              <select id="guestCount">
-                <option value="" disabled selected>Кол-во гостей</option>
-                <option value="1">1 гость</option>
-                <option value="2">2 гостя</option>
-                <option value="3">3 гостя</option>
-              </select>
-            </div>
-          </div>
-          <div class="form-group"><textarea id="guestNotes" placeholder="Пожелания или диетические предпочтения..."></textarea></div>
-          <p class="form-error" id="formError" style="display:none;"></p>
-          <button class="rsvp-btn" id="rsvpBtn" onclick="submitRSVP()">Отправить</button>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <footer class="footer">
-    <span class="ornament">✦ ✦ ✦</span>
-    <div style="margin-top:1.5rem;">
-      <p class="footer-names">А & В</p>
-      <p class="footer-date">12 · 09 · 2026</p>
-      <p class="footer-hashtag">#АлександрИВиктория</p>
-      <p style="margin-top:2rem;">
-        <a href="#" onclick="showAdmin();return false;" style="font-family:'Josefin Sans';font-size:0.6rem;letter-spacing:0.2em;color:var(--text-light);text-decoration:none;opacity:0.4;transition:opacity 0.3s;" onmouseover="this.style.opacity='0.8'" onmouseout="this.style.opacity='0.4'">ПАНЕЛЬ ОРГАНИЗАТОРОВ</a>
-      </p>
-    </div>
-  </footer>
+<!-- ===== INTRO OVERLAY ===== -->
+<div class="intro-overlay" id="introOverlay">
+  <div class="intro-photo"><img src="photo.jpg" alt="Дмитрий и Полина"></div>
+  <div class="intro-names">Дмитрий <span class="intro-amp">&</span> Полина</div>
+  <div class="intro-date">08 · 08 · 2026</div>
+  <button class="intro-enter" onclick="enterSite()">Открыть приглашение</button>
 </div>
 
-<!-- ==================== ADMIN PAGE ==================== -->
-<div class="page" id="adminPage">
-  <div class="pin-overlay" id="pinOverlay">
-    <div class="pin-box">
-      <h2>Панель организаторов</h2>
-      <p>Введите PIN-код для доступа</p>
-      <input class="pin-input" id="pinInput" type="password" placeholder="••••" maxlength="4" onkeydown="if(event.key==='Enter')checkPin()">
-      <p class="pin-error" id="pinError" style="display:none;"></p>
-      <div style="margin-top:1.5rem;"><button class="rsvp-btn" onclick="checkPin()" style="padding:0.8rem 2rem;">Войти</button></div>
-      <p style="margin-top:1.5rem;"><a href="#" onclick="hideAdmin();return false;" class="admin-back">← Назад к приглашению</a></p>
+<audio id="bgMusic" loop preload="auto"><source src="wedding-music.mp3" type="audio/mpeg"></audio>
+<button class="music-btn" id="musicBtn" onclick="toggleMusic()" title="Музыка">
+  <div class="music-bars"><span></span><span></span><span></span><span></span></div>
+</button>
+
+<!-- ===== INVITATION PAGE ===== -->
+<div class="page active" id="invitationPage">
+
+<!-- HERO -->
+<header class="hero" id="hero">
+  <div class="hero-bg"><div class="leaf">🌿</div><div class="leaf">🍃</div></div>
+  <div class="hero-content">
+    <div class="hero-photo"><img src="photo.jpg" alt="Дмитрий и Полина"></div>
+    <p class="hero-date-top">приглашение на свадьбу</p>
+    <h1 class="hero-names">Дмитрий <span class="amp">&</span> Полина</h1>
+    <div class="hero-line"></div>
+    <p class="hero-date">8 августа 2026</p>
+    <p class="hero-venue">Пермь</p>
+  </div>
+  <div class="scroll-hint"><span></span></div>
+</header>
+
+<!-- INVITATION -->
+<section id="invitation">
+  <div class="rv">
+    <p class="s-label">с любовью</p>
+    <h2 class="s-title">Дорогие наши</h2>
+    <div class="s-div"></div>
+    <div class="inv-card">
+      <p class="inv-text">
+        Мы рады сообщить, что решили<br>
+        связать наши судьбы навсегда.<br><br>
+        Приглашаем вас разделить с нами<br>
+        радость этого особенного дня.
+        <span class="inv-names">Дмитрий & Полина</span>
+        Ваше присутствие — лучший подарок.
+      </p>
     </div>
   </div>
+</section>
 
+<!-- DETAILS -->
+<section id="details">
+  <div class="rv">
+    <p class="s-label">детали</p>
+    <h2 class="s-title">Когда и где</h2>
+    <div class="s-div"></div>
+    <div class="details-row stagger">
+      <div class="d-card">
+        <span class="d-icon">📅</span>
+        <h3>Дата</h3>
+        <p>Суббота<span class="d-val">8 августа 2026</span></p>
+      </div>
+      <div class="d-card">
+        <span class="d-icon">🕐</span>
+        <h3>Сбор гостей</h3>
+        <p>Начало в<span class="d-val">15:30</span></p>
+      </div>
+      <div class="d-card">
+        <span class="d-icon">📍</span>
+        <h3>Место</h3>
+        <p>Crystal Event Hall<span class="d-val">ул. Мира, 41В, Пермь</span></p>
+      </div>
+      <div class="d-card">
+        <span class="d-icon">👗</span>
+        <h3>Dress code</h3>
+        <p>Летний, нарядный<span class="d-val">Оливковые акценты</span></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TIMELINE -->
+<section id="schedule">
+  <div class="rv">
+    <p class="s-label">расписание</p>
+    <h2 class="s-title">Программа дня</h2>
+    <div class="s-div"></div>
+    <div class="tl">
+      <div class="tl-item"><div class="tl-dot"></div><div><span class="tl-time">15:30</span><span class="tl-event">Сбор гостей · Welcome drink</span></div></div>
+      <div class="tl-item"><div class="tl-dot"></div><div><span class="tl-time">16:00</span><span class="tl-event">Выездная церемония</span></div></div>
+      <div class="tl-item"><div class="tl-dot"></div><div><span class="tl-time">17:00</span><span class="tl-event">Фуршет и фотосессия</span></div></div>
+      <div class="tl-item"><div class="tl-dot"></div><div><span class="tl-time">18:00</span><span class="tl-event">Праздничный ужин</span></div></div>
+      <div class="tl-item"><div class="tl-dot"></div><div><span class="tl-time">20:30</span><span class="tl-event">Свадебный торт</span></div></div>
+      <div class="tl-item"><div class="tl-dot"></div><div><span class="tl-time">21:00</span><span class="tl-event">Первый танец · Вечеринка</span></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- PHOTO -->
+<div class="photo-section">
+  <div class="rv">
+    <div class="photo-full"><img src="photo.jpg" alt="Дмитрий и Полина"></div>
+    <p class="photo-caption">Мы ждём вас на нашем празднике</p>
+  </div>
+</div>
+
+<!-- COUNTDOWN -->
+<div class="cd-section">
+  <section id="countdown">
+    <div class="rv">
+      <p class="s-label">обратный отсчёт</p>
+      <h2 class="s-title">До нашего дня</h2>
+      <div class="s-div"></div>
+      <div class="cd">
+        <div class="cd-item"><div class="cd-num" id="days">---</div><div class="cd-lbl">дней</div></div>
+        <div class="cd-item"><div class="cd-num" id="hours">--</div><div class="cd-lbl">часов</div></div>
+        <div class="cd-item"><div class="cd-num" id="minutes">--</div><div class="cd-lbl">минут</div></div>
+        <div class="cd-item"><div class="cd-num" id="seconds">--</div><div class="cd-lbl">секунд</div></div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- RSVP -->
+<section id="rsvp">
+  <div class="rv">
+    <p class="s-label">подтверждение</p>
+    <h2 class="s-title">Ждём вас</h2>
+    <div class="s-div"></div>
+    <p class="s-text" style="font-size:0.9rem">Пожалуйста, подтвердите присутствие до 15 июля 2026 года.</p>
+    <div id="rsvpBox">
+      <div class="rsvp-form">
+        <div class="fg"><input type="text" id="gN" placeholder="Ваше имя и фамилия"></div>
+        <div class="fr">
+          <div class="fg"><select id="gA"><option value="" disabled selected>Присутствие</option><option value="yes">С радостью приду!</option><option value="no">Не смогу</option></select></div>
+          <div class="fg"><select id="gC"><option value="" disabled selected>Кол-во гостей</option><option value="1">1</option><option value="2">2</option><option value="3">3</option></select></div>
+        </div>
+        <div class="fg"><textarea id="gW" placeholder="Пожелания, диета..."></textarea></div>
+        <p class="form-err" id="fErr" style="display:none"></p>
+        <button class="rsvp-btn" id="rBtn" onclick="submitRSVP()">Отправить</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <p class="footer-names">Д & П</p>
+  <p class="footer-date">08 · 08 · 2026</p>
+  <p class="footer-tag">#ДмитрийИПолина</p>
+  <a href="#" onclick="showAdmin();return false" class="admin-link">ПАНЕЛЬ ОРГАНИЗАТОРОВ</a>
+</footer>
+</div>
+
+<!-- ===== ADMIN ===== -->
+<div class="page" id="adminPage">
+  <div class="pin-overlay" id="pinO">
+    <div class="pin-box">
+      <h2>Панель организаторов</h2>
+      <p>Введите PIN-код</p>
+      <input class="pin-input" id="pinI" type="password" placeholder="••••" maxlength="4" onkeydown="if(event.key==='Enter')checkPin()">
+      <p class="pin-err" id="pinE" style="display:none"></p>
+      <div style="margin-top:1.2rem"><button class="rsvp-btn" onclick="checkPin()" style="padding:0.7rem 1.8rem">Войти</button></div>
+      <p style="margin-top:1.2rem"><a href="#" onclick="hideAdmin();return false" class="admin-back">← Назад</a></p>
+    </div>
+  </div>
   <div class="admin-header">
-    <a href="#" onclick="hideAdmin();return false;" class="admin-back" style="margin-bottom:1rem;display:inline-flex;">← Назад к приглашению</a>
-    <h1>Наши гости</h1>
-    <p>Александр & Виктория · 12.09.2026</p>
+    <a href="#" onclick="hideAdmin();return false" class="admin-back" style="margin-bottom:0.8rem;display:inline-flex">← Назад к приглашению</a>
+    <h1>Гости</h1>
+    <p>Дмитрий & Полина · 08.08.2026</p>
   </div>
-
   <div class="admin-stats">
-    <div class="stat-card"><span class="stat-number" id="statTotal">-</span><span class="stat-label">Всего ответов</span></div>
-    <div class="stat-card"><span class="stat-number" id="statYes" style="color:var(--green);">-</span><span class="stat-label">Придут</span></div>
-    <div class="stat-card"><span class="stat-number" id="statNo" style="color:var(--red-soft);">-</span><span class="stat-label">Не смогут</span></div>
-    <div class="stat-card"><span class="stat-number" id="statGuests">-</span><span class="stat-label">Всего гостей</span></div>
+    <div class="st-card"><div class="st-num" id="sT">-</div><div class="st-lbl">Ответов</div></div>
+    <div class="st-card"><div class="st-num" id="sY" style="color:var(--green-deep)">-</div><div class="st-lbl">Придут</div></div>
+    <div class="st-card"><div class="st-num" id="sN" style="color:var(--terracotta)">-</div><div class="st-lbl">Не смогут</div></div>
+    <div class="st-card"><div class="st-num" id="sG">-</div><div class="st-lbl">Всего гостей</div></div>
   </div>
-
   <div class="admin-actions">
-    <span style="font-family:'Josefin Sans';font-size:0.7rem;color:var(--text-light);letter-spacing:0.1em;" id="lastUpdated"></span>
+    <span style="font-family:'Raleway';font-size:0.65rem;color:var(--text-soft);letter-spacing:0.1em" id="lastUpd"></span>
     <button class="admin-refresh" onclick="loadGuests()">Обновить</button>
   </div>
-
-  <div class="admin-table-wrap" id="guestTableWrap">
-    <div class="empty-state"><span class="loading-spinner"></span> Загрузка...</div>
-  </div>
-
-  <div class="admin-footer"><span class="ornament">✦ ✦ ✦</span></div>
+  <div class="admin-tw" id="gTW"><div class="empty-st"><span class="loading-spinner"></span> Загрузка...</div></div>
+  <div style="text-align:center;padding:2rem"><p style="font-family:'Raleway';font-size:0.55rem;letter-spacing:0.3em;color:var(--olive-light)">✦ ✦ ✦</p></div>
 </div>
 
 <script>
-const ADMIN_PIN = '1209';
+const PIN='0808';
+
+// ===== INTRO =====
+function enterSite(){
+  const ov=document.getElementById('introOverlay');
+  ov.classList.add('hidden');
+  // Start music on enter
+  const mus=document.getElementById('bgMusic');
+  mus.volume=0.45;
+  mus.play().then(()=>{
+    document.getElementById('musicBtn').classList.add('playing');
+    document.getElementById('musicBtn').classList.add('show');
+    mOn=true;
+  }).catch(()=>{
+    document.getElementById('musicBtn').classList.add('show');
+  });
+}
 
 // ===== MUSIC =====
-const bgMusic = document.getElementById('bgMusic');
-const musicBtn = document.getElementById('musicBtn');
-let musicStarted = false;
-
-function toggleMusic() {
-  if (bgMusic.paused) {
-    bgMusic.play().then(() => {
-      musicBtn.classList.add('playing');
-      musicStarted = true;
-    }).catch(e => console.log('Play blocked:', e));
-  } else {
-    bgMusic.pause();
-    musicBtn.classList.remove('playing');
-  }
+const bgMus=document.getElementById('bgMusic'),mBtn=document.getElementById('musicBtn');
+let mOn=false;
+function toggleMusic(){
+  if(bgMus.paused){bgMus.play().then(()=>{mBtn.classList.add('playing');mOn=true}).catch(()=>{})}
+  else{bgMus.pause();mBtn.classList.remove('playing')}
 }
 
-// Autoplay on first user interaction
-function tryAutoplay() {
-  if (musicStarted) return;
-  bgMusic.volume = 0.5;
-  bgMusic.play().then(() => {
-    musicBtn.classList.add('playing');
-    musicStarted = true;
-  }).catch(() => {});
-}
-document.addEventListener('click', tryAutoplay, { once: true });
-document.addEventListener('scroll', tryAutoplay, { once: true });
-document.addEventListener('touchstart', tryAutoplay, { once: true });
-
-function showPage(id) {
-  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-  document.getElementById(id).classList.add('active');
-  window.scrollTo(0,0);
+// ===== PAGES =====
+function showPage(id){document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));document.getElementById(id).classList.add('active');window.scrollTo(0,0)}
+function showAdmin(){showPage('adminPage');document.getElementById('pinO').classList.remove('hidden');document.getElementById('pinI').value='';document.getElementById('pinE').style.display='none';setTimeout(()=>document.getElementById('pinI').focus(),100)}
+function hideAdmin(){showPage('invitationPage')}
+function checkPin(){
+  if(document.getElementById('pinI').value===PIN){document.getElementById('pinO').classList.add('hidden');loadGuests()}
+  else{document.getElementById('pinE').textContent='Неверный PIN';document.getElementById('pinE').style.display='block';document.getElementById('pinI').value='';document.getElementById('pinI').focus()}
 }
 
-function showAdmin() {
-  showPage('adminPage');
-  document.getElementById('pinOverlay').classList.remove('hidden');
-  document.getElementById('pinInput').value = '';
-  document.getElementById('pinError').style.display = 'none';
-  setTimeout(() => document.getElementById('pinInput').focus(), 100);
+// ===== STORAGE =====
+let _mem=[];let _ok=null;
+async function chkSt(){if(_ok!==null)return _ok;try{if(window.storage&&typeof window.storage.set==='function'){await window.storage.set('w-ping','ok',true);_ok=true}else _ok=false}catch(e){_ok=false}return _ok}
+async function saveG(g){
+  g.id=Date.now().toString(36)+Math.random().toString(36).slice(2,6);g.timestamp=new Date().toISOString();
+  if(await chkSt()){try{let gs=[];try{const r=await window.storage.get('dp-wedding-rsvp',true);if(r&&r.value)gs=JSON.parse(r.value)}catch(e){}gs.push(g);const res=await window.storage.set('dp-wedding-rsvp',JSON.stringify(gs),true);if(res){_mem=gs;return true}}catch(e){}}
+  _mem.push(g);return true;
+}
+async function allG(){if(await chkSt()){try{const r=await window.storage.get('dp-wedding-rsvp',true);if(r&&r.value){_mem=JSON.parse(r.value);return _mem}}catch(e){}}return _mem}
+
+// ===== RSVP =====
+async function submitRSVP(){
+  const n=document.getElementById('gN').value.trim(),a=document.getElementById('gA').value,c=document.getElementById('gC').value,w=document.getElementById('gW').value.trim(),err=document.getElementById('fErr'),btn=document.getElementById('rBtn');
+  if(!n){err.textContent='Укажите имя';err.style.display='block';return}
+  if(!a){err.textContent='Укажите, придёте ли вы';err.style.display='block';return}
+  if(a==='yes'&&!c){err.textContent='Укажите количество гостей';err.style.display='block';return}
+  err.style.display='none';btn.disabled=true;btn.innerHTML='<span class="loading-spinner"></span> Отправка...';
+  const ok=await saveG({name:n,attending:a,count:a==='yes'?parseInt(c):0,notes:w});
+  if(ok){document.getElementById('rsvpBox').innerHTML=`<div class="form-ok"><span class="chk">✓</span><strong>${esc(n)}</strong>, спасибо!<br>${a==='yes'?'Ждём вас с нетерпением!':'Будем скучать!'}</div>`}
+  else{btn.disabled=false;btn.textContent='Отправить';err.textContent='Ошибка. Попробуйте ещё раз.';err.style.display='block'}
 }
 
-function hideAdmin() { showPage('invitationPage'); }
-
-function checkPin() {
-  if (document.getElementById('pinInput').value === ADMIN_PIN) {
-    document.getElementById('pinOverlay').classList.add('hidden');
-    loadGuests();
-  } else {
-    document.getElementById('pinError').textContent = 'Неверный PIN-код';
-    document.getElementById('pinError').style.display = 'block';
-    document.getElementById('pinInput').value = '';
-    document.getElementById('pinInput').focus();
-  }
+// ===== ADMIN =====
+async function loadGuests(){
+  const w=document.getElementById('gTW');w.innerHTML='<div class="empty-st"><span class="loading-spinner"></span> Загрузка...</div>';
+  const gs=await allG(),tot=gs.length,y=gs.filter(g=>g.attending==='yes'),n=gs.filter(g=>g.attending==='no'),tg=y.reduce((s,g)=>s+(g.count||1),0);
+  document.getElementById('sT').textContent=tot;document.getElementById('sY').textContent=y.length;document.getElementById('sN').textContent=n.length;document.getElementById('sG').textContent=tg;
+  document.getElementById('lastUpd').textContent='Обновлено: '+new Date().toLocaleTimeString('ru-RU',{hour:'2-digit',minute:'2-digit'});
+  if(!tot){w.innerHTML='<div class="empty-st">Пока нет ответов</div>';return}
+  gs.sort((a,b)=>new Date(b.timestamp)-new Date(a.timestamp));
+  const rows=gs.map(g=>{const d=new Date(g.timestamp);const ds=d.toLocaleDateString('ru-RU',{day:'numeric',month:'short'})+', '+d.toLocaleTimeString('ru-RU',{hour:'2-digit',minute:'2-digit'});return`<tr><td style="font-weight:500;color:var(--text)">${esc(g.name)}</td><td>${g.attending==='yes'?'<span class="badge y">Придёт</span>':'<span class="badge n">Не придёт</span>'}</td><td>${g.attending==='yes'?g.count:'—'}</td><td>${g.notes?esc(g.notes):'—'}</td><td style="font-size:0.8rem;color:var(--text-soft)">${ds}</td></tr>`}).join('');
+  w.innerHTML=`<table class="admin-t"><thead><tr><th>Имя</th><th>Статус</th><th>Гостей</th><th>Пожелания</th><th>Дата</th></tr></thead><tbody>${rows}</tbody></table>`;
 }
+function esc(s){const d=document.createElement('div');d.textContent=s;return d.innerHTML}
 
-// In-memory fallback when persistent storage is unavailable
-let _memoryGuests = [];
-let _storageAvailable = null;
+// ===== COUNTDOWN =====
+function upd(){const df=new Date('2026-08-08T16:00:00')-new Date();if(df<=0){['days','hours','minutes','seconds'].forEach(i=>document.getElementById(i).textContent='0');return}document.getElementById('days').textContent=Math.floor(df/864e5);document.getElementById('hours').textContent=String(Math.floor((df%864e5)/36e5)).padStart(2,'0');document.getElementById('minutes').textContent=String(Math.floor((df%36e5)/6e4)).padStart(2,'0');document.getElementById('seconds').textContent=String(Math.floor((df%6e4)/1e3)).padStart(2,'0')}
+upd();setInterval(upd,1000);
 
-async function checkStorage() {
-  if (_storageAvailable !== null) return _storageAvailable;
-  try {
-    if (window.storage && typeof window.storage.set === 'function') {
-      await window.storage.set('wedding-ping', 'ok', true);
-      _storageAvailable = true;
-    } else {
-      _storageAvailable = false;
-    }
-  } catch(e) {
-    _storageAvailable = false;
-  }
-  return _storageAvailable;
-}
-
-async function saveGuest(guest) {
-  guest.id = Date.now().toString(36) + Math.random().toString(36).slice(2,6);
-  guest.timestamp = new Date().toISOString();
-
-  const canUseStorage = await checkStorage();
-
-  if (canUseStorage) {
-    try {
-      let guests = [];
-      try {
-        const r = await window.storage.get('wedding-rsvp-list', true);
-        if (r && r.value) guests = JSON.parse(r.value);
-      } catch(e) { /* key may not exist yet */ }
-      guests.push(guest);
-      const result = await window.storage.set('wedding-rsvp-list', JSON.stringify(guests), true);
-      if (result) { _memoryGuests = guests; return true; }
-    } catch(e) { console.error('Storage write error:', e); }
-  }
-
-  // Fallback to memory
-  _memoryGuests.push(guest);
-  return true;
-}
-
-async function getAllGuests() {
-  const canUseStorage = await checkStorage();
-
-  if (canUseStorage) {
-    try {
-      const r = await window.storage.get('wedding-rsvp-list', true);
-      if (r && r.value) {
-        _memoryGuests = JSON.parse(r.value);
-        return _memoryGuests;
-      }
-    } catch(e) { /* key doesn't exist or read error */ }
-  }
-
-  return _memoryGuests;
-}
-
-async function submitRSVP() {
-  const name = document.getElementById('guestName').value.trim();
-  const attending = document.getElementById('guestAttending').value;
-  const count = document.getElementById('guestCount').value;
-  const notes = document.getElementById('guestNotes').value.trim();
-  const errEl = document.getElementById('formError');
-  const btn = document.getElementById('rsvpBtn');
-
-  if (!name) { errEl.textContent='Пожалуйста, укажите ваше имя'; errEl.style.display='block'; return; }
-  if (!attending) { errEl.textContent='Пожалуйста, укажите, придёте ли вы'; errEl.style.display='block'; return; }
-  if (attending==='yes' && !count) { errEl.textContent='Укажите количество гостей'; errEl.style.display='block'; return; }
-
-  errEl.style.display = 'none';
-  btn.disabled = true;
-  btn.innerHTML = '<span class="loading-spinner"></span> Отправка...';
-
-  const ok = await saveGuest({ name, attending, count: attending==='yes' ? parseInt(count) : 0, notes });
-
-  if (ok) {
-    document.getElementById('rsvpFormContainer').innerHTML = `
-      <div class="form-success">
-        <span class="check">✓</span>
-        <strong>${escHtml(name)}</strong>, спасибо!<br>
-        ${attending==='yes' ? 'Мы с нетерпением ждём вас на нашем празднике!' : 'Жаль, что не сможете быть. Будем скучать!'}
-      </div>`;
-  } else {
-    btn.disabled = false;
-    btn.textContent = 'Отправить';
-    errEl.textContent = 'Ошибка сохранения. Попробуйте ещё раз.';
-    errEl.style.display = 'block';
-  }
-}
-
-async function loadGuests() {
-  const wrap = document.getElementById('guestTableWrap');
-  wrap.innerHTML = '<div class="empty-state"><span class="loading-spinner"></span> Загрузка...</div>';
-
-  const guests = await getAllGuests();
-  const total = guests.length;
-  const yes = guests.filter(g => g.attending==='yes');
-  const no = guests.filter(g => g.attending==='no');
-  const totalGuests = yes.reduce((s,g) => s + (g.count||1), 0);
-
-  document.getElementById('statTotal').textContent = total;
-  document.getElementById('statYes').textContent = yes.length;
-  document.getElementById('statNo').textContent = no.length;
-  document.getElementById('statGuests').textContent = totalGuests;
-  document.getElementById('lastUpdated').textContent = 'Обновлено: ' + new Date().toLocaleTimeString('ru-RU',{hour:'2-digit',minute:'2-digit'});
-
-  if (!total) { wrap.innerHTML = '<div class="empty-state">Пока нет ответов от гостей</div>'; return; }
-
-  guests.sort((a,b) => new Date(b.timestamp) - new Date(a.timestamp));
-
-  const rows = guests.map(g => {
-    const d = new Date(g.timestamp);
-    const ds = d.toLocaleDateString('ru-RU',{day:'numeric',month:'short'}) + ', ' + d.toLocaleTimeString('ru-RU',{hour:'2-digit',minute:'2-digit'});
-    const badge = g.attending==='yes' ? '<span class="status-badge yes">Придёт</span>' : '<span class="status-badge no">Не придёт</span>';
-    return `<tr>
-      <td style="font-weight:500;color:var(--text-dark);">${escHtml(g.name)}</td>
-      <td>${badge}</td>
-      <td>${g.attending==='yes' ? g.count : '—'}</td>
-      <td>${g.notes ? escHtml(g.notes) : '—'}</td>
-      <td style="font-size:0.85rem;color:var(--text-light);">${ds}</td>
-    </tr>`;
-  }).join('');
-
-  wrap.innerHTML = `<table class="admin-table">
-    <thead><tr><th>Имя</th><th>Статус</th><th>Гостей</th><th>Пожелания</th><th>Дата</th></tr></thead>
-    <tbody>${rows}</tbody></table>`;
-}
-
-function escHtml(s) { const d = document.createElement('div'); d.textContent = s; return d.innerHTML; }
-
-// Countdown
-function updateCountdown() {
-  const diff = new Date('2026-09-12T16:00:00') - new Date();
-  if (diff <= 0) { ['days','hours','minutes','seconds'].forEach(id => document.getElementById(id).textContent='0'); return; }
-  document.getElementById('days').textContent = Math.floor(diff/(864e5));
-  document.getElementById('hours').textContent = String(Math.floor((diff%864e5)/36e5)).padStart(2,'0');
-  document.getElementById('minutes').textContent = String(Math.floor((diff%36e5)/6e4)).padStart(2,'0');
-  document.getElementById('seconds').textContent = String(Math.floor((diff%6e4)/1e3)).padStart(2,'0');
-}
-updateCountdown(); setInterval(updateCountdown, 1000);
-
-// Scroll reveal
-const ro = new IntersectionObserver(e => e.forEach(x => { if(x.isIntersecting) x.target.classList.add('visible'); }), {threshold:0.15});
-document.querySelectorAll('.reveal').forEach(el => ro.observe(el));
-
-// Nav dots
-const sections = ['hero','invitation','details','schedule','countdown','rsvp'];
-const dots = document.querySelectorAll('.nav-dot');
-dots.forEach(d => d.addEventListener('click', () => document.getElementById(d.dataset.section).scrollIntoView({behavior:'smooth'})));
-const dObs = new IntersectionObserver(e => e.forEach(x => {
-  if(x.isIntersecting) { dots.forEach(d=>d.classList.remove('active')); const i=sections.indexOf(x.target.id); if(i>=0)dots[i].classList.add('active'); }
-}), {threshold:0.4});
-sections.forEach(id => { const el=document.getElementById(id); if(el) dObs.observe(el); });
-
-// Petals
-function createPetal() {
-  const p = document.createElement('div'); p.className='petal';
-  p.textContent = ['✿','❀','✾','❁','◌'][Math.floor(Math.random()*5)];
-  p.style.left = Math.random()*100+'vw';
-  p.style.fontSize = (0.6+Math.random()*0.8)+'rem';
-  p.style.animation = `floatPetal ${8+Math.random()*8}s linear forwards`;
-  p.style.color = Math.random()>0.5?'var(--blush)':'var(--gold-light)';
-  document.body.appendChild(p); setTimeout(()=>p.remove(), 16000);
-}
-setInterval(createPetal, 3000);
-
-// Preloader
-window.addEventListener('load', () => setTimeout(() => document.getElementById('preloader').classList.add('hidden'), 1200));
+// ===== REVEAL =====
+const ro=new IntersectionObserver(e=>e.forEach(x=>{if(x.isIntersecting)x.target.classList.add('vis')}),{threshold:0.1});
+document.querySelectorAll('.rv').forEach(el=>ro.observe(el));
 </script>
 </body>
 </html>
