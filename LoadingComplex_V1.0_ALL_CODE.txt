@@ -1,0 +1,4622 @@
+================================================================================
+PROJECT : LoadingComplex_V1.0
+PLC     : A3  (S7-1500, TIA Portal V20)
+FILES   : 48 XML blocks/types exported
+================================================================================
+
+
+████████████████████████████████████████████████████████████████████████████████
+█  SECTION: PLC data types
+████████████████████████████████████████████████████████████████████████████████
+
+──────────────────────────────────────────────────────────────────────
+// PLC data types\PLC data types\1_BasicControl\Actuator\BurnerHMI.xml
+──────────────────────────────────────────────────────────────────────
+TYPE "BurnerHMI" :
+VAR
+    ControlMode : Int;  // Режим управления: 0 - откл; 1 - ручн; 2 - авто
+    ManualStart : Bool;  // Ручное управление. Запуск
+    ManualUpPower : Bool;  // Ручное управление. Увеличть мощность
+    ManualAlarmReset : Bool;  // Ручное управление. Сброс аварии
+END_VAR
+END_TYPE
+
+──────────────────────────────────────────────────────────────────────
+// PLC data types\PLC data types\1_BasicControl\Actuator\DistributorFlowHMI.xml
+──────────────────────────────────────────────────────────────────────
+TYPE "DistributorFlowHMI" :
+VAR
+    StatusDirection : Int;  // Cостояние. Направление
+    ControlMode : Int;  // Режим управления: 0 - откл; 1 - ручн; 2 - авто
+    ManualForward : Bool;  // Ручной режим. Прямой пуск
+    ManualReverse : Bool;  // Ручной режим. Реверсивный пуск
+    SP_Humidity : Real;  // Уставка влажности
+    MotorNotReady : Bool;  // Двигатель не готов к работе
+    DelaySwitchFlow : Time;  // Задержка смены потоков
+END_VAR
+END_TYPE
+
+──────────────────────────────────────────────────────────────────────
+// PLC data types\PLC data types\1_BasicControl\Motor\Inovance.xml
+──────────────────────────────────────────────────────────────────────
+TYPE "Inovance" :
+VAR
+    Status : "InovanceStatus";  // Состояние ПЧ
+    Control : "InovanceControl";  // Управление ПЧ
+END_VAR
+END_TYPE
+
+──────────────────────────────────────────────────────────────────────
+// PLC data types\PLC data types\1_BasicControl\Motor\InovanceControl.xml
+──────────────────────────────────────────────────────────────────────
+TYPE "InovanceControl" :
+VAR
+    ControlWord : Word;  // Слово управления
+    SpeedSetpoint : Int;  // Уставка скорости
+END_VAR
+END_TYPE
+
+──────────────────────────────────────────────────────────────────────
+// PLC data types\PLC data types\1_BasicControl\Motor\InovanceStatus.xml
+──────────────────────────────────────────────────────────────────────
+TYPE "InovanceStatus" :
+VAR
+    FaultCode : Byte;  // Код ошибки
+    RunningStatus : Bool;  // Работа: 0 - остановлен, 1 - в работе
+    RunningDirection : Bool;  // Направление: 0 - прямой пуск, 1 - реверсивный пуск
+    FaultStatus : Bool;  // Неисправность: 0 - норма, 1 - неисправность
+    SetpointReached : Bool;  // Уставка скорости: 0 - не достигнута, 1 - достигнута
+    Reserved1 : Bool;  // Резерв
+    Reserved2 : Bool;  // Резерв
+    Reserved3 : Bool;  // Резерв
+    Reserved4 : Bool;  // Резерв
+    SpeedActual : Int;  // Текущая скорость
+END_VAR
+END_TYPE
+
+──────────────────────────────────────────────────────────────────────
+// PLC data types\PLC data types\1_BasicControl\Motor\MotorHMI.xml
+──────────────────────────────────────────────────────────────────────
+TYPE "MotorHMI" :
+VAR
+    StatusWord : Array[0..15] of Bool;  // Слово состояния
+    StatusIndicator : Int;  // Индикация состояния
+    Acknowledge : Bool;  // Квитирование
+    AutoMode : Bool;  // Режим управления. Авто
+    ControlMode : Int;  // Режим управления: 0 - откл; 1 - ручн; 2 - авто
+    ManualForward : Bool;  // Ручной режим. Прямой пуск
+    RunningTime : "TimeStructure";  // Время наработки
+    RunningTimeReset : Bool;  // Сброс времени наработки
+END_VAR
+END_TYPE
+
+──────────────────────────────────────────────────────────────────────
+// PLC data types\PLC data types\1_BasicControl\Motor\MotorVFDHMI.xml
+──────────────────────────────────────────────────────────────────────
+TYPE "MotorVFDHMI" :
+VAR
+    StatusWord : Array[0..15] of Bool;  // Слово состояния
+    StatusIndicator : Int;  // Cостояние. Индикация
+    StatusDirection : Int;  // Cостояние. Направление
+    Acknowledge : Bool;  // Квитирование
+    ControlMode : Int;  // Режим управления: 0 - откл; 1 - ручн; 2 - авто
+    ManualForward : Bool;  // Ручной режим. Прямой пуск
+    ManualReverse : Bool;  // Ручной режим. Реверсивный пуск
+    ManualSpeed : Real := 50.0;  // Ручной режим. Задание скорости
+    ActualSpeed : Real;  // Текущая скорость
+    RunningTime : "TimeStructure";  // Время наработки
+    RunningTimeReset : Bool;  // Сброс времени наработки
+END_VAR
+END_TYPE
+
+──────────────────────────────────────────────────────────────────────
+// PLC data types\PLC data types\1_BasicControl\Signal\SignalAnalogHMI.xml
+──────────────────────────────────────────────────────────────────────
+TYPE "SignalAnalogHMI" :
+VAR
+    StatusWord : Int := 16#0;  // Статус датчика. 0 - нет ошибки, 1 - КЗ, 2 - HH, 4 - H, 8 - L, 16 - LL, 32 - Обрыв
+    ScaleMin : Real := 0.0;  // Верхняя граница измерения датчика в инженерных единицах
+    ScaleMax : Real := 0.0;  // Верхняя граница измерения датчика в инженерных единицах
+    LLAlarmLimit : Real := 0.0;  // Значение нижнего аварийного технологического предела
+    LAlarmLimit : Real := 0.0;  // Значение нижнего предупредительного технологического предела
+    HAlarmLimit : Real := 0.0;  // Значение верхнего предупредительного технологического предела
+    HHAlarmLimit : Real := 0.0;  // Значение верхнего аварийного технологического предела
+    Hysteresis : Real;  // Величина гистерезиса
+    ActualValue : Real := 0.0;  // Актуальное значение
+    CurrentValue : Real;  // Токовое значение датчика
+    ShortCircuitAlarm : Bool;  // Короткое замыкание цепи
+    HHAlarm : Bool;  // Бит аварии HH границы
+    HAlarm : Bool;  // Бит аварии H границы
+    LAlarm : Bool;  // Бит аварии L границы
+    LLAlarm : Bool;  // Бит аварии LL границы
+    WireBreakAlarm : Bool;  // Обрыв линии
+END_VAR
+END_TYPE
+
+──────────────────────────────────────────────────────────────────────
+// PLC data types\PLC data types\1_BasicControl\Signal\SignalDigitalHMI.xml
+──────────────────────────────────────────────────────────────────────
+TYPE "SignalDigitalHMI" :
+VAR
+    StatusWord : Int;  // Слово состояния
+END_VAR
+END_TYPE
+
+──────────────────────────────────────────────────────────────────────
+// PLC data types\PLC data types\1_BasicControl\Valve\ValveHMI.xml
+──────────────────────────────────────────────────────────────────────
+TYPE "ValveHMI" :
+VAR
+    StatusWordInd : Int;  // Слово состояния. Индикация
+    StatusWord : Int;  // Слово состояния
+    Acknowledge : Bool;  // Квитирование
+    ManualMode : Bool;  // Задание режима: 0-Дист; 1-Автоматический
+    ControlMode : Int;  // Режим управления: 0 - откл; 1 - ручн; 2 - авто
+    ManualOpen : Bool;  // Ручной режим. Открыть
+    ManualClose : Bool;  // Ручной режим. Открыть
+END_VAR
+END_TYPE
+
+──────────────────────────────────────────────────────────────────────
+// PLC data types\PLC data types\2_ExtensionControl\DryingDrum\DrumHMI.xml
+──────────────────────────────────────────────────────────────────────
+TYPE "DrumHMI" :
+VAR
+    StartPreheat : Bool;  // Кнопка "Начать прогрев барабана"
+    StopDrum : Bool;  // Кнопка "Останов барабана"
+    AlarmReset : Bool;  // Сброс аварии
+    CurrentStep : Int;  // Текущий шаг автомата
+    DrumReady : Bool;  // Барабан готов к работе
+    StepAlarmCode : Int;  // Код аварии при запуске
+    PreheatTime : Time := T#0ms;  // Время прогрева барабана
+    UnloadTime : Time := T#0ms;  // Время аварийной выгрузки продукта
+    CooldownTime : Time := T#0ms;  // Время охлаждения при останове
+    WarmDrumTime : Time := T#0ms;  // Время "барабан ещё тёплый"
+    IsWarm : Bool;  // Флаг: барабан ещё тёплый
+    TempSetpoint : Real;
+    TempHysteresis : Real;
+    TempInLimit : Real;
+END_VAR
+END_TYPE
+
+──────────────────────────────────────────────────────────────────────
+// PLC data types\PLC data types\2_ExtensionControl\ReverseConveyour\BrakePoints.xml
+──────────────────────────────────────────────────────────────────────
+TYPE "BrakePoints" :
+VAR
+    leftBrake : Int := -1;
+    rightBrake : Int := -1;
+END_VAR
+END_TYPE
+
+──────────────────────────────────────────────────────────────────────
+// PLC data types\PLC data types\2_ExtensionControl\ReverseConveyour\PositionConfig.xml
+──────────────────────────────────────────────────────────────────────
+TYPE "PositionConfig" :
+VAR
+    DecodeTable : Array[0..15] of Int := -1;
+    SiloTarget : Array[1..8] of Int := -1;
+    BrakePoints : Array[0..15] of "BrakePoints";
+    MinIndex : Int;
+    MaxIndex : Int;
+END_VAR
+END_TYPE
+
+──────────────────────────────────────────────────────────────────────
+// PLC data types\PLC data types\4_Utility\TimeStructure.xml
+──────────────────────────────────────────────────────────────────────
+TYPE "TimeStructure" :
+VAR
+    Seconds : USInt;  // Секунды
+    Minutes : USInt;  // Минуты
+    Hours : USInt;  // Часы
+    Days : Int;  // Дни
+END_VAR
+END_TYPE
+
+
+████████████████████████████████████████████████████████████████████████████████
+█  SECTION: Program blocks
+████████████████████████████████████████████████████████████████████████████████
+
+──────────────────────────────────────────────────────────────────────
+// Program blocks\1_BasicControl\DataBlock\DB_MainRoutineActuator.xml
+──────────────────────────────────────────────────────────────────────
+INSTANCE_DATA_BLOCK "DB_MainRoutineActuator"  // DB  Block #4
+
+VAR
+    1_Distributor_flow : "DistributorFlow";
+    2_Distributor_flow : "DistributorFlow";
+    1_Burner : "Burner";
+    2_Burner : "Burner";
+END_VAR
+
+
+──────────────────────────────────────────────────────────────────────
+// Program blocks\1_BasicControl\DataBlock\DB_MainRoutineAnalogInput.xml
+──────────────────────────────────────────────────────────────────────
+INSTANCE_DATA_BLOCK "DB_MainRoutineAnalogInput"  // DB  Block #3
+
+VAR
+    1DD_TempEntry : "SignalAnalog";
+    1DD_TempExit : "SignalAnalog";
+    2DD_TempEntry : "SignalAnalog";
+    2DD_TempExit : "SignalAnalog";
+    1SH_Level : "SignalAnalog";
+    2SH_Level : "SignalAnalog";
+    3SH_Level : "SignalAnalog";
+    4SH_Level : "SignalAnalog";
+    5SH_Level : "SignalAnalog";
+    6SH_Level : "SignalAnalog";
+    1VC_Humidity : "SignalAnalog";
+END_VAR
+
+
+──────────────────────────────────────────────────────────────────────
+// Program blocks\1_BasicControl\DataBlock\DB_MainRoutineDigitalFast.xml
+──────────────────────────────────────────────────────────────────────
+INSTANCE_DATA_BLOCK "DB_MainRoutineDigitalFast"  // DB  Block #1
+
+VAR
+    10BC_ControlSpeed : "SignalDigital";
+    2VC_ControlSpeed : "SignalDigital";
+    11BC_ControlSpeed : "SignalDigital";
+    12BC_ControlSpeed : "SignalDigital";
+    1DC_ControlSpeed : "SignalDigital";
+    2RC_ControlSpeed : "SignalDigital";
+    3RC_ControlSpeed : "SignalDigital";
+    1PF_ControlSpeed : "SignalDigital";
+    1BC_ControlSpeed : "SignalDigital";
+    2BC_ControlSpeed : "SignalDigital";
+    3BC_ControlSpeed : "SignalDigital";
+    4BC_ControlSpeed : "SignalDigital";
+    5BC_ControlSpeed : "SignalDigital";
+    6BC_ControlSpeed : "SignalDigital";
+    7BC_ControlSpeed : "SignalDigital";
+    8BC_ControlSpeed : "SignalDigital";
+    9BC_ControlSpeed : "SignalDigital";
+    1VC_ControlSpeed : "SignalDigital";
+    1RC_ControlSpeed : "SignalDigital";
+    test : Bool;
+END_VAR
+
+
+──────────────────────────────────────────────────────────────────────
+// Program blocks\1_BasicControl\DataBlock\DB_MainRoutineDigitalInput.xml
+──────────────────────────────────────────────────────────────────────
+INSTANCE_DATA_BLOCK "DB_MainRoutineDigitalInput"  // DB  Block #2
+
+VAR
+    1VF_Work : "SignalDigital";
+    1VF_Alarm : "SignalDigital";
+    1MS_Work : "SignalDigital";
+    1MS_Alarm : "SignalDigital";
+    1BC_ThermalAlarm : "SignalDigital";
+    1BC_Local : "SignalDigital";
+    2BC_ThermalAlarm : "SignalDigital";
+    2BC_Local : "SignalDigital";
+    1FD_Work : "SignalDigital";
+    1FD_Alarm : "SignalDigital";
+    3BC_ThermalAlarm : "SignalDigital";
+    3BC_Local : "SignalDigital";
+    1PF_ThermalAlarm : "SignalDigital";
+    1PF_Local : "SignalDigital";
+    2MS_Work : "SignalDigital";
+    2MS_Alarm : "SignalDigital";
+    4BC_ThermalAlarm : "SignalDigital";
+    4BC_Local : "SignalDigital";
+    2FD_Work : "SignalDigital";
+    2FD_Alarm : "SignalDigital";
+    5BC_ThermalAlarm : "SignalDigital";
+    5BC_Local : "SignalDigital";
+    6BC_ThermalAlarm : "SignalDigital";
+    6BC_Local : "SignalDigital";
+    1GB_EmerStop : "SignalDigital";
+    1GB_FireOK : "SignalDigital";
+    1GB_400B_OK : "SignalDigital";
+    1GB_230B_OK : "SignalDigital";
+    1DD_ThermalAlarm : "SignalDigital";
+    1DD_Local : "SignalDigital";
+    1DD_RdyFun : "SignalDigital";
+    7BC_ThermalAlarm : "SignalDigital";
+    7BC_Local : "SignalDigital";
+    2GB_EmerStop : "SignalDigital";
+    2GB_FireOK : "SignalDigital";
+    2GB_400B_OK : "SignalDigital";
+    2GB_230B_OK : "SignalDigital";
+    2DD_ThermalAlarm : "SignalDigital";
+    2DD_Local : "SignalDigital";
+    2DD_RdyFun : "SignalDigital";
+    8BC_ThermalAlarm : "SignalDigital";
+    8BC_Local : "SignalDigital";
+    9BC_ThermalAlarm : "SignalDigital";
+    9BC_Local : "SignalDigital";
+    1VC_ThermalAlarm : "SignalDigital";
+    1VC_Local : "SignalDigital";
+    1RC_FWD_ThermalAlarm : "SignalDigital";
+    1RC_Local : "SignalDigital";
+    1RC_ThermalAlarm : "SignalDigital";
+    1SH_Work : "SignalDigital";
+    1SH_Alarm : "SignalDigital";
+    2SH_Work : "SignalDigital";
+    2SH_Alarm : "SignalDigital";
+    3SH_Work : "SignalDigital";
+    3SH_Alarm : "SignalDigital";
+    4SH_Work : "SignalDigital";
+    4SH_Alarm : "SignalDigital";
+    5SH_Work : "SignalDigital";
+    5SH_Alarm : "SignalDigital";
+    6SH_Work : "SignalDigital";
+    6SH_Alarm : "SignalDigital";
+    3А_230B_OK : "SignalDigital";
+    4A_230B_OK : "SignalDigital";
+    10BC_ThermalAlarm : "SignalDigital";
+    10BC_RepairRel : "SignalDigital";
+    10BC_EmerStop : "SignalDigital";
+    10BC_PullCordSW_L : "SignalDigital";
+    10BC_PullCordSW_R : "SignalDigital";
+    10BC_LongTapeGap : "SignalDigital";
+    10BC_TensDrum_CtrlTape_L : "SignalDigital";
+    10BC_TensDrum_CtrlTape_R : "SignalDigital";
+    10BC_DriveDrum_CtrlTape_L : "SignalDigital";
+    10BC_DriveDrum_CtrlTape_R : "SignalDigital";
+    10BC_Local : "SignalDigital";
+    2VC_ThermalAlarm : "SignalDigital";
+    2VC_RepairRel : "SignalDigital";
+    2VC_EmerStop : "SignalDigital";
+    2VC_PullCordSW_L : "SignalDigital";
+    2VC_PullCordSW_R : "SignalDigital";
+    2VC_Local : "SignalDigital";
+    11BC_ThermalAlarm : "SignalDigital";
+    11BC_RepairRel : "SignalDigital";
+    11BC_EmerStop : "SignalDigital";
+    11BC_PullCordSW_L : "SignalDigital";
+    11BC_PullCordSW_R : "SignalDigital";
+    11BC_LongTapeGap : "SignalDigital";
+    11BC_TensDrum_CtrlTape_L : "SignalDigital";
+    11BC_TensDrum_CtrlTape_R : "SignalDigital";
+    11BC_DriveDrum_CtrlTape_L : "SignalDigital";
+    11BC_DriveDrum_CtrlTape_R : "SignalDigital";
+    11BC_Local : "SignalDigital";
+    12BC_ThermalAlarm : "SignalDigital";
+    12BC_RepairRel : "SignalDigital";
+    12BC_EmerStop : "SignalDigital";
+    12BC_PullCordSW_L : "SignalDigital";
+    12BC_PullCordSW_R : "SignalDigital";
+    12BC_LongTapeGap : "SignalDigital";
+    12BC_TensDrum_CtrlTape_L : "SignalDigital";
+    12BC_TensDrum_CtrlTape_R : "SignalDigital";
+    12BC_DriveDrum_CtrlTape_L : "SignalDigital";
+    12BC_DriveDrum_CtrlTape_R : "SignalDigital";
+    12BC_Local : "SignalDigital";
+    1DC_FWD_ThermalAlarm : "SignalDigital";
+    1DC_FWD_RepairRel : "SignalDigital";
+    1DC_EmerStop : "SignalDigital";
+    1DC_PullCordSW_L : "SignalDigital";
+    1DC_PullCordSW_R : "SignalDigital";
+    1DC_FWD_LongTapeGap : "SignalDigital";
+    1DC_FWD_ControlTape_L : "SignalDigital";
+    1DC_FWD_ControlTape_R : "SignalDigital";
+    1DC_BWD_ControlTape_L : "SignalDigital";
+    1DC_BWD_ControlTape_R : "SignalDigital";
+    1DC_BWD_LongTapeGap : "SignalDigital";
+    1DC_Local : "SignalDigital";
+    2RC_FWD_ThermalAlarm : "SignalDigital";
+    2RC_FWD_RepairRel : "SignalDigital";
+    2RC_EmerStop : "SignalDigital";
+    2RC_PullCordSW_L : "SignalDigital";
+    2RC_PullCordSW_R : "SignalDigital";
+    2RC_FWD_LongTapeGap : "SignalDigital";
+    2RC_FWD_ControlTape_L : "SignalDigital";
+    2RC_FWD_ControlTape_R : "SignalDigital";
+    2RC_BWD_ControlTape_L : "SignalDigital";
+    2RC_BWD_ControlTape_R : "SignalDigital";
+    2RC_BWD_LongTapeGap : "SignalDigital";
+    2RC_Local : "SignalDigital";
+    2RC_ThermalAlarm : "SignalDigital";
+    2RC_RepairRel : "SignalDigital";
+    2RC_LimitSW_L : "SignalDigital";
+    2RC_LimitSW_R : "SignalDigital";
+    2RC_Pos_W : "SignalDigital";
+    2RC_Pos_X : "SignalDigital";
+    2RC_Pos_Y : "SignalDigital";
+    2RC_Pos_Z : "SignalDigital";
+    3RC_FWD_ThermalAlarm : "SignalDigital";
+    3RC_FWD_RepairRel : "SignalDigital";
+    3RC_EmerStop : "SignalDigital";
+    3RC_PullCordSW_L : "SignalDigital";
+    3RC_PullCordSW_R : "SignalDigital";
+    3RC_FWD_LongTapeGap : "SignalDigital";
+    3RC_FWD_ControlTape_L : "SignalDigital";
+    3RC_FWD_ControlTape_R : "SignalDigital";
+    3RC_BWD_ControlTape_L : "SignalDigital";
+    3RC_BWD_ControlTape_R : "SignalDigital";
+    3RC_BWD_LongTapeGap : "SignalDigital";
+    3RC_Local : "SignalDigital";
+    3RC_ThermalAlarm : "SignalDigital";
+    3RC_RepairRel : "SignalDigital";
+    3RC_LimitSW_L : "SignalDigital";
+    3RC_LimitSW_R : "SignalDigital";
+    3RC_Pos_W : "SignalDigital";
+    3RC_Pos_X : "SignalDigital";
+    3RC_Pos_Y : "SignalDigital";
+    3RC_Pos_Z : "SignalDigital";
+    1PF_RepairRel : "SignalDigital";
+    1PF_EmerStop : "SignalDigital";
+    1MS_RepairRel : "SignalDigital";
+    1BC_RepairRel : "SignalDigital";
+    1BC_EmerStop : "SignalDigital";
+    1BC_PullCordSW_L : "SignalDigital";
+    1BC_PullCordSW_R : "SignalDigital";
+    1BC_LongTapeGap : "SignalDigital";
+    1BC_TensDrum_CtrlTape_L : "SignalDigital";
+    1BC_TensDrum_CtrlTape_R : "SignalDigital";
+    1BC_DriveDrum_CtrlTape_L : "SignalDigital";
+    1BC_DriveDrum_CtrlTape_R : "SignalDigital";
+    2BC_RepairRel : "SignalDigital";
+    2BC_EmerStop : "SignalDigital";
+    2BC_PullCordSW_L : "SignalDigital";
+    2BC_PullCordSW_R : "SignalDigital";
+    2BC_LongTapeGap : "SignalDigital";
+    2BC_TensDrum_CtrlTape_L : "SignalDigital";
+    2BC_TensDrum_CtrlTape_R : "SignalDigital";
+    2BC_DriveDrum_CtrlTape_L : "SignalDigital";
+    2BC_DriveDrum_CtrlTape_R : "SignalDigital";
+    1FD_RepairRel : "SignalDigital";
+    1FD_Flow1 : "SignalDigital";
+    1FD_Flow2 : "SignalDigital";
+    3BC_RepairRel : "SignalDigital";
+    3BC_EmerStop : "SignalDigital";
+    3BC_PullCordSW_L : "SignalDigital";
+    3BC_PullCordSW_R : "SignalDigital";
+    3BC_LongTapeGap : "SignalDigital";
+    3BC_TensDrum_CtrlTape_L : "SignalDigital";
+    3BC_TensDrum_CtrlTape_R : "SignalDigital";
+    3BC_DriveDrum_CtrlTape_L : "SignalDigital";
+    3BC_DriveDrum_CtrlTape_R : "SignalDigital";
+    1VF_RepairRel : "SignalDigital";
+    1VF_EmerStop : "SignalDigital";
+    2MS_RepairRel : "SignalDigital";
+    4BC_RepairRel : "SignalDigital";
+    4BC_EmerStop : "SignalDigital";
+    4BC_PullCordSW_L : "SignalDigital";
+    4BC_PullCordSW_R : "SignalDigital";
+    4BC_LongTapeGap : "SignalDigital";
+    4BC_TensDrum_CtrlTape_L : "SignalDigital";
+    4BC_TensDrum_CtrlTape_R : "SignalDigital";
+    4BC_DriveDrum_CtrlTape_L : "SignalDigital";
+    4BC_DriveDrum_CtrlTape_R : "SignalDigital";
+    2FD_RepairRel : "SignalDigital";
+    2FD_Flow1 : "SignalDigital";
+    2FD_Flow2 : "SignalDigital";
+    5BC_RepairRel : "SignalDigital";
+    5BC_EmerStop : "SignalDigital";
+    5BC_PullCordSW_L : "SignalDigital";
+    5BC_PullCordSW_R : "SignalDigital";
+    5BC_LongTapeGap : "SignalDigital";
+    5BC_TensDrum_CtrlTape_L : "SignalDigital";
+    5BC_TensDrum_CtrlTape_R : "SignalDigital";
+    5BC_DriveDrum_CtrlTape_L : "SignalDigital";
+    5BC_DriveDrum_CtrlTape_R : "SignalDigital";
+    6BC_RepairRel : "SignalDigital";
+    6BC_EmerStop : "SignalDigital";
+    6BC_PullCordSW_L : "SignalDigital";
+    6BC_PullCordSW_R : "SignalDigital";
+    6BC_LongTapeGap : "SignalDigital";
+    6BC_TensDrum_CtrlTape_L : "SignalDigital";
+    6BC_TensDrum_CtrlTape_R : "SignalDigital";
+    6BC_DriveDrum_CtrlTape_L : "SignalDigital";
+    6BC_DriveDrum_CtrlTape_R : "SignalDigital";
+    1DD_RepairRel : "SignalDigital";
+    1DD_EmerStop : "SignalDigital";
+    7BC_RepairRel : "SignalDigital";
+    7BC_EmerStop : "SignalDigital";
+    7BC_PullCordSW_L : "SignalDigital";
+    7BC_PullCordSW_R : "SignalDigital";
+    7BC_LongTapeGap : "SignalDigital";
+    7BC_TensDrum_CtrlTape_L : "SignalDigital";
+    7BC_TensDrum_CtrlTape_R : "SignalDigital";
+    7BC_DriveDrum_CtrlTape_L : "SignalDigital";
+    7BC_DriveDrum_CtrlTape_R : "SignalDigital";
+    2DD_RepairRel : "SignalDigital";
+    2DD_EmerStop : "SignalDigital";
+    8BC_RepairRel : "SignalDigital";
+    8BC_EmerStop : "SignalDigital";
+    8BC_PullCordSW_L : "SignalDigital";
+    8BC_PullCordSW_R : "SignalDigital";
+    8BC_LongTapeGap : "SignalDigital";
+    8BC_TensDrum_CtrlTape_L : "SignalDigital";
+    8BC_TensDrum_CtrlTape_R : "SignalDigital";
+    8BC_DriveDrum_CtrlTape_L : "SignalDigital";
+    8BC_DriveDrum_CtrlTape_R : "SignalDigital";
+    9BC_RepairRel : "SignalDigital";
+    9BC_EmerStop : "SignalDigital";
+    9BC_PullCordSW_L : "SignalDigital";
+    9BC_PullCordSW_R : "SignalDigital";
+    9BC_LongTapeGap : "SignalDigital";
+    9BC_TensDrum_CtrlTape_L : "SignalDigital";
+    9BC_TensDrum_CtrlTape_R : "SignalDigital";
+    9BC_DriveDrum_CtrlTape_L : "SignalDigital";
+    9BC_DriveDrum_CtrlTape_R : "SignalDigital";
+    1VC_RepairRel : "SignalDigital";
+    1VC_EmerStop : "SignalDigital";
+    1VC_PullCordSW_L : "SignalDigital";
+    1VC_PullCordSW_R : "SignalDigital";
+    1RC_FWD_RepairRel : "SignalDigital";
+    1RC_EmerStop : "SignalDigital";
+    1RC_PullCordSW_L : "SignalDigital";
+    1RC_PullCordSW_R : "SignalDigital";
+    1RC_FWD_LongTapeGap : "SignalDigital";
+    1RC_FWD_ControlTape_L : "SignalDigital";
+    1RC_FWD_ControlTape_R : "SignalDigital";
+    1RC_BWD_ControlTape_L : "SignalDigital";
+    1RC_BWD_ControlTape_R : "SignalDigital";
+    1RC_BWD_LongTapeGap : "SignalDigital";
+    1RC_RepairRel : "SignalDigital";
+    1RC_LimitSW_L : "SignalDigital";
+    1RC_LimitSW_R : "SignalDigital";
+    1RC_Pos_X : "SignalDigital";
+    1RC_Pos_Y : "SignalDigital";
+    1RC_Pos_Z : "SignalDigital";
+    1SH_RepairRel : "SignalDigital";
+    2SH_RepairRel : "SignalDigital";
+    3SH_RepairRel : "SignalDigital";
+    4SH_RepairRel : "SignalDigital";
+    5SH_RepairRel : "SignalDigital";
+    6SH_RepairRel : "SignalDigital";
+END_VAR
+
+
+──────────────────────────────────────────────────────────────────────
+// Program blocks\1_BasicControl\DataBlock\DB_MainRoutineMotor.xml
+──────────────────────────────────────────────────────────────────────
+INSTANCE_DATA_BLOCK "DB_MainRoutineMotor"  // DB  Block #5
+
+VAR
+    1VF_Direct : "Motor";
+    1MS_Direct : "Motor";
+    2MS_Direct : "Motor";
+    1FD_Direct : "Motor";
+    2FD_Direct : "Motor";
+    1SH_Direct : "Motor";
+    2SH_Direct : "Motor";
+    3SH_Direct : "Motor";
+    4SH_Direct : "Motor";
+    5SH_Direct : "Motor";
+    6SH_Direct : "Motor";
+    1PF_VFD : "MotorVFD";
+    1RC_1_VFD : "MotorVFD";
+    1RC_2_VFD : "MotorVFD";
+    2RC_1_VFD : "MotorVFD";
+    2RC_2_VFD : "MotorVFD";
+    3RC_1_VFD : "MotorVFD";
+    3RC_2_VFD : "MotorVFD";
+    1VC_VFD : "MotorVFD";
+    2VC_VFD : "MotorVFD";
+    1DD_1_VFD : "MotorVFD";
+    1DD_2_VFD : "MotorVFD";
+    2DD_1_VFD : "MotorVFD";
+    2DD_2_VFD : "MotorVFD";
+    1DC_VFD : "MotorVFD";
+    1BC_VFD : "MotorVFD";
+    2BC_VFD : "MotorVFD";
+    3BC_VFD : "MotorVFD";
+    4BC_VFD : "MotorVFD";
+    5BC_VFD : "MotorVFD";
+    6BC_VFD : "MotorVFD";
+    7BC_VFD : "MotorVFD";
+    8BC_VFD : "MotorVFD";
+    9BC_VFD : "MotorVFD";
+    10BC_VFD : "MotorVFD";
+    11BC_VFD : "MotorVFD";
+    12BC_VFD : "MotorVFD";
+END_VAR
+
+
+──────────────────────────────────────────────────────────────────────
+// Program blocks\1_BasicControl\Functions\Actuator\Burner.xml
+──────────────────────────────────────────────────────────────────────
+FUNCTION_BLOCK "Burner"  // SCL  Block #13
+
+VAR_INPUT
+    Alarm : Bool;  // Авария
+    FlameBurn : Bool;  // Пламя горит
+END_VAR
+VAR_OUTPUT
+    TL : Bool;  // Включение горелки
+    TR : Bool;  // Управление мощностью
+    RS : Bool;  // Дистанционный перезапуск
+END_VAR
+VAR
+    DataHMI : "BurnerHMI";  // Ручной режим
+    interlockCommon : Bool;  // Блокировка
+    enableCommon : Bool;
+    AutoStart : Bool;  // Авто. режим. Запуск горелки
+    AutoUpPower : Bool;  // Авто. режим. Увеличить мощность
+    AutoAlarmReset : Bool;  // Авто. режим. Сброс аварии
+    UpPower : Bool;  // Увеличить мощность
+    CounterAlarm : Int;  // Счетчик аварий
+    ton_Reset : TON_TIME;  // Время ожидания сброса аварии
+    FatalError : Bool;  // Ошибка после попыток авто. перезапуска
+    rt_Alarm : R_TRIG;
+    setTonReset : Bool;
+END_VAR
+VAR CONSTANT
+    maxTry : Int := 3;  // Максимальное кол. попыток перезапуска
+    timeWaitReset : Time := T#30s;
+END_VAR
+
+// ==================== CODE ====================
+// Network 1
+// Горелка
+
+REGION Аварийный перезапуск
+    // Только в автоматическом режиме
+
+    IF DataHMI.ControlMode =  THEN
+        // Если еще не пробовали производить сброс
+
+        IF NOT FatalError THEN
+            // Счетчик попыток перезапуска при ошибке
+
+            rt_Alarm(CLK := Alarm);
+            IF rt_Alarm.Q THEN
+                CounterAlarm := CounterAlarm + ;
+            END_IF;
+            IF CounterAlarm <>  AND Alarm THEN
+                setTonReset := ;
+            ELSE
+                setTonReset := ;
+            END_IF;
+            // Запуск после задержки
+
+            ton_Reset(IN := setTonReset,
+                       PT := ,
+                       Q => AutoAlarmReset);
+            // Сброс попыток
+
+            IF CounterAlarm >=  THEN
+                CounterAlarm := ;
+                FatalError := ;
+            END_IF;
+        END_IF;
+    ELSE
+        RESET_TIMER(ton_Reset);
+        FatalError := ;
+        setTonReset := ;
+    END_IF;
+END_REGION
+REGION Сброс ручного управления
+    IF NOT Alarm AND DataHMI.ControlMode <>  THEN
+        DataHMI.ManualStart := ;
+        DataHMI.ManualUpPower := ;
+        DataHMI.ManualAlarmReset := ;
+    END_IF;
+END_REGION
+REGION Блокировка
+    interlockCommon := enableCommon OR NOT Alarm;
+END_REGION
+REGION Управление горелкой
+    TL := NOT interlockCommon AND NOT Alarm AND MUX(K := DataHMI.ControlMode,
+                                          IN0 := ,
+                                          IN1 := DataHMI.ManualStart,
+                                          IN2 :=  AutoStart);
+    TR := NOT interlockCommon AND FlameBurn AND MUX(K := DataHMI.ControlMode,
+                                 IN0 := ,
+                                 IN1 := DataHMI.ManualUpPower,
+                                 IN2 := AutoUpPower);
+    RS := MUX(K := DataHMI.ControlMode,
+                                IN0 := ,
+                                IN1 := DataHMI.ManualAlarmReset,
+                                IN2 := AutoAlarmReset);
+END_REGION
+
+
+──────────────────────────────────────────────────────────────────────
+// Program blocks\1_BasicControl\Functions\Actuator\DistributorFlow.xml
+──────────────────────────────────────────────────────────────────────
+FUNCTION_BLOCK "DistributorFlow"  // SCL  Block #8
+
+VAR_INPUT
+    StartMotor : Bool;  // Готовность двигателя к управлению
+    LimitSwitchFlow1 : Bool;  // Концевик 1 потока
+    LimitSwitchFlow2 : Bool;  // Концевик 2 потока
+    HumiditySensor : Real;  // Датчик влажности
+END_VAR
+VAR_OUTPUT
+    ControlFlow1 : Bool;  // Открыть 1 поток
+    ControlFlow2 : Bool;  // Открыть 2 поток
+END_VAR
+VAR
+    DataHMI : "DistributorFlowHMI";
+    AutoForward : Bool;  // Автоматический режим. Прямой пуск
+    AutoReverse : Bool;  // Автоматический режим. Реверсия
+    tonFlow1 : TON_TIME;
+    tonFlow2 : TON_TIME;
+    Flow1 : Bool;
+    Flow2 : Bool;
+END_VAR
+VAR CONSTANT
+    Open : Bool := true;  // Открыть поток
+    Close : Bool := false;  // Закрыть поток
+END_VAR
+
+// ==================== CODE ====================
+// Network 1
+// Делитель потоков
+
+REGION Двигатель не готов к работе - делитель потоков не готов к работе
+    DataHMI.MotorNotReady := NOT StartMotor;
+END_REGION
+REGION Авто режим по влажности
+    IF HumiditySensor <= DataHMI.SP_Humidity THEN
+        Flow1 := ;
+        Flow2 := ;
+    ELSE
+        Flow1 := ;
+        Flow2 := ;
+    END_IF;
+    // Задержка включения, чтобы не было частого переключения потоков
+
+    tonFlow1(IN := Flow1,
+              PT := DataHMI.DelaySwitchFlow,
+              Q => AutoForward);
+    tonFlow2(IN := Flow2,
+              PT := DataHMI.DelaySwitchFlow,
+              Q => AutoReverse);
+END_REGION
+REGION Сброс ручного управления
+    IF StartMotor OR DataHMI.ControlMode <>  THEN
+        DataHMI.ManualForward := ;
+        DataHMI.ManualReverse := ;
+    END_IF;
+END_REGION
+REGION Управление двигателем
+    ControlFlow1 := NOT LimitSwitchFlow1 AND StartMotor AND MUX(K := DataHMI.ControlMode,
+                                         IN0 := ,
+                                         IN1 := DataHMI.ManualForward,
+                                         IN2 := AutoForward);
+    ControlFlow2 := NOT LimitSwitchFlow2 AND StartMotor AND MUX(K := DataHMI.ControlMode,
+                                         IN0 := ,
+                                         IN1 := DataHMI.ManualReverse,
+                                         IN2 := AutoReverse);
+END_REGION
+REGION Направление потока
+    DataHMI.StatusDirection := ControlFlow1;
+    DataHMI.StatusDirection := ControlFlow2;
+END_REGION
+
+
+──────────────────────────────────────────────────────────────────────
+// Program blocks\1_BasicControl\Functions\Motors\Motor.xml
+──────────────────────────────────────────────────────────────────────
+FUNCTION_BLOCK "Motor"  // SCL  Block #5
+
+VAR_INPUT
+    FeedbackForward : Bool;  // Обратная связь. Прямой пуск
+    FeedbackOverload : Bool;  // Обратная связь. Перегруз
+    FeedbackOverheat : Bool;  // Обратная связь. Перегрев
+END_VAR
+VAR_OUTPUT
+    CommandForward : Bool;  // Управление. Прямой пуск
+END_VAR
+VAR
+    DataHMI : "MotorHMI";  // Данные HMI
+    EnableCommon : Bool;  // Условие разрешения работы исполнительного механизма
+    InterlockCommon : Bool;  // Блокировка  исполнительного механизма
+    AutoForward : Bool;  // Автоматический режим. Прямой пуск
+    AlarmCommon : Bool;  // Авария. Общая неисправность
+    AlarmForward : Bool;  // Авария. Превышено время пуска
+    AlarmOverload : Bool;  // Авария. Перегрузка
+    AlarmOverheat : Bool;  // Авария. Перегерев
+    AlarmTimer : TON_TIME;  // Таймер формирования аварии
+    AlarmTimeSet : Time := T#15S;  // Время запуска. Формирование аварии. Фактическое значение
+    RunningTimeCounter : "RUNNING_TIMER";  // Счетчик времени наработки
+END_VAR
+
+// ==================== CODE ====================
+// Network 1
+// Двигатель. Прямой пуск. Входные сигналы: Прямой пуск, Перегрузка, Перегрев
+
+REGION Квитирование
+    IF DataHMI.Acknowledge THEN
+        AlarmForward := AlarmOverload := AlarmOverheat := ;
+    END_IF;
+END_REGION
+REGION Аварии
+    // Авария. Превышено время пуска
+
+    AlarmTimer(IN := CommandForward AND NOT FeedbackForward,
+                PT := AlarmTimeSet);
+    IF AlarmTimer.Q THEN
+        AlarmForward := ;
+    END_IF;
+    // Авария. Перегрузка
+
+    IF NOT FeedbackOverload THEN
+        AlarmOverload := ;
+    END_IF;
+    // Авария. Перегрев
+
+    IF NOT FeedbackOverheat THEN
+        AlarmOverheat := ;
+    END_IF;
+    // Авария. Общая неисправность
+
+    AlarmCommon := AlarmForward OR AlarmOverload OR AlarmOverheat;
+END_REGION
+REGION Блокировка
+    InterlockCommon := NOT EnableCommon OR AlarmCommon;
+END_REGION
+REGION Сброс ручного управления
+    IF InterlockCommon OR DataHMI.ControlMode <>  THEN
+        DataHMI.ManualForward := ;
+    END_IF;
+END_REGION
+REGION Управление
+    CommandForward := NOT InterlockCommon AND MUX(K := DataHMI.ControlMode,
+                                                    IN0 := ,
+                                                    IN1 := DataHMI.ManualForward,
+                                                    IN2 := AutoForward);
+END_REGION
+REGION Слово состояния
+    DataHMI.StatusWord := CommandForward;
+    DataHMI.StatusWord := FeedbackForward;
+    DataHMI.StatusWord := AlarmCommon;
+    DataHMI.StatusWord := AlarmForward;
+    DataHMI.StatusWord := AlarmOverload;
+    DataHMI.StatusWord := AlarmOverheat;
+    DataHMI.StatusWord := InterlockCommon;
+    DataHMI.StatusWord := DataHMI.ControlMode = ;
+END_REGION
+REGION Индикатор
+    DataHMI.StatusIndicator := AlarmCommon;
+    DataHMI.StatusIndicator := FeedbackForward;
+END_REGION
+REGION Время наработки
+    (Enable:=FeedbackForward,
+                        ResetTime := DataHMI.RunningTimeReset,
+                        RunningTime := DataHMI.RunningTime);
+END_REGION
+
+
+──────────────────────────────────────────────────────────────────────
+// Program blocks\1_BasicControl\Functions\Motors\MotorVFD.xml
+──────────────────────────────────────────────────────────────────────
+FUNCTION_BLOCK "MotorVFD"  // SCL  Block #7
+
+VAR_INPUT
+    DeviceAddress : HW_IO;  // Адрес устройства
+    FeedbackOverload : Bool;  // Обратная связь. Перегруз
+    FeedbackOverheat : Bool;  // Обратная связь. Перегрев
+    Local_Remote : Bool;  // Местный / Дистанционный режим
+    FeedbackSpeed : Bool;  // Обратная связь. Датчик скорости
+    Speed : Real;  // Актуальная скорость конвейера по датчику скорости (м/мин)
+END_VAR
+VAR_OUTPUT
+    CommandForward : Bool;  // Управление. Прямой пуск
+    CommandReverse : Bool;  // Управление. Реверсивный пуск
+END_VAR
+VAR
+    DataHMI : "MotorVFDHMI";  // Данные HMI
+    VFDData : "Inovance";  // Данные ПЧ
+    EnableCommon : Bool;  // Условие разрешения работы исполнительного механизма
+    EnableForward : Bool;  // Условие разрешения прямого пуска
+    EnableReverse : Bool;  // Условие разрешения реверсивного пуска
+    InterlockCommon : Bool;  // Блокировка  исполнительного механизма
+    SetpointSpeed : Real;  // Задание скорости
+    AutoSpeed : Real;  // Автоматический режим. Задание скорости
+    AutoForward : Bool;  // Автоматический режим. Прямой пуск
+    AutoReverse : Bool;  // Автоматический режим. Реверсивный пуск
+    FeedbackFault : Bool;  // Обратная связь. Неисправность
+    FeedbackForward : Bool;  // Обратная связь. Прямой пуск
+    FeedbackReverse : Bool;  // Обратная связь. Реверсивный пуск
+    FeedbackLink : Bool;  // Обратная связь. Обмен данными
+    FeedbackLocal : Bool;  // Обратная связь. Локальное управление
+    AlarmCommon : Bool;  // Авария. Общая неисправность
+    AlarmFault : Bool;  // Авария. Неисправность ПЧ
+    AlarmForward : Bool;  // Авария. Превышено время прямого пуска
+    AlarmReverse : Bool;  // Авария. Превышено время реверсивного пуска
+    AlarmOverload : Bool;  // Авария. Перегрузка
+    AlarmOverheat : Bool;  // Авария. Перегерев
+    AlarmLink : Bool;  // Авария. Обмен данными
+    AlarmSpeed : Bool;  // Авария датчика скорости
+    AlarmTimer : TON_TIME;  // Таймер 1 секунда
+    AlarmTimeSet : Int := 15;  // Время запуска. Формирование аварии. Фактическое значение
+    RunningTimeCounter : "RUNNING_TIMER";  // Счетчик времени наработки
+    SpeedMinFrq : Real;  // Минимальная частота ПЧ, Гц
+    SpeedMaxFrq : Real := 50.0;  // Максимальная частота ПЧ, Гц
+    StatusCmdFwd : Bool;  // Статус команды прямого пуска
+    StatusCmdRev : Bool;  // Статус команды реверсивного пуска
+END_VAR
+VAR_TEMP
+    ReadDataCode : Int;
+    WriteDataCode : Int;
+    SpeedSet : Real;  // Задание частоты, %
+END_VAR
+VAR CONSTANT
+    SpeedSetMin : Real := 40.0;  // Минимальное задаваемое значение частоты в процентах
+    SpeedSetMax : Real := 100.0;  // Максимальное задаваемое значение частоты в процентах
+    SpeedLimitMin : Real := 0.0;  // Минимальное значение частоты в процентах
+    SpeedLimitMax : Real := 100.0;  // Максимальное значение частоты в процентах
+    ControlWordRunFwd : Word := 16#0001;  // Слово управления - Прямой пуск
+    ControlWordRunRev : Word := 16#0002;  // Слово управления - Реверсивный пуск
+    ControlWordJogFwd : Word := 16#0003;  // Слово управления - Пуск
+    ControlWordJogRev : Word := 16#0004;  // Слово управления - Стоп
+    ControlWordStopCoast : Word := 16#0005;  // Слово управления - Останов выбегом
+    ControlWordStopMode : Word := 16#0006;  // Слово управления - Останов выбранным режимом
+    ControlWordAck : Word := 16#0007;  // Слово управления - Квитирование
+END_VAR
+
+// ==================== CODE ====================
+// Network 1
+// Двигатель. ПЧ. Входные сигналы: Перегрузка, Перегрев, Датчик скорости, Местный/Дист режим
+
+REGION Чтение слова состояния и текущей скорости
+    ReadDataCode := DPRD_DAT(LADDR := DeviceAddress, RECORD => VFDData.Status);
+    // #FeedbackLocal := статус локального управления;
+
+    IF NOT FeedbackLocal THEN
+        FeedbackFault := VFDData.Status.FaultStatus;
+        FeedbackForward := VFDData.Status.RunningStatus AND NOT VFDData.Status.RunningDirection;
+        FeedbackReverse := VFDData.Status.RunningStatus AND VFDData.Status.RunningDirection;
+        FeedbackLink := ReadDataCode = ;
+        // #DataHMI.ActualSpeed := #VFDData.Status.SpeedActual * 2 / 100;
+
+    END_IF;
+END_REGION
+REGION Запись слова управление и уставки скорости
+    WriteDataCode := DPWR_DAT(LADDR := DeviceAddress, RECORD := VFDData.Control);
+END_REGION
+REGION Слово управления
+    IF CommandForward THEN
+        VFDData.Control.ControlWord := ;
+    ELSIF CommandReverse THEN
+        VFDData.Control.ControlWord := ;
+    ELSIF DataHMI.Acknowledge THEN
+        VFDData.Control.ControlWord := ;
+    ELSE
+        VFDData.Control.ControlWord := ;
+    END_IF;
+// IF #Local_Remote THEN
+        #VFDData.Control.ControlWord := управление с клемм;
+    END_IF;
+
+END_REGION
+// Проверка локальное / дистанционное управление
+
+IF Local_Remote THEN
+    // Дистанционное управление
+
+    REGION Квитирование
+        IF DataHMI.Acknowledge THEN
+            AlarmFault := AlarmForward := AlarmReverse := AlarmOverload := AlarmOverheat := AlarmLink := AlarmSpeed := ;
+        END_IF;
+    END_REGION
+    REGION Аварии
+        // Обратная связь. Неисправность
+
+        IF FeedbackFault THEN
+            AlarmFault := ;
+        END_IF;
+        // Авария. Превышено время пуска
+
+        AlarmTimer(IN := (CommandForward AND NOT FeedbackForward)
+                    OR (CommandReverse AND NOT FeedbackReverse),
+                    PT := INT_TO_TIME(AlarmTimeSet) * );
+        // Авария. Превышено время прямого пуска
+
+        IF AlarmTimer.Q AND CommandForward AND NOT FeedbackForward THEN
+            AlarmForward := ;
+        END_IF;
+        // Авария. Превышено время реверсивного пуска
+
+        IF AlarmTimer.Q AND CommandReverse AND NOT FeedbackReverse THEN
+            AlarmReverse := ;
+        END_IF;
+        // Авария. Перегрузка
+
+        IF NOT FeedbackOverload THEN
+            AlarmOverload := ;
+        END_IF;
+        // Авария. Перегрев
+
+        IF NOT FeedbackOverheat THEN
+            AlarmOverheat := ;
+        END_IF;
+        // Авария. Обмен данными
+
+        IF NOT FeedbackLink THEN
+            AlarmLink := ;
+        END_IF;
+        // Авария. Датчик скорости не считает импульсы
+
+        IF NOT FeedbackSpeed AND (FeedbackForward OR FeedbackReverse) THEN
+            AlarmSpeed := ;
+        END_IF;
+        
+        // Авария. Общая неисправность
+
+        AlarmCommon := AlarmFault OR AlarmForward OR AlarmReverse OR AlarmOverload OR AlarmOverheat OR AlarmLink OR AlarmSpeed;
+    END_REGION
+    REGION Блокировка
+        InterlockCommon := NOT EnableCommon OR AlarmCommon;
+    END_REGION
+    REGION Сброс ручного управления
+        IF InterlockCommon OR DataHMI.ControlMode <>  OR NOT EnableForward THEN
+            DataHMI.ManualForward := ;
+        END_IF;
+        IF InterlockCommon OR DataHMI.ControlMode <>  OR NOT EnableReverse THEN
+            DataHMI.ManualReverse := ;
+        END_IF;
+    END_REGION
+    REGION Управление
+        StatusCmdFwd := NOT InterlockCommon AND EnableForward AND MUX(K := DataHMI.ControlMode,
+                                                                         IN0 := ,
+                                                                         IN1 := DataHMI.ManualForward,
+                                                                         IN2 := AutoForward);
+        StatusCmdRev := NOT InterlockCommon AND EnableReverse AND MUX(K := DataHMI.ControlMode,
+                                                                         IN0 := ,
+                                                                         IN1 := DataHMI.ManualReverse,
+                                                                         IN2 := AutoReverse);
+        CommandForward := StatusCmdFwd;
+        CommandReverse := StatusCmdRev;
+    END_REGION
+    REGION Уставка скорости         
+        IF DataHMI.ControlMode =  THEN
+            SpeedSet := DataHMI.ManualSpeed := LIMIT(MN := , IN := DataHMI.ManualSpeed, MX := );
+        ELSIF DataHMI.ControlMode =  THEN
+            SpeedSet := AutoSpeed := LIMIT(MN := , IN := AutoSpeed, MX := );
+        END_IF;
+        VFDData.Control.SpeedSetpoint := REAL_TO_INT(SCALE_X(MIN := SpeedMinFrq, VALUE := NORM_X(MIN := , VALUE := SpeedSet, MAX := ), MAX := SpeedMaxFrq) * );
+    END_REGION
+    REGION Актуальная скорость по датчику скорости
+        IF NOT AlarmSpeed THEN
+            DataHMI.ActualSpeed := Speed;
+        ELSE
+            DataHMI.ActualSpeed := ;
+        END_IF;
+    END_REGION
+    REGION Слово состояния
+        DataHMI.StatusWord := CommandForward;
+        DataHMI.StatusWord := CommandReverse;
+        DataHMI.StatusWord := FeedbackForward;
+        DataHMI.StatusWord := FeedbackReverse;
+        DataHMI.StatusWord := AlarmCommon;
+        DataHMI.StatusWord := AlarmFault;
+        DataHMI.StatusWord := AlarmForward;
+        DataHMI.StatusWord := AlarmReverse;
+        DataHMI.StatusWord := AlarmOverload;
+        DataHMI.StatusWord := AlarmOverheat;
+        DataHMI.StatusWord := AlarmLink;
+        DataHMI.StatusWord := InterlockCommon;
+        DataHMI.StatusWord := AlarmSpeed;
+        DataHMI.StatusWord := DataHMI.ControlMode = ;
+    END_REGION
+    REGION Индикатор
+        DataHMI.StatusIndicator := AlarmCommon;
+        DataHMI.StatusIndicator := CommandForward OR CommandReverse;
+    END_REGION
+    REGION Направление
+        DataHMI.StatusDirection := FeedbackForward;
+        DataHMI.StatusDirection := FeedbackReverse;
+    END_REGION
+    REGION Время наработки
+        (Enable := FeedbackForward OR FeedbackReverse,
+                            ResetTime := DataHMI.RunningTimeReset,
+                            RunningTime := DataHMI.RunningTime);
+    END_REGION
+ELSE
+    // Статус локального управления
+
+    DataHMI.StatusWord := Local_Remote;
+END_IF;
+
+
+──────────────────────────────────────────────────────────────────────
+// Program blocks\1_BasicControl\Functions\Signals\SignalAnalog.xml
+──────────────────────────────────────────────────────────────────────
+FUNCTION_BLOCK "SignalAnalog"  // SCL  Block #26
+
+VAR_INPUT
+    InputSignal : Int;  // Входной сигнал с модуля ПЛК
+END_VAR
+VAR
+    DataHMI : "SignalAnalogHMI" := 100.0;  // Сигналы для верхнего уровня
+    SimulateMode : Bool;  // Бит активации симуляции входного значения
+    SimulateSignal : Int;  // Симулированное входное значнеие
+    RestingTime : Time := T#100ms;  // Время срабатывания H L на границе гистерезиса
+    HHRestingTimer1 : TON_TIME;  // Таймер 1
+    HRestingTimer2 : TON_TIME;  // Таймер 2
+    LRestingTimer3 : TON_TIME;  // Таймер 3
+    LLRestingTimer4 : TON_TIME;  // Таймер 4
+END_VAR
+VAR_TEMP
+    LPlusHysteresis : Real;  // Вспомагательное значение
+    LMinusHysteresis : Real;  // Вспомагательное значение
+    HMinusHysteresis : Real;  // Вспомагательное значение
+    HPlusHysteresis : Real;  // Вспомагательное значение
+    LLPlusHysteresis : Real;  // Вспомагательное значение
+    LLMinusHysteresis : Real;  // Вспомагательное значение
+    WBLimit : Real;  // Вспомагательное значение
+    HHMinusHysteresis : Real;  // Вспомагательное значение
+    HHPlusHysteresis : Real;  // Вспомагательное значение
+    SCLimit : Real;  // Вспомагательное значение
+    RAnalogInput : Real;  // Вспомагательное значение
+    Templimit : Real;  // Вспомагательное значение
+END_VAR
+VAR CONSTANT
+    AIMin : Int := 0;  // Минимальное значение входного сигнала
+    AIMax : Int := 27648;  // Максимальное значение входного сигнала
+    SensorCurrentMin : Real := 4.0;  // Нижнее токовое значние датчика
+    SensorCurrentMax : Real := 20.0;  // Верхнее токовое значние датчика
+    ChortCircuitLimit : Real := 0.0125;  // Коэффициент для тока короткого замыкания
+    WireBreakLimit : Real := 0.0125;  // Коэффициент для тока обрыва датчика
+END_VAR
+
+// ==================== CODE ====================
+// Network 1
+// Обработка аналогового сигнала
+
+REGION Check Data // Проверка корректности вводимых данных
+    IF (DataHMI.ScaleMax < DataHMI.ScaleMin)
+    THEN
+        Templimit := DataHMI.ScaleMax;
+        DataHMI.ScaleMax := DataHMI.ScaleMin;
+        DataHMI.ScaleMin := Templimit;
+    END_IF;
+    IF (DataHMI.LLAlarmLimit < DataHMI.ScaleMin) OR
+        (DataHMI.LLAlarmLimit > DataHMI.ScaleMax)
+    THEN
+        DataHMI.LLAlarmLimit := DataHMI.ScaleMin;
+    END_IF;
+    IF (DataHMI.HHAlarmLimit > DataHMI.ScaleMax) OR
+        (DataHMI.HHAlarmLimit <= DataHMI.ScaleMin)
+    THEN
+        DataHMI.HHAlarmLimit := DataHMI.ScaleMax;
+    END_IF;
+    IF (DataHMI.LAlarmLimit < DataHMI.ScaleMin) OR
+        (DataHMI.LAlarmLimit > DataHMI.ScaleMax)
+    THEN
+        DataHMI.LAlarmLimit := DataHMI.ScaleMin;
+    END_IF;
+    IF (DataHMI.HAlarmLimit > DataHMI.ScaleMax) OR
+        (DataHMI.HAlarmLimit < DataHMI.ScaleMin)
+    THEN
+        DataHMI.HAlarmLimit := DataHMI.ScaleMax;
+    END_IF;
+    IF DataHMI.HAlarmLimit > DataHMI.HHAlarmLimit
+    THEN
+        Templimit := DataHMI.HAlarmLimit;
+        DataHMI.HAlarmLimit := DataHMI.HHAlarmLimit;
+        DataHMI.HHAlarmLimit := Templimit;
+    END_IF;
+    IF DataHMI.LAlarmLimit < DataHMI.LLAlarmLimit
+    THEN
+        Templimit := DataHMI.LAlarmLimit;
+        DataHMI.LAlarmLimit := DataHMI.LLAlarmLimit;
+        DataHMI.LLAlarmLimit := Templimit;
+    END_IF;
+    IF DataHMI.LAlarmLimit > DataHMI.HAlarmLimit
+    THEN
+        Templimit := DataHMI.LAlarmLimit;
+        DataHMI.LAlarmLimit := DataHMI.HAlarmLimit;
+        DataHMI.HAlarmLimit := Templimit;
+    END_IF;
+END_REGION
+REGION Scale Signal // Шкалирование значений датчика
+    IF NOT SimulateMode
+    THEN
+        RAnalogInput := INT_TO_REAL(InputSignal - ) / ( - ); // #RAnalogInput := #InputSignal / #AIMax;
+
+    ELSE
+        RAnalogInput := INT_TO_REAL(SimulateSignal - ) / ( - ); // #RAnalogInput := #SimulateInput / #AIMax;
+
+    END_IF;
+    DataHMI.CurrentValue := RAnalogInput * ( - ) + ;
+    DataHMI.ActualValue := RAnalogInput * (DataHMI.ScaleMax - DataHMI.ScaleMin) + DataHMI.ScaleMin;
+END_REGION
+REGION Calculate Hysteresis
+    HMinusHysteresis := DataHMI.HAlarmLimit - DataHMI.Hysteresis;
+    HPlusHysteresis := DataHMI.HAlarmLimit + DataHMI.Hysteresis;
+    LMinusHysteresis := DataHMI.LAlarmLimit - DataHMI.Hysteresis;
+    LPlusHysteresis := DataHMI.LAlarmLimit + DataHMI.Hysteresis;
+    HHMinusHysteresis := DataHMI.HHAlarmLimit - DataHMI.Hysteresis;
+    HHPlusHysteresis := DataHMI.HHAlarmLimit + DataHMI.Hysteresis;
+    LLMinusHysteresis := DataHMI.LLAlarmLimit - DataHMI.Hysteresis;
+    LLPlusHysteresis := DataHMI.LLAlarmLimit + DataHMI.Hysteresis;
+    WBLimit := DataHMI.ScaleMin - (DataHMI.ScaleMax - DataHMI.ScaleMin) * ;
+    SCLimit := DataHMI.ScaleMax + (DataHMI.ScaleMax - DataHMI.ScaleMin) * ;
+END_REGION
+REGION Calculate Alarms
+    REGION Set Alarms Bits
+        IF DataHMI.ActualValue > SCLimit THEN
+            DataHMI.ShortCircuitAlarm := ;
+            DataHMI.WireBreakAlarm := ;
+            DataHMI.HHAlarm := ;
+            DataHMI.HAlarm := ;
+            DataHMI.LAlarm := ;
+            DataHMI.LLAlarm := ;
+        END_IF;
+        IF DataHMI.ActualValue < WBLimit THEN
+            DataHMI.WireBreakAlarm := ;
+            DataHMI.ShortCircuitAlarm := ;
+            DataHMI.HHAlarm := ;
+            DataHMI.HAlarm := ;
+            DataHMI.LAlarm := ;
+            DataHMI.LLAlarm := ;
+        END_IF;
+        // set HH
+
+        HHRestingTimer1(IN := DataHMI.ActualValue > HHPlusHysteresis AND NOT DataHMI.WireBreakAlarm AND NOT DataHMI.ShortCircuitAlarm,
+                      PT := RestingTime,
+                      Q => DataHMI.HHAlarm);
+        
+        // set H
+
+        HRestingTimer2(IN := DataHMI.ActualValue > HPlusHysteresis AND NOT DataHMI.WireBreakAlarm AND NOT DataHMI.ShortCircuitAlarm AND DataHMI.ActualValue < HHPlusHysteresis,
+                     PT := RestingTime,
+                     Q => DataHMI.HAlarm);
+        
+        // set L
+
+        LRestingTimer3(IN := DataHMI.ActualValue < LMinusHysteresis AND NOT DataHMI.WireBreakAlarm AND NOT DataHMI.ShortCircuitAlarm AND DataHMI.ActualValue > LLMinusHysteresis,
+                     PT := RestingTime,
+                     Q => DataHMI.LAlarm);
+        
+        // set LL
+
+        LLRestingTimer4(IN := DataHMI.ActualValue < LLMinusHysteresis AND NOT DataHMI.WireBreakAlarm AND NOT DataHMI.ShortCircuitAlarm,
+                      PT := RestingTime,
+                      Q => DataHMI.LLAlarm);
+        
+    END_REGION
+    REGION Reset Alarms Bits
+        IF DataHMI.ActualValue < SCLimit
+        THEN
+            DataHMI.ShortCircuitAlarm := ;
+        END_IF;
+        IF DataHMI.ActualValue > WBLimit
+        THEN
+            DataHMI.WireBreakAlarm := ;
+        END_IF;
+    END_REGION
+END_REGION
+REGION Set Status Message
+    DataHMI.StatusWord := ;
+    IF DataHMI.ShortCircuitAlarm THEN
+        DataHMI.StatusWord := ; // bit 1
+
+    ELSE
+        IF DataHMI.WireBreakAlarm THEN
+            DataHMI.StatusWord := ; // bit 6
+
+        ELSE
+            IF DataHMI.HHAlarm THEN
+                DataHMI.StatusWord := ; // bit 2
+
+            ELSE
+                IF DataHMI.HAlarm THEN
+                    DataHMI.StatusWord := ; // bit 3
+
+                ELSE
+                    IF DataHMI.LAlarm THEN
+                        DataHMI.StatusWord := ; // bit 4
+
+                    ELSE
+                        IF DataHMI.LLAlarm THEN
+                            DataHMI.StatusWord := ; // bit 5
+
+                        ELSE
+                            DataHMI.StatusWord := ;
+                        END_IF;
+                    END_IF;
+                END_IF;
+            END_IF;
+        END_IF;
+    END_IF;
+END_REGION
+
+
+──────────────────────────────────────────────────────────────────────
+// Program blocks\1_BasicControl\Functions\Signals\SignalDigital.xml
+──────────────────────────────────────────────────────────────────────
+FUNCTION_BLOCK "SignalDigital"  // SCL  Block #1
+
+VAR_INPUT
+    InputSignal : Bool;  // Сигнал. Необработанный
+END_VAR
+VAR
+    DataHMI : "SignalDigitalHMI";  // Данные HMI
+    OutputSignal : Bool;  // Сигнал. Обработанный
+    RisingSignal : Bool;  // Сигнал. Передний фронт
+    FallingSignal : Bool;  // Сигнал. Задний фронт
+    SimulateMode : Bool;  // Режим симуляции
+    SimulateSignal : Bool;  // Сигнал. Симулялированный
+    OnDelayTime : Time;  // Уставка. Задержка включения
+    OffDelayTime : Time;  // Уставка. Задержка отключения
+    OnDelayTimer : TON_TIME;  // Таймер. Задержка включения
+    OffDelayTimer : TOF_TIME;  // Таймер. Задержка отключения
+    RisingTrigger : R_TRIG;  // Триггер. Передний фронт сигнала
+    FallingTrigger : F_TRIG;  // Триггер. Задний фронт сигнала
+    SpeedCounter : "Control_Speed";  // Блок счета скорости изменения импульсов
+    Speed : Real;  // Скорость (м/мин)
+    EnableCounter : Bool;  // Бит включения счетчика скорости
+    FeedbackSpeed : Bool;  // Аварий счетчика
+END_VAR
+VAR_TEMP
+    Signal : Bool;
+    ReadCycleTime : Int;  // Чтение время цикла блока вызова
+    RaadPhase : UDInt;
+    CycleTime : UDInt;
+    ReadStatus : Word;
+END_VAR
+VAR CONSTANT
+    LengtCircle : Real := 0.2985;  // Длина окружности (м)
+END_VAR
+
+// ==================== CODE ====================
+// Network 1
+// Обработка дискретного сигнала
+
+REGION Симуляция
+    Signal := SEL(G := SimulateMode, IN0 := InputSignal, IN1 := SimulateSignal);
+END_REGION
+REGION Обработка сигнала
+    OnDelayTimer(IN := Signal,
+                  PT := OnDelayTime);
+    OffDelayTimer(IN := OnDelayTimer.Q,
+                   PT := OffDelayTime,
+                   Q => OutputSignal);
+END_REGION
+REGION Передний и задний фронты
+    RisingTrigger(CLK := OutputSignal,
+                   Q => RisingSignal);
+    FallingTrigger(CLK := OutputSignal,
+                    Q => FallingSignal);
+END_REGION
+REGION Слово состояния
+    DataHMI.StatusWord := OutputSignal;
+    DataHMI.StatusWord := RisingSignal;
+    DataHMI.StatusWord := FallingSignal;
+END_REGION
+REGION Счетчик импульсов для контроля скорости
+    ReadCycleTime := QRY_CINT(OB_NR := , CYCLE => CycleTime, PHASE => RaadPhase, STATUS => ReadStatus);
+    (SensorSignal:=RisingSignal,
+                  CycleTime := UDINT_TO_TIME(CycleTime / ),
+                  LengthPerPulse:=,
+                  WatchdogTime:=,
+                  Enable:= EnableCounter,
+                  Speed_m_min => Speed,
+                  Feedback=>FeedbackSpeed);
+END_REGION
+
+
+──────────────────────────────────────────────────────────────────────
+// Program blocks\1_BasicControl\Interlock\InterlockActuator.xml
+──────────────────────────────────────────────────────────────────────
+FUNCTION "InterlockActuator"  // SCL  Block #3
+
+VAR_OUTPUT
+    Ret_Val : Void;
+END_VAR
+
+// ==================== CODE ====================
+// Network 1
+// Блокировки исполнительных механизмов
+
+REGION горелка
+    // 1 горелка
+
+    "DB_MainRoutineActuator".1_Burner.enableCommon := "DB_MainRoutineDigitalInput".1GB_230B_OK.OutputSignal AND "DB_MainRoutineDigitalInput".1GB_400B_OK.OutputSignal;
+    // 2 горелка
+
+    "DB_MainRoutineActuator".2_Burner.enableCommon := "DB_MainRoutineDigitalInput".2GB_230B_OK.OutputSignal AND "DB_MainRoutineDigitalInput".2GB_400B_OK.OutputSignal;
+END_REGION
+
+
+──────────────────────────────────────────────────────────────────────
+// Program blocks\1_BasicControl\Interlock\InterlockMotor.xml
+──────────────────────────────────────────────────────────────────────
+FUNCTION "InterlockMotor"  // SCL  Block #2
+
+VAR_OUTPUT
+    Ret_Val : Void;
+END_VAR
+
+// ==================== CODE ====================
+// Network 1
+// Блокировки двигателей
+
+REGION Вибрационный питатель
+    "DB_MainRoutineMotor".1VF_Direct.EnableCommon := "DB_MainRoutineDigitalInput".1VF_EmerStop.OutputSignal;
+END_REGION ;
+REGION Вибраторы бункеров суточного хранения
+    // 1 бункер
+
+    "DB_MainRoutineMotor".1SH_Direct.EnableCommon := "DB_MainRoutineAnalogInput".1SH_Level.DataHMI.HHAlarm;
+    
+    // 2 бункер
+
+    "DB_MainRoutineMotor".2SH_Direct.EnableCommon := "DB_MainRoutineAnalogInput".2SH_Level.DataHMI.HHAlarm; 
+    
+    // 3 бункер
+
+    "DB_MainRoutineMotor".3SH_Direct.EnableCommon := "DB_MainRoutineAnalogInput".3SH_Level.DataHMI.HHAlarm; 
+    
+    // 4 бункер
+
+    "DB_MainRoutineMotor".4SH_Direct.EnableCommon := "DB_MainRoutineAnalogInput".4SH_Level.DataHMI.HHAlarm; 
+    
+    // 5 бункер
+
+    "DB_MainRoutineMotor".5SH_Direct.EnableCommon := "DB_MainRoutineAnalogInput".5SH_Level.DataHMI.HHAlarm; 
+    
+    // 6 бункер
+
+    "DB_MainRoutineMotor".6SH_Direct.EnableCommon := "DB_MainRoutineAnalogInput".6SH_Level.DataHMI.HHAlarm;
+END_REGION
+REGION Сушильные барабаны
+    // 1 сушильный барабан
+
+    "DB_MainRoutineMotor".1DD_1_VFD.EnableCommon :=
+    "DB_MainRoutineMotor".1DD_2_VFD.EnableCommon :=
+    "DB_MainRoutineDigitalInput".1DD_EmerStop.OutputSignal;
+    // 2 сушильный барабан
+
+    "DB_MainRoutineMotor".2DD_1_VFD.EnableCommon :=
+    "DB_MainRoutineMotor".2DD_2_VFD.EnableCommon :=
+    "DB_MainRoutineDigitalInput".2DD_EmerStop.OutputSignal;
+END_REGION
+REGION Пластинчатый питатель
+    "DB_MainRoutineMotor".1PF_VFD.EnableCommon := "DB_MainRoutineDigitalInput".1PF_EmerStop.OutputSignal;
+END_REGION ;
+REGION Распределительный конвейер
+    // Общая блокировка
+
+    "DB_MainRoutineMotor".1DC_VFD.EnableCommon :=
+    "DB_MainRoutineDigitalInput".1DC_EmerStop.OutputSignal AND
+    "DB_MainRoutineDigitalInput".1DC_PullCordSW_L.OutputSignal AND
+    "DB_MainRoutineDigitalInput".1DC_PullCordSW_R.OutputSignal;
+    // Блокировка прямого движения
+
+    "DB_MainRoutineMotor".1DC_VFD.EnableForward :=
+    "DB_MainRoutineDigitalInput".1DC_FWD_LongTapeGap.OutputSignal AND
+    "DB_MainRoutineDigitalInput".1DC_FWD_ControlTape_L.OutputSignal AND
+    "DB_MainRoutineDigitalInput".1DC_FWD_ControlTape_R.OutputSignal;
+    // Блокировка обратного движения
+
+    "DB_MainRoutineMotor".1DC_VFD.EnableReverse :=
+    "DB_MainRoutineDigitalInput".1DC_BWD_ControlTape_L.OutputSignal AND
+    "DB_MainRoutineDigitalInput".1DC_BWD_ControlTape_R.OutputSignal AND
+    "DB_MainRoutineDigitalInput".1DC_BWD_LongTapeGap.OutputSignal;
+END_REGION ;
+REGION Реверсивные конвейеры
+        // 1 реверсивный конвейер
+
+    "DB_MainRoutineMotor".1RC_1_VFD.EnableCommon := "DB_MainRoutineMotor".1RC_2_VFD.EnableCommon :=
+    "DB_MainRoutineDigitalInput".1RC_EmerStop.OutputSignal AND
+    "DB_MainRoutineDigitalInput".1RC_PullCordSW_L.OutputSignal AND
+    "DB_MainRoutineDigitalInput".1RC_PullCordSW_R.OutputSignal;
+    // Блокировка прямого хода
+
+    "DB_MainRoutineMotor".1RC_1_VFD.EnableForward :=
+    "DB_MainRoutineDigitalInput".1RC_LimitSW_L.OutputSignal AND
+    "DB_MainRoutineDigitalInput".1RC_FWD_LongTapeGap.OutputSignal AND
+    "DB_MainRoutineDigitalInput".1RC_FWD_ControlTape_L.OutputSignal AND
+    "DB_MainRoutineDigitalInput".1RC_FWD_ControlTape_R.OutputSignal;
+    // Блокировка обратного хода
+
+    "DB_MainRoutineMotor".1RC_1_VFD.EnableReverse :=
+    "DB_MainRoutineDigitalInput".1RC_LimitSW_R.OutputSignal AND
+    "DB_MainRoutineDigitalInput".1RC_BWD_ControlTape_L.OutputSignal AND
+    "DB_MainRoutineDigitalInput".1RC_BWD_ControlTape_R.OutputSignal AND
+    "DB_MainRoutineDigitalInput".1RC_BWD_LongTapeGap.OutputSignal;
+        // 2 реверсивный конвейер
+
+    "DB_MainRoutineMotor".2RC_1_VFD.EnableCommon := "DB_MainRoutineMotor".2RC_2_VFD.EnableCommon :=
+    "DB_MainRoutineDigitalInput".2RC_EmerStop.OutputSignal AND
+    "DB_MainRoutineDigitalInput".2RC_PullCordSW_L.OutputSignal AND
+    "DB_MainRoutineDigitalInput".2RC_PullCordSW_R.OutputSignal;
+    // Блокировка прямого хода
+
+    "DB_MainRoutineMotor".2RC_1_VFD.EnableForward :=
+    "DB_MainRoutineDigitalInput".2RC_LimitSW_L.OutputSignal AND
+    "DB_MainRoutineDigitalInput".2RC_FWD_LongTapeGap.OutputSignal AND
+    "DB_MainRoutineDigitalInput".2RC_FWD_ControlTape_L.OutputSignal AND
+    "DB_MainRoutineDigitalInput".2RC_FWD_ControlTape_R.OutputSignal;
+    // Блокировка обратного хода
+
+    "DB_MainRoutineMotor".2RC_1_VFD.EnableReverse :=
+    "DB_MainRoutineDigitalInput".2RC_LimitSW_R.OutputSignal AND
+    "DB_MainRoutineDigitalInput".2RC_BWD_ControlTape_L.OutputSignal AND
+    "DB_MainRoutineDigitalInput".2RC_BWD_ControlTape_R.OutputSignal AND
+    "DB_MainRoutineDigitalInput".2RC_BWD_LongTapeGap.OutputSignal;
+        // 3 реверсивный конвейер
+
+    "DB_MainRoutineMotor".3RC_1_VFD.EnableCommon := "DB_MainRoutineMotor".3RC_2_VFD.EnableCommon :=
+    "DB_MainRoutineDigitalInput".3RC_EmerStop.OutputSignal AND
+    "DB_MainRoutineDigitalInput".3RC_PullCordSW_L.OutputSignal AND
+    "DB_MainRoutineDigitalInput".3RC_PullCordSW_R.OutputSignal;
+    // Блокировка прямого хода
+
+    "DB_MainRoutineMotor".3RC_1_VFD.EnableForward :=
+    "DB_MainRoutineDigitalInput".3RC_LimitSW_L.OutputSignal AND
+    "DB_MainRoutineDigitalInput".3RC_FWD_LongTapeGap.OutputSignal AND
+    "DB_MainRoutineDigitalInput".3RC_FWD_ControlTape_L.OutputSignal AND
+    "DB_MainRoutineDigitalInput".3RC_FWD_ControlTape_R.OutputSignal;
+    // Блокировка обратного хода
+
+    "DB_MainRoutineMotor".3RC_1_VFD.EnableReverse :=
+    "DB_MainRoutineDigitalInput".3RC_LimitSW_R.OutputSignal AND
+    "DB_MainRoutineDigitalInput".3RC_BWD_ControlTape_L.OutputSignal AND
+    "DB_MainRoutineDigitalInput".3RC_BWD_ControlTape_R.OutputSignal AND
+    "DB_MainRoutineDigitalInput".3RC_BWD_LongTapeGap.OutputSignal;
+END_REGION ;
+REGION вертикальные конвейеры
+    // 1 вертикальный конвейер
+
+    "DB_MainRoutineMotor".1VC_VFD.EnableCommon :=
+    "DB_MainRoutineDigitalInput".1VC_EmerStop.OutputSignal AND
+    "DB_MainRoutineDigitalInput".1VC_PullCordSW_L.OutputSignal AND
+    "DB_MainRoutineDigitalInput".1VC_PullCordSW_R.OutputSignal;
+    
+    // 2 вертикальный конвейер
+
+    "DB_MainRoutineMotor".2VC_VFD.EnableCommon :=
+    "DB_MainRoutineDigitalInput".2VC_EmerStop.OutputSignal AND
+    "DB_MainRoutineDigitalInput".2VC_PullCordSW_L.OutputSignal AND
+    "DB_MainRoutineDigitalInput".2VC_PullCordSW_R.OutputSignal;
+END_REGION
+REGION ленточные конвейеры
+    // 1 ленточный конвейер
+
+    "DB_MainRoutineMotor".1BC_VFD.EnableCommon :=
+    "DB_MainRoutineDigitalInput".1BC_EmerStop.OutputSignal AND
+    "DB_MainRoutineDigitalInput".1BC_PullCordSW_L.OutputSignal AND
+    "DB_MainRoutineDigitalInput".1BC_PullCordSW_R.OutputSignal AND
+    "DB_MainRoutineDigitalInput".1BC_LongTapeGap.OutputSignal AND
+    "DB_MainRoutineDigitalInput".1BC_TensDrum_CtrlTape_L.OutputSignal AND
+    "DB_MainRoutineDigitalInput".1BC_TensDrum_CtrlTape_R.OutputSignal AND
+    "DB_MainRoutineDigitalInput".1BC_DriveDrum_CtrlTape_L.OutputSignal AND
+    "DB_MainRoutineDigitalInput".1BC_DriveDrum_CtrlTape_R.OutputSignal;
+    
+    // 2 ленточный конвейер
+
+    "DB_MainRoutineMotor".2BC_VFD.EnableCommon :=
+    "DB_MainRoutineDigitalInput".2BC_EmerStop.OutputSignal AND
+    "DB_MainRoutineDigitalInput".2BC_PullCordSW_L.OutputSignal AND
+    "DB_MainRoutineDigitalInput".2BC_PullCordSW_R.OutputSignal AND
+    "DB_MainRoutineDigitalInput".2BC_LongTapeGap.OutputSignal AND
+    "DB_MainRoutineDigitalInput".2BC_TensDrum_CtrlTape_L.OutputSignal AND
+    "DB_MainRoutineDigitalInput".2BC_TensDrum_CtrlTape_R.OutputSignal AND
+    "DB_MainRoutineDigitalInput".2BC_DriveDrum_CtrlTape_L.OutputSignal AND
+    "DB_MainRoutineDigitalInput".2BC_DriveDrum_CtrlTape_R.OutputSignal;
+    
+    // 3 ленточный конвейер
+
+    "DB_MainRoutineMotor".3BC_VFD.EnableCommon :=
+    "DB_MainRoutineDigitalInput".3BC_EmerStop.OutputSignal AND
+    "DB_MainRoutineDigitalInput".3BC_PullCordSW_L.OutputSignal AND
+    "DB_MainRoutineDigitalInput".3BC_PullCordSW_R.OutputSignal AND
+    "DB_MainRoutineDigitalInput".3BC_LongTapeGap.OutputSignal AND
+    "DB_MainRoutineDigitalInput".3BC_TensDrum_CtrlTape_L.OutputSignal AND
+    "DB_MainRoutineDigitalInput".3BC_TensDrum_CtrlTape_R.OutputSignal AND
+    "DB_MainRoutineDigitalInput".3BC_DriveDrum_CtrlTape_L.OutputSignal AND
+    "DB_MainRoutineDigitalInput".3BC_DriveDrum_CtrlTape_R.OutputSignal;
+    
+    // 4 ленточный конвейер
+
+    "DB_MainRoutineMotor".4BC_VFD.EnableCommon :=
+    "DB_MainRoutineDigitalInput".4BC_EmerStop.OutputSignal AND
+    "DB_MainRoutineDigitalInput".4BC_PullCordSW_L.OutputSignal AND
+    "DB_MainRoutineDigitalInput".4BC_PullCordSW_R.OutputSignal AND
+    "DB_MainRoutineDigitalInput".4BC_LongTapeGap.OutputSignal AND
+    "DB_MainRoutineDigitalInput".4BC_TensDrum_CtrlTape_L.OutputSignal AND
+    "DB_MainRoutineDigitalInput".4BC_TensDrum_CtrlTape_R.OutputSignal AND
+    "DB_MainRoutineDigitalInput".4BC_DriveDrum_CtrlTape_L.OutputSignal AND
+    "DB_MainRoutineDigitalInput".4BC_DriveDrum_CtrlTape_R.OutputSignal;
+    
+    // 5 ленточный конвейер
+
+    "DB_MainRoutineMotor".5BC_VFD.EnableCommon :=
+    "DB_MainRoutineDigitalInput".5BC_EmerStop.OutputSignal AND
+    "DB_MainRoutineDigitalInput".5BC_PullCordSW_L.OutputSignal AND
+    "DB_MainRoutineDigitalInput".5BC_PullCordSW_R.OutputSignal AND
+    "DB_MainRoutineDigitalInput".5BC_LongTapeGap.OutputSignal AND
+    "DB_MainRoutineDigitalInput".5BC_TensDrum_CtrlTape_L.OutputSignal AND
+    "DB_MainRoutineDigitalInput".5BC_TensDrum_CtrlTape_R.OutputSignal AND
+    "DB_MainRoutineDigitalInput".5BC_DriveDrum_CtrlTape_L.OutputSignal AND
+    "DB_MainRoutineDigitalInput".5BC_DriveDrum_CtrlTape_R.OutputSignal;
+    
+    // 6 ленточный конвейер
+
+    "DB_MainRoutineMotor".6BC_VFD.EnableCommon :=
+    "DB_MainRoutineDigitalInput".6BC_EmerStop.OutputSignal AND
+    "DB_MainRoutineDigitalInput".6BC_PullCordSW_L.OutputSignal AND
+    "DB_MainRoutineDigitalInput".6BC_PullCordSW_R.OutputSignal AND
+    "DB_MainRoutineDigitalInput".6BC_LongTapeGap.OutputSignal AND
+    "DB_MainRoutineDigitalInput".6BC_TensDrum_CtrlTape_L.OutputSignal AND
+    "DB_MainRoutineDigitalInput".6BC_TensDrum_CtrlTape_R.OutputSignal AND
+    "DB_MainRoutineDigitalInput".6BC_DriveDrum_CtrlTape_L.OutputSignal AND
+    "DB_MainRoutineDigitalInput".6BC_DriveDrum_CtrlTape_R.OutputSignal;
+    
+    // 7 ленточный конвейер
+
+    "DB_MainRoutineMotor".7BC_VFD.EnableCommon :=
+    "DB_MainRoutineDigitalInput".7BC_EmerStop.OutputSignal AND
+    "DB_MainRoutineDigitalInput".7BC_PullCordSW_L.OutputSignal AND
+    "DB_MainRoutineDigitalInput".7BC_PullCordSW_R.OutputSignal AND
+    "DB_MainRoutineDigitalInput".7BC_LongTapeGap.OutputSignal AND
+    "DB_MainRoutineDigitalInput".7BC_TensDrum_CtrlTape_L.OutputSignal AND
+    "DB_MainRoutineDigitalInput".7BC_TensDrum_CtrlTape_R.OutputSignal AND
+    "DB_MainRoutineDigitalInput".7BC_DriveDrum_CtrlTape_L.OutputSignal AND
+    "DB_MainRoutineDigitalInput".7BC_DriveDrum_CtrlTape_R.OutputSignal;
+    
+    // 8 ленточный конвейер
+
+    "DB_MainRoutineMotor".8BC_VFD.EnableCommon :=
+    "DB_MainRoutineDigitalInput".8BC_EmerStop.OutputSignal AND
+    "DB_MainRoutineDigitalInput".8BC_PullCordSW_L.OutputSignal AND
+    "DB_MainRoutineDigitalInput".8BC_PullCordSW_R.OutputSignal AND
+    "DB_MainRoutineDigitalInput".8BC_LongTapeGap.OutputSignal AND
+    "DB_MainRoutineDigitalInput".8BC_TensDrum_CtrlTape_L.OutputSignal AND
+    "DB_MainRoutineDigitalInput".8BC_TensDrum_CtrlTape_R.OutputSignal AND
+    "DB_MainRoutineDigitalInput".8BC_DriveDrum_CtrlTape_L.OutputSignal AND
+    "DB_MainRoutineDigitalInput".8BC_DriveDrum_CtrlTape_R.OutputSignal;
+    
+    // 9 ленточный конвейер
+
+    "DB_MainRoutineMotor".9BC_VFD.EnableCommon :=
+    "DB_MainRoutineDigitalInput".9BC_EmerStop.OutputSignal AND
+    "DB_MainRoutineDigitalInput".9BC_PullCordSW_L.OutputSignal AND
+    "DB_MainRoutineDigitalInput".9BC_PullCordSW_R.OutputSignal AND
+    "DB_MainRoutineDigitalInput".9BC_LongTapeGap.OutputSignal AND
+    "DB_MainRoutineDigitalInput".9BC_TensDrum_CtrlTape_L.OutputSignal AND
+    "DB_MainRoutineDigitalInput".9BC_TensDrum_CtrlTape_R.OutputSignal AND
+    "DB_MainRoutineDigitalInput".9BC_DriveDrum_CtrlTape_L.OutputSignal AND
+    "DB_MainRoutineDigitalInput".9BC_DriveDrum_CtrlTape_R.OutputSignal;
+    
+    // 10 ленточный конвейер
+
+    "DB_MainRoutineMotor".10BC_VFD.EnableCommon :=
+    "DB_MainRoutineDigitalInput".10BC_EmerStop.OutputSignal AND
+    "DB_MainRoutineDigitalInput".10BC_PullCordSW_L.OutputSignal AND
+    "DB_MainRoutineDigitalInput".10BC_PullCordSW_R.OutputSignal AND
+    "DB_MainRoutineDigitalInput".10BC_LongTapeGap.OutputSignal AND
+    "DB_MainRoutineDigitalInput".10BC_TensDrum_CtrlTape_L.OutputSignal AND
+    "DB_MainRoutineDigitalInput".10BC_TensDrum_CtrlTape_R.OutputSignal AND
+    "DB_MainRoutineDigitalInput".10BC_DriveDrum_CtrlTape_L.OutputSignal AND
+    "DB_MainRoutineDigitalInput".10BC_DriveDrum_CtrlTape_R.OutputSignal;
+    
+    // 11 ленточный конвейер
+
+    "DB_MainRoutineMotor".11BC_VFD.EnableCommon :=
+    "DB_MainRoutineDigitalInput".11BC_EmerStop.OutputSignal AND
+    "DB_MainRoutineDigitalInput".11BC_PullCordSW_L.OutputSignal AND
+    "DB_MainRoutineDigitalInput".11BC_PullCordSW_R.OutputSignal AND
+    "DB_MainRoutineDigitalInput".11BC_LongTapeGap.OutputSignal AND
+    "DB_MainRoutineDigitalInput".11BC_TensDrum_CtrlTape_L.OutputSignal AND
+    "DB_MainRoutineDigitalInput".11BC_TensDrum_CtrlTape_R.OutputSignal AND
+    "DB_MainRoutineDigitalInput".11BC_DriveDrum_CtrlTape_L.OutputSignal AND
+    "DB_MainRoutineDigitalInput".11BC_DriveDrum_CtrlTape_R.OutputSignal;
+    
+    // 12 ленточный конвейер
+
+    "DB_MainRoutineMotor".12BC_VFD.EnableCommon :=
+    "DB_MainRoutineDigitalInput".12BC_EmerStop.OutputSignal AND
+    "DB_MainRoutineDigitalInput".12BC_PullCordSW_L.OutputSignal AND
+    "DB_MainRoutineDigitalInput".12BC_PullCordSW_R.OutputSignal AND
+    "DB_MainRoutineDigitalInput".12BC_LongTapeGap.OutputSignal AND
+    "DB_MainRoutineDigitalInput".12BC_TensDrum_CtrlTape_L.OutputSignal AND
+    "DB_MainRoutineDigitalInput".12BC_TensDrum_CtrlTape_R.OutputSignal AND
+    "DB_MainRoutineDigitalInput".12BC_DriveDrum_CtrlTape_L.OutputSignal AND
+    "DB_MainRoutineDigitalInput".12BC_DriveDrum_CtrlTape_R.OutputSignal;
+END_REGION
+
+
+──────────────────────────────────────────────────────────────────────
+// Program blocks\1_BasicControl\MainRoutines\BasicControlMainRoutine.xml
+──────────────────────────────────────────────────────────────────────
+FUNCTION "BasicControlMainRoutine"  // SCL  Block #1
+
+VAR_OUTPUT
+    Ret_Val : Void;
+END_VAR
+
+// ==================== CODE ====================
+// Network 1
+// Местное управление - 1, Дистанционное - 0
+
+// Дискретные сигналы
+
+();
+// Аналогвые сигналы
+
+();
+// Двигатели
+
+();
+();
+// Исполнительные механизмы
+
+();
+();
+
+
+──────────────────────────────────────────────────────────────────────
+// Program blocks\1_BasicControl\MainRoutines\MainRoutineActuator.xml
+──────────────────────────────────────────────────────────────────────
+FUNCTION_BLOCK "MainRoutineActuator"  // SCL  Block #16
+
+VAR
+    1_Distributor_flow : "DistributorFlow";
+    2_Distributor_flow : "DistributorFlow";
+    1_Burner : "Burner";
+    2_Burner : "Burner";
+END_VAR
+
+// ==================== CODE ====================
+// Network 1
+// Обработка исполнительны механизмов
+
+REGION Распределители потоков
+    (StartMotor := "DB_MainRoutineMotor".1FD_Direct.CommandForward,
+                          LimitSwitchFlow1 := "DB_MainRoutineDigitalInput".1FD_Flow1.OutputSignal,
+                          LimitSwitchFlow2 := "DB_MainRoutineDigitalInput".1FD_Flow2.OutputSignal,
+                          // Логика управления через датчик влажности опционально
+
+                          // HumiditySensor := "DB_MainRoutineAnalogInput"."1VC_Humidity".DataHMI.ActualValue, //
+
+                          ControlFlow1 => "1FD_ControlFlow1",
+                          ControlFlow2 => "1FD_ControlFlow2");
+    
+    (StartMotor := "DB_MainRoutineMotor".2FD_Direct.CommandForward,
+                          LimitSwitchFlow1 := "DB_MainRoutineDigitalInput".2FD_Flow1.OutputSignal,
+                          LimitSwitchFlow2 := "DB_MainRoutineDigitalInput".2FD_Flow2.OutputSignal,
+                          // Логика управления через датчик влажности опционально
+
+                          // HumiditySensor := "DB_MainRoutineAnalogInput"."1VC_Humidity".DataHMI.ActualValue,
+
+                          ControlFlow1 => "2FD_ControlFlow1",
+                          ControlFlow2 => "2FD_ControlFlow2");
+END_REGION
+REGION Горелки
+// #"1_Burner"(Alarm:="DB_MainRoutineDigitalInput"."1GB_EmerStop".OutputSignal,
+                FlameBurn:="DB_MainRoutineDigitalInput"."1GB_FireOK".OutputSignal,
+                TL=>"1GB_CloseFlap",
+                TR=>"1GB_IncrPower",
+                RS=>"1GB_RelAfterAlarm");
+    #"2_Burner"(Alarm := "DB_MainRoutineDigitalInput"."2GB_EmerStop".OutputSignal,
+                FlameBurn := "DB_MainRoutineDigitalInput"."2GB_FireOK".OutputSignal,
+                TL => "2GB_CloseFlap",
+                TR => "2GB_IncrPower",
+                RS => "2GB_RelAfterAlarm");
+
+END_REGION
+
+
+──────────────────────────────────────────────────────────────────────
+// Program blocks\1_BasicControl\MainRoutines\MainRoutineAnalogInput.xml
+──────────────────────────────────────────────────────────────────────
+FUNCTION_BLOCK "MainRoutineAnalogInput"  // SCL  Block #2
+
+VAR
+    1DD_TempEntry : "SignalAnalog";  // 1 сушильный барабан. Температура на входе
+    1DD_TempExit : "SignalAnalog";  // 1 сушильный барабан. Температура на выходе
+    2DD_TempEntry : "SignalAnalog";  // 2 сушильный барабан. Температура на входе
+    2DD_TempExit : "SignalAnalog";  // 2 сушильный барабан. Температура на выходе
+    1SH_Level : "SignalAnalog";  // 1 бункер суточного хранения "Базальт 1". Уровень
+    2SH_Level : "SignalAnalog";  // 2 бункер суточного хранения "Базальт 2". Уровень
+    3SH_Level : "SignalAnalog";  // 3 бункер суточного хранения "Доломит". Уровень
+    4SH_Level : "SignalAnalog";  // 4 бункер суточного хранения "Шлак". Уровень
+    5SH_Level : "SignalAnalog";  // 5 бункер суточного хранения "Отходы". Уровень
+    6SH_Level : "SignalAnalog";  // 6 бункер суточного хранения "Резерв". Уровень
+    1VC_Humidity : "SignalAnalog";  // 1 вертикальный конвейер. Влажность сырья
+END_VAR
+
+// ==================== CODE ====================
+// Network 1
+// Обработка аналоговых сигналов
+
+REGION сушильные барабаны
+    
+    ("1DD_TempEntry");
+    ("1DD_TempExit");
+    ("2DD_TempEntry");
+    ("2DD_TempExit");
+    
+END_REGION
+REGION бункеры суточного хранения
+    
+    ("1SH_Level");
+    ("2SH_Level");
+    ("3SH_Level");
+    ("4SH_Level");
+    ("5SH_Level");
+    ("6SH_Level");
+    
+END_REGION
+// Влажность продукта
+
+("1VC_Humidity");
+
+
+──────────────────────────────────────────────────────────────────────
+// Program blocks\1_BasicControl\MainRoutines\MainRoutineDigitalFast.xml
+──────────────────────────────────────────────────────────────────────
+FUNCTION_BLOCK "MainRoutineDigitalFast"  // SCL  Block #3
+
+VAR
+    10BC_ControlSpeed : "SignalDigital";
+    2VC_ControlSpeed : "SignalDigital";
+    11BC_ControlSpeed : "SignalDigital";
+    12BC_ControlSpeed : "SignalDigital";
+    1DC_ControlSpeed : "SignalDigital";
+    2RC_ControlSpeed : "SignalDigital";
+    3RC_ControlSpeed : "SignalDigital";
+    1PF_ControlSpeed : "SignalDigital";
+    1BC_ControlSpeed : "SignalDigital";
+    2BC_ControlSpeed : "SignalDigital";
+    3BC_ControlSpeed : "SignalDigital";
+    4BC_ControlSpeed : "SignalDigital";
+    5BC_ControlSpeed : "SignalDigital";
+    6BC_ControlSpeed : "SignalDigital";
+    7BC_ControlSpeed : "SignalDigital";
+    8BC_ControlSpeed : "SignalDigital";
+    9BC_ControlSpeed : "SignalDigital";
+    1VC_ControlSpeed : "SignalDigital";
+    1RC_ControlSpeed : "SignalDigital";
+    test : Bool;
+END_VAR
+
+// ==================== CODE ====================
+// Network 1
+REGION датчики контроля скорости для каждого конвейера
+    
+    // вертикальные конвейеры
+
+    1VC_ControlSpeed.EnableCounter := "DB_MainRoutineMotor".1VC_VFD.CommandForward OR "DB_MainRoutineMotor".1VC_VFD.CommandReverse;
+    ("1VC_ControlSpeed");
+    1VC_ControlSpeed.EnableCounter := "DB_MainRoutineMotor".1VC_VFD.CommandForward OR "DB_MainRoutineMotor".1VC_VFD.CommandReverse;
+    ("2VC_ControlSpeed");
+    
+    // распределительный конвейер
+
+    1PF_ControlSpeed.EnableCounter := "DB_MainRoutineMotor".1PF_VFD.CommandForward OR "DB_MainRoutineMotor".1PF_VFD.CommandReverse;
+    ("1DC_ControlSpeed");
+    
+    // пластинчатый питатель
+
+    1PF_ControlSpeed.EnableCounter := "DB_MainRoutineMotor".1PF_VFD.CommandForward OR "DB_MainRoutineMotor".1PF_VFD.CommandReverse;
+    ("1PF_ControlSpeed");
+    
+    // ленточные конвейеры
+
+    1BC_ControlSpeed.EnableCounter := "DB_MainRoutineMotor".1BC_VFD.CommandForward OR "DB_MainRoutineMotor".1BC_VFD.CommandReverse;
+    ("1BC_ControlSpeed");
+    
+    2BC_ControlSpeed.EnableCounter := "DB_MainRoutineMotor".2BC_VFD.CommandForward OR "DB_MainRoutineMotor".2BC_VFD.CommandReverse;
+    ("2BC_ControlSpeed");
+    
+    3BC_ControlSpeed.EnableCounter := "DB_MainRoutineMotor".3BC_VFD.CommandForward OR "DB_MainRoutineMotor".3BC_VFD.CommandReverse;
+    ("3BC_ControlSpeed");
+    
+    4BC_ControlSpeed.EnableCounter := "DB_MainRoutineMotor".4BC_VFD.CommandForward OR "DB_MainRoutineMotor".4BC_VFD.CommandReverse;
+    ("4BC_ControlSpeed");
+    
+    5BC_ControlSpeed.EnableCounter := "DB_MainRoutineMotor".5BC_VFD.CommandForward OR "DB_MainRoutineMotor".5BC_VFD.CommandReverse;
+    ("5BC_ControlSpeed");
+    
+    1PF_ControlSpeed.EnableCounter := "DB_MainRoutineMotor".1PF_VFD.CommandForward OR "DB_MainRoutineMotor".1PF_VFD.CommandReverse;
+    ("6BC_ControlSpeed");
+    
+    7BC_ControlSpeed.EnableCounter := "DB_MainRoutineMotor".7BC_VFD.CommandForward OR "DB_MainRoutineMotor".7BC_VFD.CommandReverse;
+    ("7BC_ControlSpeed");
+    
+    8BC_ControlSpeed.EnableCounter := "DB_MainRoutineMotor".8BC_VFD.CommandForward OR "DB_MainRoutineMotor".8BC_VFD.CommandReverse;
+    ("8BC_ControlSpeed");
+    
+    9BC_ControlSpeed.EnableCounter := "DB_MainRoutineMotor".9BC_VFD.CommandForward OR "DB_MainRoutineMotor".9BC_VFD.CommandReverse;
+    ("9BC_ControlSpeed");
+    
+    10BC_ControlSpeed.EnableCounter := "DB_MainRoutineMotor".10BC_VFD.CommandForward OR "DB_MainRoutineMotor".10BC_VFD.CommandReverse;
+    ("10BC_ControlSpeed");
+    
+    11BC_ControlSpeed.EnableCounter := "DB_MainRoutineMotor".11BC_VFD.CommandForward OR "DB_MainRoutineMotor".11BC_VFD.CommandReverse;
+    ("11BC_ControlSpeed");
+    
+    12BC_ControlSpeed.EnableCounter := "DB_MainRoutineMotor".12BC_VFD.CommandForward OR "DB_MainRoutineMotor".12BC_VFD.CommandReverse;
+    ("12BC_ControlSpeed");
+    
+    // реверсивные конвейеры
+
+    1RC_ControlSpeed.EnableCounter := "DB_MainRoutineMotor".1RC_1_VFD.CommandForward OR "DB_MainRoutineMotor".1RC_1_VFD.CommandReverse;
+    ("1RC_ControlSpeed");
+    2RC_ControlSpeed.EnableCounter := "DB_MainRoutineMotor".2RC_1_VFD.CommandForward OR "DB_MainRoutineMotor".2RC_1_VFD.CommandReverse;
+    ("2RC_ControlSpeed");
+    3RC_ControlSpeed.EnableCounter := "DB_MainRoutineMotor".3RC_1_VFD.CommandForward OR "DB_MainRoutineMotor".3RC_1_VFD.CommandReverse;
+    ("3RC_ControlSpeed");
+    
+END_REGION
+
+
+──────────────────────────────────────────────────────────────────────
+// Program blocks\1_BasicControl\MainRoutines\MainRoutineDigitalInput.xml
+──────────────────────────────────────────────────────────────────────
+FUNCTION_BLOCK "MainRoutineDigitalInput"  // SCL  Block #4
+
+VAR
+    1VF_Work : "SignalDigital";  // Вибрационный питатель. Вибраторы. Работа
+    1VF_Alarm : "SignalDigital";  // Вибрационный питатель. Вибраторы. Авария
+    1MS_Work : "SignalDigital";  // 1 Магнитный сепаратор. Работа
+    1MS_Alarm : "SignalDigital";  // 1 Магнитный сепаратор. Авария
+    1BC_ThermalAlarm : "SignalDigital";  // 1 ленточный конвейер. Термозащита двигателя
+    1BC_Local : "SignalDigital";  // 1 ленточный конвейер. Местное управление
+    2BC_ThermalAlarm : "SignalDigital";  // 2 ленточный конвейер. Термозащита двигателя
+    2BC_Local : "SignalDigital";  // 2 ленточный конвейер. Местное управление
+    1FD_Work : "SignalDigital";  // 1 распределитель потоков. Работа
+    1FD_Alarm : "SignalDigital";  // 1 распределитель потоков. Авария
+    3BC_ThermalAlarm : "SignalDigital";  // 3 ленточный конвейер. Термозащита двигателя
+    3BC_Local : "SignalDigital";  // 3 ленточный конвейер. Местное управление
+    1PF_ThermalAlarm : "SignalDigital";  // Пластинчатый питатель. Термозащита двигателя
+    1PF_Local : "SignalDigital";  // Пластинчатый питатель. Местное управление
+    2MS_Work : "SignalDigital";  // 2 Магнитный сепаратор. Работа
+    2MS_Alarm : "SignalDigital";  // 2 Магнитный сепаратор. Авария
+    4BC_ThermalAlarm : "SignalDigital";  // 4 ленточный конвейер. Термозащита двигателя
+    4BC_Local : "SignalDigital";  // 4 ленточный конвейер. Местное управление
+    2FD_Work : "SignalDigital";  // 2 распределитель потоков. Работа
+    2FD_Alarm : "SignalDigital";  // 2 распределитель потоков. Авария
+    5BC_ThermalAlarm : "SignalDigital";  // 5 ленточный конвейер. Термозащита двигателя
+    5BC_Local : "SignalDigital";  // 5 ленточный конвейер. Местное управление
+    6BC_ThermalAlarm : "SignalDigital";  // 6 ленточный конвейер. Термозащита двигателя
+    6BC_Local : "SignalDigital";  // 6 ленточный конвейер. Местное управление
+    1GB_EmerStop : "SignalDigital";  // 1 горелка. Аварийный останов
+    1GB_FireOK : "SignalDigital";  // 1 горелка. Пламя горит
+    1GB_400B_OK : "SignalDigital";  // 1 горелка. Готовность 400 В
+    1GB_230B_OK : "SignalDigital";  // 1 горелка. Готовность 230 В
+    1DD_ThermalAlarm : "SignalDigital";  // 1 Сушильный барабан. Термозащита двигателя
+    1DD_Local : "SignalDigital";  // 1 Сушильный барабан. Местное управление
+    1DD_RdyFun : "SignalDigital";  // 1 Сушильный барабан. Готовность вентиляторов
+    7BC_ThermalAlarm : "SignalDigital";  // 7 ленточный конвейер. Термозащита двигателя
+    7BC_Local : "SignalDigital";  // 7 ленточный конвейер. Местное управление
+    2GB_EmerStop : "SignalDigital";  // 2 горелка. Аварийный останов
+    2GB_FireOK : "SignalDigital";  // 2 горелка. Пламя горит
+    2GB_400B_OK : "SignalDigital";  // 2 горелка. Готовность 400 В
+    2GB_230B_OK : "SignalDigital";  // 2 горелка. Готовность 230 В
+    2DD_ThermalAlarm : "SignalDigital";  // 2 Сушильный барабан. Термозащита двигателя
+    2DD_Local : "SignalDigital";  // 2 Сушильный барабан. Местное управление
+    2DD_RdyFun : "SignalDigital";  // 2 Сушильный барабан. Готовность вентиляторов
+    8BC_ThermalAlarm : "SignalDigital";  // 8 ленточный конвейер. Термозащита двигателя
+    8BC_Local : "SignalDigital";  // 8 ленточный конвейер. Местное управление
+    9BC_ThermalAlarm : "SignalDigital";  // 9 ленточный конвейер. Термозащита двигателя
+    9BC_Local : "SignalDigital";  // 9 ленточный конвейер. Местное управление
+    1VC_ThermalAlarm : "SignalDigital";  // 1 вертикальный конвейер. Термозащита двигателя
+    1VC_Local : "SignalDigital";  // 1 вертикальный конвейер. Местное управление
+    1RC_FWD_ThermalAlarm : "SignalDigital";  // 1 реверсивный конвейер. Прямой ход. Термозащита двигателя
+    1RC_Local : "SignalDigital";  // 1 реверсивный конвейер. Местное управление
+    1RC_ThermalAlarm : "SignalDigital";  // 1 реверсивный конвейер. Термозащита двигателя каретки
+    1SH_Work : "SignalDigital";  // 1 бункер суточного хранения "Базальт 1". Вибратор. Работа
+    1SH_Alarm : "SignalDigital";  // 1 бункер суточного хранения "Базальт 1". Вибратор. Авария
+    2SH_Work : "SignalDigital";  // 2 бункер суточного хранения "Базальт 2". Вибратор. Работа
+    2SH_Alarm : "SignalDigital";  // 2 бункер суточного хранения "Базальт 2". Вибратор. Авария
+    3SH_Work : "SignalDigital";  // 3 бункер суточного хранения "Доломит". Вибратор. Работа
+    3SH_Alarm : "SignalDigital";  // 3 бункер суточного хранения "Доломит". Вибратор. Авария
+    4SH_Work : "SignalDigital";  // 4 бункер суточного хранения "Шлак". Вибратор. Работа
+    4SH_Alarm : "SignalDigital";  // 4 бункер суточного хранения "Шлак". Вибратор. Авария
+    5SH_Work : "SignalDigital";  // 5 бункер суточного хранения "Отходы". Вибратор. Работа
+    5SH_Alarm : "SignalDigital";  // 5 бункер суточного хранения "Отходы". Вибратор. Авария
+    6SH_Work : "SignalDigital";  // 6 бункер суточного хранения "Резерв". Вибратор. Работа
+    6SH_Alarm : "SignalDigital";  // 6 бункер суточного хранения "Резерв". Вибратор. Авария
+    3А_230B_OK : "SignalDigital";  // Питание 230В-Шкафов НКУ. Готовность
+    4A_230B_OK : "SignalDigital";  // Наличие питания 230 В
+    10BC_ThermalAlarm : "SignalDigital";  // 10 ленточный конвейер. Термозащита двигателя
+    10BC_RepairRel : "SignalDigital";  // 10 ленточный конвейер. Ремонтный расцепитель
+    10BC_EmerStop : "SignalDigital";  // 10 ленточный конвейер. Аварийный останов
+    10BC_PullCordSW_L : "SignalDigital";  // 10 ленточный конвейер. Аварийный троссовый выключать слева
+    10BC_PullCordSW_R : "SignalDigital";  // 10 ленточный конвейер. Аварийный троссовый выключать справа
+    10BC_LongTapeGap : "SignalDigital";  // 10 ленточный конвейер. Контроль продольного разрыва ленты
+    10BC_TensDrum_CtrlTape_L : "SignalDigital";  // 10 ленточный конвейер. Натяжной барабан. Контроль схода ленты слева
+    10BC_TensDrum_CtrlTape_R : "SignalDigital";  // 10 ленточный конвейер. Натяжной барабан. Контроль схода ленты справа
+    10BC_DriveDrum_CtrlTape_L : "SignalDigital";  // 10 ленточный конвейер. Приводной барабан. Контроль схода ленты слева
+    10BC_DriveDrum_CtrlTape_R : "SignalDigital";  // 10 ленточный конвейер. Приводной барабан. Контроль схода ленты справа
+    10BC_Local : "SignalDigital";  // 10 ленточный конвейер. Местное управление
+    2VC_ThermalAlarm : "SignalDigital";  // 2 вертикальный конвейер. Термозащита двигателя
+    2VC_RepairRel : "SignalDigital";  // 2 вертикальный конвейер. Ремонтный расцепитель
+    2VC_EmerStop : "SignalDigital";  // 2 вертикальный конвейер. Аварийный останов
+    2VC_PullCordSW_L : "SignalDigital";  // 2 вертикальный конвейер. Аварийный троссовый выключать слева
+    2VC_PullCordSW_R : "SignalDigital";  // 2 вертикальный конвейер. Аварийный троссовый выключать справа
+    2VC_Local : "SignalDigital";  // 2 вертикальный конвейер. Местное управление
+    11BC_ThermalAlarm : "SignalDigital";  // 11 ленточный конвейер. Термозащита двигателя
+    11BC_RepairRel : "SignalDigital";  // 11 ленточный конвейер. Ремонтный расцепитель
+    11BC_EmerStop : "SignalDigital";  // 11 ленточный конвейер. Аварийный останов
+    11BC_PullCordSW_L : "SignalDigital";  // 11 ленточный конвейер. Аварийный троссовый выключать слева
+    11BC_PullCordSW_R : "SignalDigital";  // 11 ленточный конвейер. Аварийный троссовый выключать справа
+    11BC_LongTapeGap : "SignalDigital";  // 11 ленточный конвейер. Контроль продольного разрыва ленты
+    11BC_TensDrum_CtrlTape_L : "SignalDigital";  // 11 ленточный конвейер. Натяжной барабан. Контроль схода ленты слева
+    11BC_TensDrum_CtrlTape_R : "SignalDigital";  // 11 ленточный конвейер. Натяжной барабан. Контроль схода ленты справа
+    11BC_DriveDrum_CtrlTape_L : "SignalDigital";  // 11 ленточный конвейер. Приводной барабан. Контроль схода ленты слева
+    11BC_DriveDrum_CtrlTape_R : "SignalDigital";  // 11 ленточный конвейер. Приводной барабан. Контроль схода ленты справа
+    11BC_Local : "SignalDigital";  // 11 ленточный конвейер. Местное управление
+    12BC_ThermalAlarm : "SignalDigital";  // 12 ленточный конвейер. Термозащита двигателя
+    12BC_RepairRel : "SignalDigital";  // 12 ленточный конвейер. Ремонтный расцепитель
+    12BC_EmerStop : "SignalDigital";  // 12 ленточный конвейер. Аварийный останов
+    12BC_PullCordSW_L : "SignalDigital";  // 12 ленточный конвейер. Аварийный троссовый выключать слева
+    12BC_PullCordSW_R : "SignalDigital";  // 12 ленточный конвейер. Аварийный троссовый выключать справа
+    12BC_LongTapeGap : "SignalDigital";  // 12 ленточный конвейер. Контроль продольного разрыва ленты
+    12BC_TensDrum_CtrlTape_L : "SignalDigital";  // 12 ленточный конвейер. Натяжной барабан. Контроль схода ленты слева
+    12BC_TensDrum_CtrlTape_R : "SignalDigital";  // 12 ленточный конвейер. Натяжной барабан. Контроль схода ленты справа
+    12BC_DriveDrum_CtrlTape_L : "SignalDigital";  // 12 ленточный конвейер. Приводной барабан. Контроль схода ленты слева
+    12BC_DriveDrum_CtrlTape_R : "SignalDigital";  // 12 ленточный конвейер. Приводной барабан. Контроль схода ленты справа
+    12BC_Local : "SignalDigital";  // 12 ленточный конвейер. Местное управление
+    1DC_FWD_ThermalAlarm : "SignalDigital";  // 1 распределительный конвейер. Прямой ход. Термозащита двигателя
+    1DC_FWD_RepairRel : "SignalDigital";  // 1 распределительный конвейер. Прямой ход. Ремонтный расцепитель
+    1DC_EmerStop : "SignalDigital";  // 1 распределительный конвейер. Аварийный останов
+    1DC_PullCordSW_L : "SignalDigital";  // 1 распределительный конвейер. Аварийный троссовый выключать слева
+    1DC_PullCordSW_R : "SignalDigital";  // 1 распределительный конвейер. Аварийный троссовый выключать справа
+    1DC_FWD_LongTapeGap : "SignalDigital";  // 1 распределительный конвейер. Прямой ход. Контроль продольного разрыва ленты
+    1DC_FWD_ControlTape_L : "SignalDigital";  // 1 распределительный конвейер. Прямой ход. Контроль схода ленты слева
+    1DC_FWD_ControlTape_R : "SignalDigital";  // 1 распределительный конвейер. Прямой ход. Контроль схода ленты справа
+    1DC_BWD_ControlTape_L : "SignalDigital";  // 1 распределительный конвейер. Обратный ход. Контроль схода ленты слева
+    1DC_BWD_ControlTape_R : "SignalDigital";  // 1 распределительный конвейер. Обратный ход. Контроль схода ленты справа
+    1DC_BWD_LongTapeGap : "SignalDigital";  // 1 распределительный конвейер. Обратный ход. Контроль продольного разрыва ленты
+    1DC_Local : "SignalDigital";  // 1 распределительный конвейер. Местное управление
+    2RC_FWD_ThermalAlarm : "SignalDigital";  // 2 реверсивный конвейер. Прямой ход. Термозащита двигателя
+    2RC_FWD_RepairRel : "SignalDigital";  // 2 реверсивный конвейер. Прямой ход. Ремонтный расцепитель
+    2RC_EmerStop : "SignalDigital";  // 2 реверсивный конвейер. Аварийный останов
+    2RC_PullCordSW_L : "SignalDigital";  // 2 реверсивный конвейер. Аварийный троссовый выключать слева
+    2RC_PullCordSW_R : "SignalDigital";  // 2 реверсивный конвейер. Аварийный троссовый выключать справа
+    2RC_FWD_LongTapeGap : "SignalDigital";  // 2 реверсивный конвейер. Прямой ход. Контроль продольного разрыва ленты
+    2RC_FWD_ControlTape_L : "SignalDigital";  // 2 реверсивный конвейер. Прямой ход. Контроль схода ленты слева
+    2RC_FWD_ControlTape_R : "SignalDigital";  // 2 реверсивный конвейер. Прямой ход. Контроль схода ленты справа
+    2RC_BWD_ControlTape_L : "SignalDigital";  // 2 реверсивный конвейер. Обратный ход. Контроль схода ленты слева
+    2RC_BWD_ControlTape_R : "SignalDigital";  // 2 реверсивный конвейер. Обратный ход. Контроль схода ленты справа
+    2RC_BWD_LongTapeGap : "SignalDigital";  // 2 реверсивный конвейер. Обратный ход. Контроль продольного разрыва ленты
+    2RC_Local : "SignalDigital";  // 2 реверсивный конвейер. Местное управление
+    2RC_ThermalAlarm : "SignalDigital";  // 2 реверсивный конвейер. Термозащита двигателя каретки
+    2RC_RepairRel : "SignalDigital";  // 2 реверсивный конвейер. Двигатель каретки. Ремонтный расцепитель
+    2RC_LimitSW_L : "SignalDigital";  // 2 реверсивный конвейер. Аварийный концевой выключатель слева
+    2RC_LimitSW_R : "SignalDigital";  // 2 реверсивный конвейер. Аварийный концевой выключатель справа
+    2RC_Pos_W : "SignalDigital";  // 2 реверсивный конвейер. Датчик позиционивания W
+    2RC_Pos_X : "SignalDigital";  // 2 реверсивный конвейер. Датчик позиционивания X
+    2RC_Pos_Y : "SignalDigital";  // 2 реверсивный конвейер. Датчик позиционивания Y
+    2RC_Pos_Z : "SignalDigital";  // 2 реверсивный конвейер. Датчик позиционивания Z
+    3RC_FWD_ThermalAlarm : "SignalDigital";  // 3 реверсивный конвейер. Прямой ход. Термозащита двигателя
+    3RC_FWD_RepairRel : "SignalDigital";  // 3 реверсивный конвейер. Прямой ход. Ремонтный расцепитель
+    3RC_EmerStop : "SignalDigital";  // 3 реверсивный конвейер. Аварийный останов
+    3RC_PullCordSW_L : "SignalDigital";  // 3 реверсивный конвейер. Аварийный троссовый выключать слева
+    3RC_PullCordSW_R : "SignalDigital";  // 3 реверсивный конвейер. Аварийный троссовый выключать справа
+    3RC_FWD_LongTapeGap : "SignalDigital";  // 3 реверсивный конвейер. Прямой ход. Контроль продольного разрыва ленты
+    3RC_FWD_ControlTape_L : "SignalDigital";  // 3 реверсивный конвейер. Прямой ход. Контроль схода ленты слева
+    3RC_FWD_ControlTape_R : "SignalDigital";  // 3 реверсивный конвейер. Прямой ход. Контроль схода ленты справа
+    3RC_BWD_ControlTape_L : "SignalDigital";  // 3 реверсивный конвейер. Обратный ход. Контроль схода ленты слева
+    3RC_BWD_ControlTape_R : "SignalDigital";  // 3 реверсивный конвейер. Обратный ход. Контроль схода ленты справа
+    3RC_BWD_LongTapeGap : "SignalDigital";  // 3 реверсивный конвейер. Обратный ход. Контроль продольного разрыва ленты
+    3RC_Local : "SignalDigital";  // 3 реверсивный конвейер. Местное управление
+    3RC_ThermalAlarm : "SignalDigital";  // 3 реверсивный конвейер. Термозащита двигателя каретки
+    3RC_RepairRel : "SignalDigital";  // 3 реверсивный конвейер. Двигатель каретки. Ремонтный расцепитель
+    3RC_LimitSW_L : "SignalDigital";  // 3 реверсивный конвейер. Аварийный концевой выключатель слева
+    3RC_LimitSW_R : "SignalDigital";  // 3 реверсивный конвейер. Аварийный концевой выключатель справа
+    3RC_Pos_W : "SignalDigital";  // 3 реверсивный конвейер. Датчик позиционивания W
+    3RC_Pos_X : "SignalDigital";  // 3 реверсивный конвейер. Датчик позиционивания X
+    3RC_Pos_Y : "SignalDigital";  // 3 реверсивный конвейер. Датчик позиционивания Y
+    3RC_Pos_Z : "SignalDigital";  // 3 реверсивный конвейер. Датчик позиционивания Z
+    1PF_RepairRel : "SignalDigital";  // Пластинчатый питатель. Ремонтный расцепитель
+    1PF_EmerStop : "SignalDigital";  // Пластинчатый питатель. Аварийный останов
+    1MS_RepairRel : "SignalDigital";  // 1 Магнитный сепаратор. Ремонтный расцепитель
+    1BC_RepairRel : "SignalDigital";  // 1 ленточный конвейер. Ремонтный расцепитель
+    1BC_EmerStop : "SignalDigital";  // 1 ленточный конвейер. Аварийный останов
+    1BC_PullCordSW_L : "SignalDigital";  // 1 ленточный конвейер. Аварийный троссовый выключать слева
+    1BC_PullCordSW_R : "SignalDigital";  // 1 ленточный конвейер. Аварийный троссовый выключать справа
+    1BC_LongTapeGap : "SignalDigital";  // 1 ленточный конвейер. Контроль продольного разрыва ленты
+    1BC_TensDrum_CtrlTape_L : "SignalDigital";  // 1 ленточный конвейер. Натяжной барабан. Контроль схода ленты слева
+    1BC_TensDrum_CtrlTape_R : "SignalDigital";  // 1 ленточный конвейер. Натяжной барабан. Контроль схода ленты справа
+    1BC_DriveDrum_CtrlTape_L : "SignalDigital";  // 1 ленточный конвейер. Приводной барабан. Контроль схода ленты слева
+    1BC_DriveDrum_CtrlTape_R : "SignalDigital";  // 1 ленточный конвейер. Приводной барабан. Контроль схода ленты справа
+    2BC_RepairRel : "SignalDigital";  // 2 ленточный конвейер. Ремонтный расцепитель
+    2BC_EmerStop : "SignalDigital";  // 2 ленточный конвейер. Аварийный останов
+    2BC_PullCordSW_L : "SignalDigital";  // 2 ленточный конвейер. Аварийный троссовый выключать слева
+    2BC_PullCordSW_R : "SignalDigital";  // 2 ленточный конвейер. Аварийный троссовый выключать справа
+    2BC_LongTapeGap : "SignalDigital";  // 2 ленточный конвейер. Контроль продольного разрыва ленты
+    2BC_TensDrum_CtrlTape_L : "SignalDigital";  // 2 ленточный конвейер. Натяжной барабан. Контроль схода ленты слева
+    2BC_TensDrum_CtrlTape_R : "SignalDigital";  // 2 ленточный конвейер. Натяжной барабан. Контроль схода ленты справа
+    2BC_DriveDrum_CtrlTape_L : "SignalDigital";  // 2 ленточный конвейер. Приводной барабан. Контроль схода ленты слева
+    2BC_DriveDrum_CtrlTape_R : "SignalDigital";  // 2 ленточный конвейер. Приводной барабан. Контроль схода ленты справа
+    1FD_RepairRel : "SignalDigital";  // 1 распределитель потоков. Ремонтный расцепитель
+    1FD_Flow1 : "SignalDigital";  // 1 распределитель потоков. Поток 1
+    1FD_Flow2 : "SignalDigital";  // 1 распределитель потоков. Поток 2
+    3BC_RepairRel : "SignalDigital";  // 3 ленточный конвейер. Ремонтный расцепитель
+    3BC_EmerStop : "SignalDigital";  // 3 ленточный конвейер. Аварийный останов
+    3BC_PullCordSW_L : "SignalDigital";  // 3 ленточный конвейер. Аварийный троссовый выключать слева
+    3BC_PullCordSW_R : "SignalDigital";  // 3 ленточный конвейер. Аварийный троссовый выключать справа
+    3BC_LongTapeGap : "SignalDigital";  // 3 ленточный конвейер. Контроль продольного разрыва ленты
+    3BC_TensDrum_CtrlTape_L : "SignalDigital";  // 3 ленточный конвейер. Натяжной барабан. Контроль схода ленты слева
+    3BC_TensDrum_CtrlTape_R : "SignalDigital";  // 3 ленточный конвейер. Натяжной барабан. Контроль схода ленты справа
+    3BC_DriveDrum_CtrlTape_L : "SignalDigital";  // 3 ленточный конвейер. Приводной барабан. Контроль схода ленты слева
+    3BC_DriveDrum_CtrlTape_R : "SignalDigital";  // 3 ленточный конвейер. Приводной барабан. Контроль схода ленты справа
+    1VF_RepairRel : "SignalDigital";  // Вибрационный питатель. Ремонтный расцепитель
+    1VF_EmerStop : "SignalDigital";  // Вибрационный питатель. Аварийный останов
+    2MS_RepairRel : "SignalDigital";  // 2 Магнитный сепаратор. Ремонтный расцепитель
+    4BC_RepairRel : "SignalDigital";  // 4 ленточный конвейер. Ремонтный расцепитель
+    4BC_EmerStop : "SignalDigital";  // 4 ленточный конвейер. Аварийный останов
+    4BC_PullCordSW_L : "SignalDigital";  // 4 ленточный конвейер. Аварийный троссовый выключать слева
+    4BC_PullCordSW_R : "SignalDigital";  // 4 ленточный конвейер. Аварийный троссовый выключать справа
+    4BC_LongTapeGap : "SignalDigital";  // 4 ленточный конвейер. Контроль продольного разрыва ленты
+    4BC_TensDrum_CtrlTape_L : "SignalDigital";  // 4 ленточный конвейер. Натяжной барабан. Контроль схода ленты слева
+    4BC_TensDrum_CtrlTape_R : "SignalDigital";  // 4 ленточный конвейер. Натяжной барабан. Контроль схода ленты справа
+    4BC_DriveDrum_CtrlTape_L : "SignalDigital";  // 4 ленточный конвейер. Приводной барабан. Контроль схода ленты слева
+    4BC_DriveDrum_CtrlTape_R : "SignalDigital";  // 4 ленточный конвейер. Приводной барабан. Контроль схода ленты справа
+    2FD_RepairRel : "SignalDigital";  // 2 распределитель потоков. Ремонтный расцепитель
+    2FD_Flow1 : "SignalDigital";  // 2 распределитель потоков. Поток 1
+    2FD_Flow2 : "SignalDigital";  // 2 распределитель потоков. Поток 2
+    5BC_RepairRel : "SignalDigital";  // 5 ленточный конвейер. Ремонтный расцепитель
+    5BC_EmerStop : "SignalDigital";  // 5 ленточный конвейер. Аварийный останов
+    5BC_PullCordSW_L : "SignalDigital";  // 5 ленточный конвейер. Аварийный троссовый выключать слева
+    5BC_PullCordSW_R : "SignalDigital";  // 5 ленточный конвейер. Аварийный троссовый выключать справа
+    5BC_LongTapeGap : "SignalDigital";  // 5 ленточный конвейер. Контроль продольного разрыва ленты
+    5BC_TensDrum_CtrlTape_L : "SignalDigital";  // 5 ленточный конвейер. Натяжной барабан. Контроль схода ленты слева
+    5BC_TensDrum_CtrlTape_R : "SignalDigital";  // 5 ленточный конвейер. Натяжной барабан. Контроль схода ленты справа
+    5BC_DriveDrum_CtrlTape_L : "SignalDigital";  // 5 ленточный конвейер. Приводной барабан. Контроль схода ленты слева
+    5BC_DriveDrum_CtrlTape_R : "SignalDigital";  // 5 ленточный конвейер. Приводной барабан. Контроль схода ленты справа
+    6BC_RepairRel : "SignalDigital";  // 6 ленточный конвейер. Ремонтный расцепитель
+    6BC_EmerStop : "SignalDigital";  // 6 ленточный конвейер. Аварийный останов
+    6BC_PullCordSW_L : "SignalDigital";  // 6 ленточный конвейер. Аварийный троссовый выключать слева
+    6BC_PullCordSW_R : "SignalDigital";  // 6 ленточный конвейер. Аварийный троссовый выключать справа
+    6BC_LongTapeGap : "SignalDigital";  // 6 ленточный конвейер. Контроль продольного разрыва ленты
+    6BC_TensDrum_CtrlTape_L : "SignalDigital";  // 6 ленточный конвейер. Натяжной барабан. Контроль схода ленты слева
+    6BC_TensDrum_CtrlTape_R : "SignalDigital";  // 6 ленточный конвейер. Натяжной барабан. Контроль схода ленты справа
+    6BC_DriveDrum_CtrlTape_L : "SignalDigital";  // 6 ленточный конвейер. Приводной барабан. Контроль схода ленты слева
+    6BC_DriveDrum_CtrlTape_R : "SignalDigital";  // 6 ленточный конвейер. Приводной барабан. Контроль схода ленты справа
+    1DD_RepairRel : "SignalDigital";  // 1 Сушильный барабан. Ремонтный расцепитель
+    1DD_EmerStop : "SignalDigital";  // 1 Сушильный барабан. Аварийный останов
+    7BC_RepairRel : "SignalDigital";  // 7 ленточный конвейер. Ремонтный расцепитель
+    7BC_EmerStop : "SignalDigital";  // 7 ленточный конвейер. Аварийный останов
+    7BC_PullCordSW_L : "SignalDigital";  // 7 ленточный конвейер. Аварийный троссовый выключать слева
+    7BC_PullCordSW_R : "SignalDigital";  // 7 ленточный конвейер. Аварийный троссовый выключать справа
+    7BC_LongTapeGap : "SignalDigital";  // 7 ленточный конвейер. Контроль продольного разрыва ленты
+    7BC_TensDrum_CtrlTape_L : "SignalDigital";  // 7 ленточный конвейер. Натяжной барабан. Контроль схода ленты слева
+    7BC_TensDrum_CtrlTape_R : "SignalDigital";  // 7 ленточный конвейер. Натяжной барабан. Контроль схода ленты справа
+    7BC_DriveDrum_CtrlTape_L : "SignalDigital";  // 7 ленточный конвейер. Приводной барабан. Контроль схода ленты слева
+    7BC_DriveDrum_CtrlTape_R : "SignalDigital";  // 7 ленточный конвейер. Приводной барабан. Контроль схода ленты справа
+    2DD_RepairRel : "SignalDigital";  // 2 Сушильный барабан. Ремонтный расцепитель
+    2DD_EmerStop : "SignalDigital";  // 2 Сушильный барабан. Аварийный останов
+    8BC_RepairRel : "SignalDigital";  // 8 ленточный конвейер. Ремонтный расцепитель
+    8BC_EmerStop : "SignalDigital";  // 8 ленточный конвейер. Аварийный останов
+    8BC_PullCordSW_L : "SignalDigital";  // 8 ленточный конвейер. Аварийный троссовый выключать слева
+    8BC_PullCordSW_R : "SignalDigital";  // 8 ленточный конвейер. Аварийный троссовый выключать справа
+    8BC_LongTapeGap : "SignalDigital";  // 8 ленточный конвейер. Контроль продольного разрыва ленты
+    8BC_TensDrum_CtrlTape_L : "SignalDigital";  // 8 ленточный конвейер. Натяжной барабан. Контроль схода ленты слева
+    8BC_TensDrum_CtrlTape_R : "SignalDigital";  // 8 ленточный конвейер. Натяжной барабан. Контроль схода ленты справа
+    8BC_DriveDrum_CtrlTape_L : "SignalDigital";  // 8 ленточный конвейер. Приводной барабан. Контроль схода ленты слева
+    8BC_DriveDrum_CtrlTape_R : "SignalDigital";  // 8 ленточный конвейер. Приводной барабан. Контроль схода ленты справа
+    9BC_RepairRel : "SignalDigital";  // 9 ленточный конвейер. Ремонтный расцепитель
+    9BC_EmerStop : "SignalDigital";  // 9 ленточный конвейер. Аварийный останов
+    9BC_PullCordSW_L : "SignalDigital";  // 9 ленточный конвейер. Аварийный троссовый выключать слева
+    9BC_PullCordSW_R : "SignalDigital";  // 9 ленточный конвейер. Аварийный троссовый выключать справа
+    9BC_LongTapeGap : "SignalDigital";  // 9 ленточный конвейер. Контроль продольного разрыва ленты
+    9BC_TensDrum_CtrlTape_L : "SignalDigital";  // 9 ленточный конвейер. Натяжной барабан. Контроль схода ленты слева
+    9BC_TensDrum_CtrlTape_R : "SignalDigital";  // 9 ленточный конвейер. Натяжной барабан. Контроль схода ленты справа
+    9BC_DriveDrum_CtrlTape_L : "SignalDigital";  // 9 ленточный конвейер. Приводной барабан. Контроль схода ленты слева
+    9BC_DriveDrum_CtrlTape_R : "SignalDigital";  // 9 ленточный конвейер. Приводной барабан. Контроль схода ленты справа
+    1VC_RepairRel : "SignalDigital";  // 1 вертикальный конвейер. Ремонтный расцепитель
+    1VC_EmerStop : "SignalDigital";  // 1 вертикальный конвейер. Аварийный останов
+    1VC_PullCordSW_L : "SignalDigital";  // 1 вертикальный конвейер. Аварийный троссовый выключать слева
+    1VC_PullCordSW_R : "SignalDigital";  // 1 вертикальный конвейер. Аварийный троссовый выключать справа
+    1RC_FWD_RepairRel : "SignalDigital";  // 1 реверсивный конвейер. Прямой ход. Ремонтный расцепитель
+    1RC_EmerStop : "SignalDigital";  // 1 реверсивный конвейер. Аварийный останов
+    1RC_PullCordSW_L : "SignalDigital";  // 1 реверсивный конвейер. Аварийный троссовый выключать слева
+    1RC_PullCordSW_R : "SignalDigital";  // 1 реверсивный конвейер. Аварийный троссовый выключать справа
+    1RC_FWD_LongTapeGap : "SignalDigital";  // 1 реверсивный конвейер. Прямой ход. Контроль продольного разрыва ленты
+    1RC_FWD_ControlTape_L : "SignalDigital";  // 1 реверсивный конвейер. Прямой ход. Контроль схода ленты слева
+    1RC_FWD_ControlTape_R : "SignalDigital";  // 1 реверсивный конвейер. Прямой ход. Контроль схода ленты справа
+    1RC_BWD_ControlTape_L : "SignalDigital";  // 1 реверсивный конвейер. Обратный ход. Контроль схода ленты слева
+    1RC_BWD_ControlTape_R : "SignalDigital";  // 1 реверсивный конвейер. Обратный ход. Контроль схода ленты справа
+    1RC_BWD_LongTapeGap : "SignalDigital";  // 1 реверсивный конвейер. Обратный ход. Контроль продольного разрыва ленты
+    1RC_RepairRel : "SignalDigital";  // 1 реверсивный конвейер. Двигатель каретки. Ремонтный расцепитель
+    1RC_LimitSW_L : "SignalDigital";  // 1 реверсивный конвейер. Аварийный концевой выключатель слева
+    1RC_LimitSW_R : "SignalDigital";  // 1 реверсивный конвейер. Аварийный концевой выключатель справа
+    1RC_Pos_X : "SignalDigital";  // 1 реверсивный конвейер. Датчик позиционивания X
+    1RC_Pos_Y : "SignalDigital";  // 1 реверсивный конвейер. Датчик позиционивания Y
+    1RC_Pos_Z : "SignalDigital";  // 1 реверсивный конвейер. Датчик позиционивания Z
+    1SH_RepairRel : "SignalDigital";  // 1 бункер суточного хранения "Базальт 1". Ремонтный расцепитель
+    2SH_RepairRel : "SignalDigital";  // 2 бункер суточного хранения "Базальт 2". Ремонтный расцепитель
+    3SH_RepairRel : "SignalDigital";  // 3 бункер суточного хранения "Доломит". РЕмонтный расцепитель
+    4SH_RepairRel : "SignalDigital";  // 4 бункер суточного хранения "Шлак". Ремонтный расцепитель
+    5SH_RepairRel : "SignalDigital";  // 5 бункер суточного хранения "Отходы". Ремонтный расцепитель
+    6SH_RepairRel : "SignalDigital";  // 6 бункер суточного хранения "Резерв". Ремонтный расцепитель
+END_VAR
+
+// ==================== CODE ====================
+// Network 1
+// Обработка дискретных сигналов
+
+REGION ленточные конвейеры
+    
+    REGION 1 ленточный конвейер
+        
+        ("1BC_Local");
+        ("1BC_ThermalAlarm");
+        ("1BC_RepairRel");
+        ("1BC_EmerStop");
+        ("1BC_PullCordSW_L");
+        ("1BC_PullCordSW_R");
+        ("1BC_LongTapeGap");
+        ("1BC_TensDrum_CtrlTape_L");
+        ("1BC_TensDrum_CtrlTape_R");
+        ("1BC_DriveDrum_CtrlTape_L");
+        ("1BC_DriveDrum_CtrlTape_R");
+        
+    END_REGION ;
+    
+    REGION 2 ленточный конвейер
+        
+        ("2BC_ThermalAlarm");
+        ("2BC_Local");
+        ("2BC_RepairRel");
+        ("2BC_EmerStop");
+        ("2BC_PullCordSW_L");
+        ("2BC_PullCordSW_R");
+        ("2BC_LongTapeGap");
+        ("2BC_TensDrum_CtrlTape_L");
+        ("2BC_TensDrum_CtrlTape_R");
+        ("2BC_DriveDrum_CtrlTape_L");
+        ("2BC_DriveDrum_CtrlTape_R");
+        
+    END_REGION ;
+    
+    REGION 3 ленточный конвейер
+        
+        ("3BC_ThermalAlarm");
+        ("3BC_Local");
+        ("3BC_RepairRel");
+        ("3BC_EmerStop");
+        ("3BC_PullCordSW_L");
+        ("3BC_PullCordSW_R");
+        ("3BC_LongTapeGap");
+        ("3BC_TensDrum_CtrlTape_L");
+        ("3BC_TensDrum_CtrlTape_R");
+        ("3BC_DriveDrum_CtrlTape_L");
+        ("3BC_DriveDrum_CtrlTape_R");
+        
+    END_REGION 
+    
+    REGION 4 ленточный конвейер
+        
+        ("4BC_ThermalAlarm");
+        ("4BC_Local");
+        ("4BC_RepairRel");
+        ("4BC_EmerStop");
+        ("4BC_PullCordSW_L");
+        ("4BC_PullCordSW_R");
+        ("4BC_LongTapeGap");
+        ("4BC_TensDrum_CtrlTape_L");
+        ("4BC_TensDrum_CtrlTape_R");
+        ("4BC_DriveDrum_CtrlTape_L");
+        ("4BC_DriveDrum_CtrlTape_R");
+        
+    END_REGION 
+    
+    REGION 5 ленточный конвейер
+        
+        ("5BC_ThermalAlarm");
+        ("5BC_Local");
+        ("5BC_RepairRel");
+        ("5BC_EmerStop");
+        ("5BC_PullCordSW_L");
+        ("5BC_PullCordSW_R");
+        ("5BC_LongTapeGap");
+        ("5BC_TensDrum_CtrlTape_L");
+        ("5BC_TensDrum_CtrlTape_R");
+        ("5BC_DriveDrum_CtrlTape_L");
+        ("5BC_DriveDrum_CtrlTape_R");
+        
+    END_REGION 
+    
+    REGION 6 ленточный конвейер
+        
+        ("6BC_ThermalAlarm");
+        ("6BC_Local");
+        ("6BC_RepairRel");
+        ("6BC_EmerStop");
+        ("6BC_PullCordSW_L");
+        ("6BC_PullCordSW_R");
+        ("6BC_LongTapeGap");
+        ("6BC_TensDrum_CtrlTape_L");
+        ("6BC_TensDrum_CtrlTape_R");
+        ("6BC_DriveDrum_CtrlTape_L");
+        ("6BC_DriveDrum_CtrlTape_R");
+        
+    END_REGION 
+    
+    REGION 7 ленточный конвейер
+        
+        ("7BC_ThermalAlarm");
+        ("7BC_Local");
+        ("7BC_RepairRel");
+        ("7BC_EmerStop");
+        ("7BC_PullCordSW_L");
+        ("7BC_PullCordSW_R");
+        ("7BC_LongTapeGap");
+        ("7BC_TensDrum_CtrlTape_L");
+        ("7BC_TensDrum_CtrlTape_R");
+        ("7BC_DriveDrum_CtrlTape_L");
+        ("7BC_DriveDrum_CtrlTape_R");
+        
+    END_REGION 
+    
+    REGION 8 ленточный конвейер
+        
+        ("8BC_ThermalAlarm");
+        ("8BC_Local");
+        ("8BC_RepairRel");
+        ("8BC_EmerStop");
+        ("8BC_PullCordSW_L");
+        ("8BC_PullCordSW_R");
+        ("8BC_LongTapeGap");
+        ("8BC_TensDrum_CtrlTape_L");
+        ("8BC_TensDrum_CtrlTape_R");
+        ("8BC_DriveDrum_CtrlTape_L");
+        ("8BC_DriveDrum_CtrlTape_R");
+        
+    END_REGION 
+    
+    REGION 9 ленточный конвейер
+        
+        ("9BC_ThermalAlarm");
+        ("9BC_Local");
+        ("9BC_RepairRel");
+        ("9BC_EmerStop");
+        ("9BC_PullCordSW_L");
+        ("9BC_PullCordSW_R");
+        ("9BC_LongTapeGap");
+        ("9BC_TensDrum_CtrlTape_L");
+        ("9BC_TensDrum_CtrlTape_R");
+        ("9BC_DriveDrum_CtrlTape_L");
+        ("9BC_DriveDrum_CtrlTape_R");
+        
+    END_REGION 
+    
+    REGION 10 ленточный конвейер
+        
+        ("10BC_ThermalAlarm");
+        ("10BC_RepairRel");
+        ("10BC_EmerStop");
+        ("10BC_PullCordSW_L");
+        ("10BC_PullCordSW_R");
+        ("10BC_LongTapeGap");
+        ("10BC_TensDrum_CtrlTape_L");
+        ("10BC_TensDrum_CtrlTape_R");
+        ("10BC_DriveDrum_CtrlTape_L");
+        ("10BC_DriveDrum_CtrlTape_R");
+        ("10BC_Local");
+        
+    END_REGION 
+    
+    REGION 11 ленточный конвейер
+        
+        ("11BC_ThermalAlarm");
+        ("11BC_RepairRel");
+        ("11BC_EmerStop");
+        ("11BC_PullCordSW_L");
+        ("11BC_PullCordSW_R");
+        ("11BC_LongTapeGap");
+        ("11BC_TensDrum_CtrlTape_L");
+        ("11BC_TensDrum_CtrlTape_R");
+        ("11BC_DriveDrum_CtrlTape_L");
+        ("11BC_DriveDrum_CtrlTape_R");
+        ("11BC_Local");
+        
+    END_REGION 
+    
+    REGION 12 ленточный конвейер
+        
+        ("12BC_ThermalAlarm");
+        ("12BC_RepairRel");
+        ("12BC_EmerStop");
+        ("12BC_PullCordSW_L");
+        ("12BC_PullCordSW_R");
+        ("12BC_LongTapeGap");
+        ("12BC_TensDrum_CtrlTape_L");
+        ("12BC_TensDrum_CtrlTape_R");
+        ("12BC_DriveDrum_CtrlTape_L");
+        ("12BC_DriveDrum_CtrlTape_R");
+        ("12BC_Local");
+        
+    END_REGION 
+    
+END_REGION
+REGION вертикальные конвейеры
+    
+REGION 1 вертикальный конвейер
+    
+    ("1VC_ThermalAlarm");
+    ("1VC_Local");
+    ("1VC_RepairRel");
+    ("1VC_EmerStop");
+    ("1VC_PullCordSW_L");
+    ("1VC_PullCordSW_R");
+    
+END_REGION
+REGION 2 вертикальный конвейер
+    
+    ("2VC_ThermalAlarm");
+    ("2VC_RepairRel");
+    ("2VC_EmerStop");
+    ("2VC_PullCordSW_L");
+    ("2VC_PullCordSW_R");
+    ("2VC_Local");
+    
+END_REGION
+END_REGION
+REGION реверсивные конвейеры
+    REGION 1 реверсивный конвейер
+        
+        ("1RC_FWD_ThermalAlarm");
+        ("1RC_Local");
+        ("1RC_ThermalAlarm");
+        ("1RC_FWD_RepairRel");
+        ("1RC_EmerStop");
+        ("1RC_PullCordSW_L");
+        ("1RC_PullCordSW_R");
+        ("1RC_FWD_LongTapeGap");
+        ("1RC_FWD_ControlTape_L");
+        ("1RC_FWD_ControlTape_R");
+        ("1RC_BWD_ControlTape_L");
+        ("1RC_BWD_ControlTape_R");
+        ("1RC_BWD_LongTapeGap");
+        ("1RC_RepairRel");
+        ("1RC_LimitSW_L");
+        ("1RC_LimitSW_R");
+        ("1RC_Pos_X");
+        ("1RC_Pos_Y");
+        ("1RC_Pos_Z");
+        
+    END_REGION
+    
+    REGION 2 реверсивный конвейер
+        
+        ("2RC_FWD_ThermalAlarm");
+        ("2RC_FWD_RepairRel");
+        ("2RC_EmerStop");
+        ("2RC_PullCordSW_L");
+        ("2RC_PullCordSW_R");
+        ("2RC_FWD_LongTapeGap");
+        ("2RC_FWD_ControlTape_L");
+        ("2RC_FWD_ControlTape_R");
+        ("2RC_BWD_ControlTape_L");
+        ("2RC_BWD_ControlTape_R");
+        ("2RC_BWD_LongTapeGap");
+        ("2RC_Local");
+        ("2RC_ThermalAlarm");
+        ("2RC_RepairRel");
+        ("2RC_LimitSW_L");
+        ("2RC_LimitSW_R");
+        ("2RC_Pos_W");
+        ("2RC_Pos_X");
+        ("2RC_Pos_Y");
+        ("2RC_Pos_Z");
+        
+    END_REGION
+    
+    REGION 3 реверсивный конвейер
+        
+        ("3RC_FWD_ThermalAlarm");
+        ("3RC_FWD_RepairRel");
+        ("3RC_EmerStop");
+        ("3RC_PullCordSW_L");
+        ("3RC_PullCordSW_R");
+        ("3RC_FWD_LongTapeGap");
+        ("3RC_FWD_ControlTape_L");
+        ("3RC_FWD_ControlTape_R");
+        ("3RC_BWD_ControlTape_L");
+        ("3RC_BWD_ControlTape_R");
+        ("3RC_BWD_LongTapeGap");
+        ("3RC_Local");
+        ("3RC_ThermalAlarm");
+        ("3RC_RepairRel");
+        ("3RC_LimitSW_L");
+        ("3RC_LimitSW_R");
+        ("3RC_Pos_W");
+        ("3RC_Pos_X");
+        ("3RC_Pos_Y");
+        ("3RC_Pos_Z");
+        
+    END_REGION
+    
+END_REGION;
+REGION распределительный конвейер
+    
+    ("1DC_FWD_ThermalAlarm");
+    ("1DC_FWD_RepairRel");
+    ("1DC_EmerStop");
+    ("1DC_PullCordSW_L");
+    ("1DC_PullCordSW_R");
+    ("1DC_FWD_LongTapeGap");
+    ("1DC_FWD_ControlTape_L");
+    ("1DC_FWD_ControlTape_R");
+    ("1DC_BWD_ControlTape_L");
+    ("1DC_BWD_ControlTape_R");
+    ("1DC_BWD_LongTapeGap");
+    ("1DC_Local");
+    
+END_REGION
+REGION пластинчатый питатель
+    
+    ("1PF_ThermalAlarm");
+    ("1PF_Local");
+    ("1PF_RepairRel");
+    ("1PF_EmerStop");
+    
+END_REGION
+REGION вибрационный питатель
+    
+    ("1VF_Work");
+    ("1VF_Alarm");
+    ("1VF_RepairRel");
+    ("1VF_EmerStop");
+    
+END_REGION
+REGION 1 магнитный сепаратор
+    
+    ("1MS_Work");
+    ("1MS_Alarm");
+    ("1MS_RepairRel");
+    
+END_REGION
+REGION 2 магнитный сепаратор
+    
+    ("2MS_Work");
+    ("2MS_Alarm");
+    ("2MS_RepairRel");
+    
+END_REGION
+REGION 1 распределитель потоков
+    
+    ("1FD_Work");
+    ("1FD_Alarm");
+    ("1FD_RepairRel");
+    ("1FD_Flow1");
+    ("1FD_Flow2");
+    
+END_REGION
+REGION 2 распределитель потоков
+    
+    ("2FD_Work");
+    ("2FD_Alarm");
+    ("2FD_RepairRel");
+    ("2FD_Flow1");
+    ("2FD_Flow2");
+    
+END_REGION
+REGION 1 горелка
+    
+    ("1GB_EmerStop");
+    ("1GB_FireOK");
+    ("1GB_400B_OK");
+    ("1GB_230B_OK");
+    
+END_REGION
+REGION 2 горелка
+    
+    ("2GB_EmerStop");
+    ("2GB_FireOK");
+    ("2GB_400B_OK");
+    ("2GB_230B_OK");
+    
+END_REGION
+REGION 1 сушильный барабан
+    
+    ("1DD_ThermalAlarm");
+    ("1DD_Local");
+    ("1DD_RdyFun");
+    ("1DD_RepairRel");
+    ("1DD_EmerStop");
+    
+END_REGION
+REGION 2 сушильный барабан
+    
+    ("2DD_ThermalAlarm");
+    ("2DD_Local");
+    ("2DD_RdyFun");
+    ("2DD_RepairRel");
+    ("2DD_EmerStop");
+        
+END_REGION
+REGION бункеры суточного хранения
+    
+    ("1SH_Work");
+    ("1SH_Alarm");
+    ("1SH_RepairRel");
+    
+    ("2SH_Work");
+    ("2SH_Alarm");
+    ("2SH_RepairRel");
+    
+    ("3SH_Work");
+    ("3SH_Alarm");
+    ("3SH_RepairRel");
+    
+    ("4SH_Work");
+    ("4SH_Alarm");
+    ("4SH_RepairRel");
+    
+    ("5SH_Work");
+    ("5SH_Alarm");
+    ("5SH_RepairRel");
+    
+    ("6SH_Work");
+    ("6SH_Alarm");
+    ("6SH_RepairRel");
+END_REGION
+REGION дополнительно
+    
+    ("3А_230B_OK");
+    ("4A_230B_OK");
+    
+END_REGION
+
+
+──────────────────────────────────────────────────────────────────────
+// Program blocks\1_BasicControl\MainRoutines\MainRoutineMotor.xml
+──────────────────────────────────────────────────────────────────────
+FUNCTION_BLOCK "MainRoutineMotor"  // SCL  Block #10
+
+VAR
+    1VF_Direct : "Motor";  // Вибрационный питатель
+    1MS_Direct : "Motor";  // Магнитный сепоратор 1
+    2MS_Direct : "Motor";  // Магнитный сепоратор 2
+    1FD_Direct : "Motor";  // Распределитель потоков 1
+    2FD_Direct : "Motor";  // Распределитель потоков 2
+    1SH_Direct : "Motor";  // Вибратор бункера сут. Хранения 1
+    2SH_Direct : "Motor";  // Вибратор бункера сут. Хранения 2
+    3SH_Direct : "Motor";  // Вибратор бункера сут. Хранения 3
+    4SH_Direct : "Motor";  // Вибратор бункера сут. Хранения 4
+    5SH_Direct : "Motor";  // Вибратор бункера сут. Хранения 5
+    6SH_Direct : "Motor";  // Вибратор бункера сут. Хранения 6
+    1PF_VFD : "MotorVFD";  // Пластинчатый питатель
+    1RC_1_VFD : "MotorVFD";  // Реверсивный конвейер 1. Двигатель конвейера
+    1RC_2_VFD : "MotorVFD";  // Реверсивный конвейер 1. Двигатель каретки
+    2RC_1_VFD : "MotorVFD";  // Реверсивный конвейер 2. Двигатель конвейера
+    2RC_2_VFD : "MotorVFD";  // Реверсивный конвейер 2. Двигатель каретки
+    3RC_1_VFD : "MotorVFD";  // Реверсивный конвейер 3. Двигатель конвейера
+    3RC_2_VFD : "MotorVFD";  // Реверсивный конвейер 3. Двигатель каретки
+    1VC_VFD : "MotorVFD";  // Вертикальный конвейер 1
+    2VC_VFD : "MotorVFD";  // Вертикальный конвейер 2
+    1DD_1_VFD : "MotorVFD";  // Сушильный барабан 1. Двигатель барабана
+    1DD_2_VFD : "MotorVFD";  // Сушильный барабан 1. Двигатели вентиляторов
+    2DD_1_VFD : "MotorVFD";  // Сушильный барабан 2. Двигатель барабана
+    2DD_2_VFD : "MotorVFD";  // Сушильный барабан 2. Двигатели вентиляторов
+    1DC_VFD : "MotorVFD";  // Распределительный конвейер
+    1BC_VFD : "MotorVFD";  // Ленточный конвейер 1
+    2BC_VFD : "MotorVFD";  // Ленточный конвейер 2
+    3BC_VFD : "MotorVFD";  // Ленточный конвейер 3
+    4BC_VFD : "MotorVFD";  // Ленточный конвейер 4
+    5BC_VFD : "MotorVFD";  // Ленточный конвейер 5
+    6BC_VFD : "MotorVFD";  // Ленточный конвейер 6
+    7BC_VFD : "MotorVFD";  // Ленточный конвейер 7
+    8BC_VFD : "MotorVFD";  // Ленточный конвейер 8
+    9BC_VFD : "MotorVFD";  // Ленточный конвейер 9
+    10BC_VFD : "MotorVFD";  // Ленточный конвейер 10
+    11BC_VFD : "MotorVFD";  // Ленточный конвейер 11
+    12BC_VFD : "MotorVFD";  // Ленточный конвейер 12
+END_VAR
+
+// ==================== CODE ====================
+// Network 1
+// Обработка двигателей
+
+REGION Прямой пуск
+    
+    // Вибрационный питатель
+
+    (FeedbackForward:="DB_MainRoutineDigitalInput".1VF_Work.OutputSignal,
+                  FeedbackOverload:="DB_MainRoutineDigitalInput".1VF_RepairRel.OutputSignal,
+                  FeedbackOverheat:="DB_MainRoutineDigitalInput".1VF_Alarm.OutputSignal,
+                  CommandForward=> "1VF_Start");
+    // Магнитный сепоратор 1
+
+    (FeedbackForward:="DB_MainRoutineDigitalInput".1MS_Work.OutputSignal,
+                  FeedbackOverload:="DB_MainRoutineDigitalInput".1MS_RepairRel.OutputSignal,
+                  FeedbackOverheat:="DB_MainRoutineDigitalInput".1MS_Alarm.OutputSignal,
+                  CommandForward=> "1MS_Start");
+    // Магнитный сепоратор 2
+
+    (FeedbackForward:="DB_MainRoutineDigitalInput".2MS_Work.OutputSignal,
+                  FeedbackOverload:="DB_MainRoutineDigitalInput".2MS_RepairRel.OutputSignal,
+                  FeedbackOverheat:="DB_MainRoutineDigitalInput".2MS_Alarm.OutputSignal,
+                  CommandForward=> "2MS_Start");
+    // Распределитель потоков 1
+
+    (FeedbackForward := "DB_MainRoutineDigitalInput".1FD_Work.OutputSignal,
+                  FeedbackOverload := "DB_MainRoutineDigitalInput".1FD_RepairRel.OutputSignal,
+                  FeedbackOverheat := "DB_MainRoutineDigitalInput".1FD_Alarm.OutputSignal
+                  // CommandForward => готовность на делитель потоков
+
+    );
+    // Распределитель потоков 2
+
+    (FeedbackForward := "DB_MainRoutineDigitalInput".2FD_Work.OutputSignal,
+                  FeedbackOverload := "DB_MainRoutineDigitalInput".2FD_RepairRel.OutputSignal,
+                  FeedbackOverheat := "DB_MainRoutineDigitalInput".2FD_Alarm.OutputSignal
+                  // CommandForward => готовность на делитель потоков
+
+    );
+    // Вибратор бункера сут. Хранения 1
+
+    (FeedbackForward := "DB_MainRoutineDigitalInput".1SH_Work.OutputSignal,
+                 FeedbackOverload := "DB_MainRoutineDigitalInput".1SH_RepairRel.OutputSignal,
+                 FeedbackOverheat := "DB_MainRoutineDigitalInput".1SH_Alarm.OutputSignal,
+                 CommandForward => "1SH_Start");
+    // Вибратор бункера сут. Хранения 2
+
+    (FeedbackForward := "DB_MainRoutineDigitalInput".2SH_Work.OutputSignal,
+                  FeedbackOverload := "DB_MainRoutineDigitalInput".2SH_RepairRel.OutputSignal,
+                  FeedbackOverheat := "DB_MainRoutineDigitalInput".2SH_Alarm.OutputSignal,
+                  CommandForward => "2SH_Start");
+    // Вибратор бункера сут. Хранения 3
+
+    (FeedbackForward := "DB_MainRoutineDigitalInput".3SH_Work.OutputSignal,
+                  FeedbackOverload := "DB_MainRoutineDigitalInput".3SH_RepairRel.OutputSignal,
+                  FeedbackOverheat := "DB_MainRoutineDigitalInput".3SH_Alarm.OutputSignal,
+                  CommandForward => "3SH_Start");
+    // Вибратор бункера сут. Хранения 4
+
+    (FeedbackForward := "DB_MainRoutineDigitalInput".4SH_Work.OutputSignal,
+                  FeedbackOverload := "DB_MainRoutineDigitalInput".4SH_RepairRel.OutputSignal,
+                  FeedbackOverheat := "DB_MainRoutineDigitalInput".4SH_Alarm.OutputSignal,
+                  CommandForward => "4SH_Start");
+    // Вибратор бункера сут. Хранения 5
+
+    (FeedbackForward := "DB_MainRoutineDigitalInput".5SH_Work.OutputSignal,
+                  FeedbackOverload := "DB_MainRoutineDigitalInput".5SH_RepairRel.OutputSignal,
+                  FeedbackOverheat := "DB_MainRoutineDigitalInput".5SH_Alarm.OutputSignal,
+                  CommandForward => "5SH_Start");
+    // Вибратор бункера сут. Хранения 6
+
+    (FeedbackForward := "DB_MainRoutineDigitalInput".6SH_Work.OutputSignal,
+                  FeedbackOverload := "DB_MainRoutineDigitalInput".6SH_RepairRel.OutputSignal,
+                  FeedbackOverheat := "DB_MainRoutineDigitalInput".6SH_Alarm.OutputSignal,
+                  CommandForward => "6SH_Start");
+    
+END_REGION
+REGION Частотно-регулируемый привод
+    
+    REGION Пластинчатый питатель
+        
+        (DeviceAddress := ,
+                   FeedbackOverload := "DB_MainRoutineDigitalInput".1PF_RepairRel.OutputSignal,
+                   FeedbackOverheat := "DB_MainRoutineDigitalInput".1PF_ThermalAlarm.OutputSignal,
+                   Local_Remote := NOT "DB_MainRoutineDigitalInput".1PF_Local.OutputSignal,
+                   FeedbackSpeed := "DB_MainRoutineDigitalFast".1PF_ControlSpeed.FeedbackSpeed,
+                   Speed := "DB_MainRoutineDigitalFast".1PF_ControlSpeed.Speed);
+        
+    END_REGION ;
+    
+    REGION Реверсивные конвейеры
+        
+        // 1 Реверсинвный конвейер
+
+        // Конвейер
+
+        (DeviceAddress := ,
+                     FeedbackOverload := "DB_MainRoutineDigitalInput".1RC_FWD_RepairRel.OutputSignal,
+                   FeedbackOverheat := "DB_MainRoutineDigitalInput".1RC_FWD_ThermalAlarm.OutputSignal,
+                   Local_Remote := NOT "DB_MainRoutineDigitalInput".1RC_Local.OutputSignal,
+                   FeedbackSpeed := "DB_MainRoutineDigitalFast".1RC_ControlSpeed.FeedbackSpeed,
+                   Speed := "DB_MainRoutineDigitalFast".1RC_ControlSpeed.Speed);
+        // Каретка
+
+        (DeviceAddress := ,
+                   FeedbackOverload := "DB_MainRoutineDigitalInput".1RC_RepairRel.OutputSignal,
+                   FeedbackOverheat := "DB_MainRoutineDigitalInput".1RC_ThermalAlarm.OutputSignal,
+                   Local_Remote := NOT "DB_MainRoutineDigitalInput".1RC_Local.OutputSignal,
+                   FeedbackSpeed := );
+      
+      // 2 Реверсинвный конвейер
+
+      // Конвейер
+
+      (DeviceAddress := ,
+                   FeedbackOverload := "DB_MainRoutineDigitalInput".2RC_FWD_RepairRel.OutputSignal,
+                   FeedbackOverheat := "DB_MainRoutineDigitalInput".2RC_FWD_ThermalAlarm.OutputSignal,
+                   Local_Remote := NOT "DB_MainRoutineDigitalInput".2RC_Local.OutputSignal,
+                   FeedbackSpeed := "DB_MainRoutineDigitalFast".2RC_ControlSpeed.FeedbackSpeed,
+                   Speed := "DB_MainRoutineDigitalFast".2RC_ControlSpeed.Speed);
+      // Каретка
+
+      (DeviceAddress := ,
+                   FeedbackOverload := "DB_MainRoutineDigitalInput".2RC_RepairRel.OutputSignal,
+                   FeedbackOverheat := "DB_MainRoutineDigitalInput".2RC_ThermalAlarm.OutputSignal,
+                   Local_Remote := NOT "DB_MainRoutineDigitalInput".2RC_Local.OutputSignal,
+                   FeedbackSpeed := );
+      
+      // 3 Реверсинвный конвейер
+
+      // Конвейер
+
+      (DeviceAddress := ,
+                   FeedbackOverload := "DB_MainRoutineDigitalInput".3RC_FWD_RepairRel.OutputSignal,
+                   FeedbackOverheat := "DB_MainRoutineDigitalInput".3RC_FWD_ThermalAlarm.OutputSignal,
+                   Local_Remote := NOT "DB_MainRoutineDigitalInput".3RC_Local.OutputSignal,
+                   FeedbackSpeed := "DB_MainRoutineDigitalFast".3RC_ControlSpeed.FeedbackSpeed,
+                   Speed := "DB_MainRoutineDigitalFast".3RC_ControlSpeed.Speed);
+      // Каретка
+
+      (DeviceAddress := ,
+                   FeedbackOverload := "DB_MainRoutineDigitalInput".3RC_RepairRel.OutputSignal,
+                   FeedbackOverheat := "DB_MainRoutineDigitalInput".3RC_ThermalAlarm.OutputSignal,
+                   Local_Remote := NOT "DB_MainRoutineDigitalInput".3RC_Local.OutputSignal,
+                   FeedbackSpeed := );
+    END_REGION ;
+    
+    REGION Сушильные барабаны
+        
+        // 1 сушильный барабан
+
+        // Вращение барабана
+
+        (DeviceAddress := ,
+                     FeedbackOverload := "DB_MainRoutineDigitalInput".1DD_RepairRel.OutputSignal,
+                     FeedbackOverheat := "DB_MainRoutineDigitalInput".1DD_ThermalAlarm.OutputSignal,
+                     Local_Remote := NOT "DB_MainRoutineDigitalInput".1DD_Local.OutputSignal,
+                     FeedbackSpeed := );
+        // Вентиляторы
+
+        (DeviceAddress := ,
+                     FeedbackOverload := ,
+                     FeedbackOverheat := "DB_MainRoutineDigitalInput".1DD_RdyFun.OutputSignal,
+                     Local_Remote := ,
+                     FeedbackSpeed := );
+        
+        // 2 сушильный барабан
+
+        // Вращение барабана
+
+        (DeviceAddress := ,
+                     FeedbackOverload := "DB_MainRoutineDigitalInput".2DD_RepairRel.OutputSignal,
+                     FeedbackOverheat := "DB_MainRoutineDigitalInput".2DD_ThermalAlarm.OutputSignal,
+                     Local_Remote := NOT "DB_MainRoutineDigitalInput".2DD_Local.OutputSignal,
+                     FeedbackSpeed := );
+        // Вентиляторы
+
+        (DeviceAddress := ,
+                     FeedbackOverload := ,
+                     FeedbackOverheat := "DB_MainRoutineDigitalInput".2DD_RdyFun.OutputSignal,
+                     Local_Remote := ,
+                     FeedbackSpeed := );
+                      END_REGION ;
+                      
+    REGION Распределительный конвейер
+                          
+        (DeviceAddress := ,
+                   FeedbackOverload := "DB_MainRoutineDigitalInput".1DC_FWD_RepairRel.OutputSignal,
+                   FeedbackOverheat := "DB_MainRoutineDigitalInput".1DC_FWD_ThermalAlarm.OutputSignal,
+                   Local_Remote := NOT "DB_MainRoutineDigitalInput".1DC_Local.OutputSignal,
+                   FeedbackSpeed := "DB_MainRoutineDigitalFast".1DC_ControlSpeed.FeedbackSpeed,
+                   Speed := "DB_MainRoutineDigitalFast".1DC_ControlSpeed.Speed);
+                          
+     END_REGION ;             
+     
+    REGION Вертикальные конвейеры
+        
+        // 1 вертикальный конвейер
+
+        (DeviceAddress := ,
+                   FeedbackOverload := "DB_MainRoutineDigitalInput".1VC_RepairRel.OutputSignal,
+                   FeedbackOverheat := "DB_MainRoutineDigitalInput".1VC_ThermalAlarm.OutputSignal,
+                   Local_Remote := NOT "DB_MainRoutineDigitalInput".1VC_Local.OutputSignal,
+                   FeedbackSpeed := "DB_MainRoutineDigitalFast".1VC_ControlSpeed.FeedbackSpeed,
+                   Speed := "DB_MainRoutineDigitalFast".1VC_ControlSpeed.Speed);
+        
+        // 2 вертикальный конвейер
+
+        (DeviceAddress := ,
+                   FeedbackOverload := "DB_MainRoutineDigitalInput".2VC_RepairRel.OutputSignal,
+                   FeedbackOverheat := "DB_MainRoutineDigitalInput".2VC_ThermalAlarm.OutputSignal,
+                   Local_Remote := NOT "DB_MainRoutineDigitalInput".2VC_Local.OutputSignal,
+                   FeedbackSpeed := "DB_MainRoutineDigitalFast".2VC_ControlSpeed.FeedbackSpeed,
+                   Speed := "DB_MainRoutineDigitalFast".2VC_ControlSpeed.Speed);
+        
+    END_REGION ;
+    
+    REGION Ленточные конвейеры
+        
+        // 1 Ленточный конвейер
+
+        (DeviceAddress := ,
+                   FeedbackOverload := "DB_MainRoutineDigitalInput".1BC_RepairRel.OutputSignal,
+                   FeedbackOverheat := "DB_MainRoutineDigitalInput".1BC_ThermalAlarm.OutputSignal,
+                   Local_Remote := NOT "DB_MainRoutineDigitalInput".1BC_Local.OutputSignal,
+                   FeedbackSpeed := "DB_MainRoutineDigitalFast".1BC_ControlSpeed.FeedbackSpeed,
+                   Speed := "DB_MainRoutineDigitalFast".1BC_ControlSpeed.Speed);
+        
+        // 2 Ленточный конвейер
+
+        (DeviceAddress := ,
+                   FeedbackOverload := "DB_MainRoutineDigitalInput".2BC_RepairRel.OutputSignal,
+                   FeedbackOverheat := "DB_MainRoutineDigitalInput".2BC_ThermalAlarm.OutputSignal,
+                   Local_Remote := NOT "DB_MainRoutineDigitalInput".2BC_Local.OutputSignal,
+                   FeedbackSpeed := "DB_MainRoutineDigitalFast".2BC_ControlSpeed.FeedbackSpeed,
+                   Speed := "DB_MainRoutineDigitalFast".2BC_ControlSpeed.Speed);
+        
+        // 3 Ленточный конвейер
+
+        (DeviceAddress := ,
+                   FeedbackOverload := "DB_MainRoutineDigitalInput".3BC_RepairRel.OutputSignal,
+                   FeedbackOverheat := "DB_MainRoutineDigitalInput".3BC_ThermalAlarm.OutputSignal,
+                   Local_Remote := NOT "DB_MainRoutineDigitalInput".3BC_Local.OutputSignal,
+                   FeedbackSpeed := "DB_MainRoutineDigitalFast".3BC_ControlSpeed.FeedbackSpeed,
+                   Speed := "DB_MainRoutineDigitalFast".3BC_ControlSpeed.Speed);
+        
+        // 4 Ленточный конвейер
+
+        (DeviceAddress := ,
+                   FeedbackOverload := "DB_MainRoutineDigitalInput".4BC_RepairRel.OutputSignal,
+                   FeedbackOverheat := "DB_MainRoutineDigitalInput".4BC_ThermalAlarm.OutputSignal,
+                   Local_Remote := NOT "DB_MainRoutineDigitalInput".4BC_Local.OutputSignal,
+                   FeedbackSpeed := "DB_MainRoutineDigitalFast".4BC_ControlSpeed.FeedbackSpeed,
+                   Speed := "DB_MainRoutineDigitalFast".4BC_ControlSpeed.Speed);
+        
+        // 5 Ленточный конвейер
+
+        (DeviceAddress := ,
+                   FeedbackOverload := "DB_MainRoutineDigitalInput".5BC_RepairRel.OutputSignal,
+                   FeedbackOverheat := "DB_MainRoutineDigitalInput".5BC_ThermalAlarm.OutputSignal,
+                   Local_Remote := NOT "DB_MainRoutineDigitalInput".5BC_Local.OutputSignal,
+                   FeedbackSpeed := "DB_MainRoutineDigitalFast".5BC_ControlSpeed.FeedbackSpeed,
+                   Speed := "DB_MainRoutineDigitalFast".5BC_ControlSpeed.Speed);
+        
+        // 6 Ленточный конвейер
+
+        (DeviceAddress := ,
+                   FeedbackOverload := "DB_MainRoutineDigitalInput".6BC_RepairRel.OutputSignal,
+                   FeedbackOverheat := "DB_MainRoutineDigitalInput".6BC_ThermalAlarm.OutputSignal,
+                   Local_Remote := NOT "DB_MainRoutineDigitalInput".6BC_Local.OutputSignal,
+                   FeedbackSpeed := "DB_MainRoutineDigitalFast".6BC_ControlSpeed.FeedbackSpeed,
+                   Speed := "DB_MainRoutineDigitalFast".6BC_ControlSpeed.Speed);
+        
+        // 7 Ленточный конвейер
+
+        (DeviceAddress := ,
+                   FeedbackOverload := "DB_MainRoutineDigitalInput".7BC_RepairRel.OutputSignal,
+                   FeedbackOverheat := "DB_MainRoutineDigitalInput".7BC_ThermalAlarm.OutputSignal,
+                   Local_Remote := NOT "DB_MainRoutineDigitalInput".7BC_Local.OutputSignal,
+                   FeedbackSpeed := "DB_MainRoutineDigitalFast".7BC_ControlSpeed.FeedbackSpeed,
+                   Speed := "DB_MainRoutineDigitalFast".7BC_ControlSpeed.Speed);
+        
+        // 8 Ленточный конвейер
+
+        (DeviceAddress := ,
+                   FeedbackOverload := "DB_MainRoutineDigitalInput".8BC_RepairRel.OutputSignal,
+                   FeedbackOverheat := "DB_MainRoutineDigitalInput".8BC_ThermalAlarm.OutputSignal,
+                   Local_Remote := NOT "DB_MainRoutineDigitalInput".8BC_Local.OutputSignal,
+                   FeedbackSpeed := "DB_MainRoutineDigitalFast".8BC_ControlSpeed.FeedbackSpeed,
+                   Speed := "DB_MainRoutineDigitalFast".8BC_ControlSpeed.Speed);
+        
+        // 9 Ленточный конвейер
+
+        (DeviceAddress := ,
+                   FeedbackOverload := "DB_MainRoutineDigitalInput".9BC_RepairRel.OutputSignal,
+                   FeedbackOverheat := "DB_MainRoutineDigitalInput".9BC_ThermalAlarm.OutputSignal,
+                   Local_Remote := NOT "DB_MainRoutineDigitalInput".9BC_Local.OutputSignal,
+                   FeedbackSpeed := "DB_MainRoutineDigitalFast".9BC_ControlSpeed.FeedbackSpeed,
+                   Speed := "DB_MainRoutineDigitalFast".9BC_ControlSpeed.Speed);
+        
+        // 10 Ленточный конвейер
+
+        (DeviceAddress := ,
+                   FeedbackOverload := "DB_MainRoutineDigitalInput".10BC_RepairRel.OutputSignal,
+                   FeedbackOverheat := "DB_MainRoutineDigitalInput".10BC_ThermalAlarm.OutputSignal,
+                   Local_Remote := NOT "DB_MainRoutineDigitalInput".10BC_Local.OutputSignal,
+                   FeedbackSpeed := "DB_MainRoutineDigitalFast".10BC_ControlSpeed.FeedbackSpeed,
+                   Speed := "DB_MainRoutineDigitalFast".10BC_ControlSpeed.Speed);
+        
+        // 11 Ленточный конвейер
+
+        (DeviceAddress := ,
+                   FeedbackOverload := "DB_MainRoutineDigitalInput".11BC_RepairRel.OutputSignal,
+                   FeedbackOverheat := "DB_MainRoutineDigitalInput".11BC_ThermalAlarm.OutputSignal,
+                   Local_Remote := NOT "DB_MainRoutineDigitalInput".11BC_Local.OutputSignal,
+                   FeedbackSpeed := "DB_MainRoutineDigitalFast".11BC_ControlSpeed.FeedbackSpeed,
+                   Speed := "DB_MainRoutineDigitalFast".11BC_ControlSpeed.Speed);
+        
+        // 12 Ленточный конвейер
+
+       (DeviceAddress := ,
+                   FeedbackOverload := "DB_MainRoutineDigitalInput".12BC_RepairRel.OutputSignal,
+                   FeedbackOverheat := "DB_MainRoutineDigitalInput".12BC_ThermalAlarm.OutputSignal,
+                   Local_Remote := NOT "DB_MainRoutineDigitalInput".12BC_Local.OutputSignal,
+                   FeedbackSpeed := "DB_MainRoutineDigitalFast".12BC_ControlSpeed.FeedbackSpeed,
+                   Speed := "DB_MainRoutineDigitalFast".12BC_ControlSpeed.Speed);
+    END_REGION ;
+    
+END_REGION
+
+
+──────────────────────────────────────────────────────────────────────
+// Program blocks\2_ExtensionControl\DataBlock\DB_MainRoutineDryingDrum.xml
+──────────────────────────────────────────────────────────────────────
+INSTANCE_DATA_BLOCK "DB_MainRoutineDryingDrum"  // DB  Block #8
+
+VAR_INPUT
+    1DD_SystemRunning : Bool;
+    2DD_SystemRunning : Bool;
+END_VAR
+VAR_OUTPUT
+    Drum1Ready : Bool;
+    Drum2Ready : Bool;
+END_VAR
+VAR
+    1DD_DrumControl : "DrumControl";
+    2DD_DrumControl : "DrumControl";
+    1DD_TempControl : "DrumTempControl";
+    2DD_TempControl : "DrumTempControl";
+END_VAR
+
+
+──────────────────────────────────────────────────────────────────────
+// Program blocks\2_ExtensionControl\DataBlock\DB_MainRoutineReverseConveyor.xml
+──────────────────────────────────────────────────────────────────────
+INSTANCE_DATA_BLOCK "DB_MainRoutineReverseConveyor"  // DB  Block #6
+
+VAR
+    Silos : "PositioningReverseConveyor";
+    Bunker_1 : "PositioningReverseConveyor";
+    Bunker_2 : "PositioningReverseConveyor";
+    configuration : "Config";
+END_VAR
+
+
+──────────────────────────────────────────────────────────────────────
+// Program blocks\2_ExtensionControl\Function\DryingDrum\DrumControl.xml
+──────────────────────────────────────────────────────────────────────
+FUNCTION_BLOCK "DrumControl"  // SCL  Block #27
+
+VAR_INPUT
+    FanFeedback : Bool;  // Обратная связь ПЧ вентилятора
+    DrumFeedback : Bool;  // Обратная связь ПЧ барабана
+    FanAlarm : Bool;  // Авария ПЧ вентилятора
+    DrumAlarm : Bool;  // Авария ПЧ барабана
+    BurnerFatalError : Bool;  // Авария горелки
+    TempInAlarm : Bool;  // Авария температуры на входе
+    BurnerFlame : Bool;  // Пламя горит
+    SystemRunning : Bool;  // Система запущена, продукт пошёл
+END_VAR
+VAR_OUTPUT
+    FanStart : Bool;  // Команда пуска вентилятора → ПЧ
+    DrumStart : Bool;  // Команда пуска барабана → ПЧ
+    DrumReady : Bool;  // Барабан прогрет, готов к работе → верхняя логика
+END_VAR
+VAR
+    DataHMI : "DrumHMI";  // Команды оператора
+    Step : Int;  // Текущий шаг
+    WarmAfterStop : Bool;  // Флаг: барабан остановлен недавно, ещё тёплый
+    TonStartFan : TON_TIME;
+    TonStartDrum : TON_TIME;
+    TonPreheat : TON_TIME;
+    TonUnload : TON_TIME;
+    TonCooldown : TON_TIME;
+    TonWarmDrum : TON_TIME;  // Шаги автомата
+    TempControlEnable : Bool;  // Разрешение блока DrumTempControl
+    BurnerAuto : Bool;  // Авто режим горелки
+    BurnerEnable : Bool;  // Разрешение горелки
+END_VAR
+VAR CONSTANT
+    STEP_IDLE : Int := 0;
+    STEP_START_FAN : Int := 1;
+    STEP_START_DRUM : Int := 2;
+    STEP_PREHEAT : Int := 3;
+    STEP_READY : Int := 4;
+    STEP_RUNNING : Int := 5;
+    STEP_EMERGENCY_UNLOAD : Int := 6;
+    STEP_COOLDOWN : Int := 7;
+    STEP_FAULT : Int := 8;  // Коды аварий
+    ALARM_FAN_TIMEOUT : Int := 16#0001;  // Таймаут пуска вентилятора
+    ALARM_DRUM_TIMEOUT : Int := 16#0002;  // Таймаут пуска барабана
+    ALARM_FAN_FAULT : Int := 16#0003;  // Авария ПЧ вентилятора при работе
+    ALARM_DRUM_FAULT : Int := 16#0004;  // Авария ПЧ барабана при работе
+    ALARM_BURNER_FATAL : Int := 16#0005;  // Авария горелки
+    ALARM_TEMP_IN : Int := 16#0006;  // Авария температуры на входе
+    StartFanTimeout : Time := T#5s;  // Таймаут ожидания пуска вентилятора
+    StartDrumTimeout : Time := T#5s;  // Таймаут ожидания пуска барабана
+END_VAR
+
+// ==================== CODE ====================
+// Network 1
+// Блок управления сушильным барабаном. Конечный автомат.
+    Работает только в автоматическом режиме.
+    Входные сигналы:
+        FanFeedback, DrumFeedback    - обратные связи ПЧ
+        FanAlarm, DrumAlarm          - аварии ПЧ
+        BurnerFatalError             - авария горелки после 3 попыток
+        TempInAlarm                  - авария температуры на входе барабана
+        BurnerFlame                  - пламя горит
+        SystemRunning                - сигнал от верхней логики (продукт пошёл)
+
+REGION Синхронизация DataHMI
+    // Передаём текущий шаг и флаги на HMI
+
+    DataHMI.CurrentStep := Step;
+    DataHMI.DrumReady := DrumReady;
+    DataHMI.IsWarm := WarmAfterStop;
+END_REGION
+REGION Таймер "барабан ещё тёплый"
+    // Таймер запускается при переходе в IDLE после COOLDOWN
+
+    // Пока не истёк — повторный прогрев можно пропустить
+
+    TonWarmDrum(IN := WarmAfterStop,
+                 PT := DataHMI.WarmDrumTime);
+    IF TonWarmDrum.Q THEN
+        WarmAfterStop := ;
+        RESET_TIMER(TonWarmDrum);
+    END_IF;
+END_REGION
+REGION Аварийный останов при аварии барабана
+    // Авария ПЧ барабана во время работы — немедленно всё стоп
+
+    IF DrumAlarm AND
+        (Step =  OR
+        Step =  OR
+        Step =  OR
+        Step =  OR
+        Step =  OR
+        Step = ) THEN
+        Step := ;
+        DataHMI.StepAlarmCode := ;
+        RESET_TIMER(TonStartDrum);
+        RESET_TIMER(TonPreheat);
+        RESET_TIMER(TonUnload);
+        RESET_TIMER(TonCooldown);
+    END_IF;
+END_REGION
+REGION Аварийный останов при аварии вентилятора
+    // Во время пуска и прогрева (шаги 1,2,3) — продукта нет, горелка выкл -> FAULT
+
+    IF FanAlarm AND
+        (Step =  OR
+        Step =  OR
+        Step = ) THEN
+        Step := ;
+        DataHMI.StepAlarmCode := ;
+        RESET_TIMER(TonStartFan);
+        RESET_TIMER(TonStartDrum);
+        RESET_TIMER(TonPreheat);
+    END_IF;
+    // Во время готовности и работы (шаги 4,5) — продукт в барабане -> EMERGENCY_UNLOAD
+
+    // Шаги 6,7 — уже в аварийной выгрузке или охлаждении, повторно не обрабатываем
+
+    IF FanAlarm AND
+        (Step =  OR
+        Step = ) THEN
+        Step := ;
+        DataHMI.StepAlarmCode := ;
+        RESET_TIMER(TonStartFan);
+    END_IF;
+END_REGION
+REGION Конечный автомат
+    CASE Step OF
+            
+            // -------------------------------------------------------
+
+            // ШАГ 0: ОЖИДАНИЕ
+
+            // -------------------------------------------------------
+
+        :
+            DrumReady := ;
+            RESET_TIMER(TonStartFan);
+            RESET_TIMER(TonStartDrum);
+            RESET_TIMER(TonPreheat);
+            RESET_TIMER(TonUnload);
+            RESET_TIMER(TonCooldown);
+            
+            // Запуск прогрева по кнопке оператора
+
+            IF DataHMI.StartPreheat THEN
+                DataHMI.StartPreheat := ;
+                DataHMI.StepAlarmCode := ;
+                
+                // Барабан ещё тёплый — пропускаем прогрев
+
+                IF WarmAfterStop THEN
+                    Step := ;
+                    // После пуска вентилятора и барабана сразу READY
+
+                    // (флаг WarmAfterStop проверяется в STEP_START_DRUM)
+
+                ELSE
+                    Step := ;
+                END_IF;
+            END_IF;
+            
+            // -------------------------------------------------------
+
+            // ШАГ 1: ПУСК ВЕНТИЛЯТОРА
+
+            // -------------------------------------------------------
+
+        :
+            // Ждём обратную связь от ПЧ вентилятора
+
+            TonStartFan(IN := NOT FanFeedback,
+                         PT := );
+            
+            IF FanFeedback THEN
+                // Вентилятор запустился — переходим к пуску барабана
+
+                RESET_TIMER(TonStartFan);
+                Step := ;
+                
+            ELSIF TonStartFan.Q THEN
+                // Таймаут — авария
+
+                Step := ;
+                DataHMI.StepAlarmCode := ;
+                RESET_TIMER(TonStartFan);
+            END_IF;
+            
+            // -------------------------------------------------------
+
+            // ШАГ 2: ПУСК БАРАБАНА
+
+            // -------------------------------------------------------
+
+        :
+            // Ждём обратную связь от ПЧ барабана
+
+            TonStartDrum(IN := NOT DrumFeedback,
+                          PT := );
+            
+            IF DrumFeedback THEN
+                RESET_TIMER(TonStartDrum);
+                // Барабан тёплый — сразу в READY, прогрев не нужен
+
+                IF WarmAfterStop THEN
+                    Step := ;
+                ELSE
+                    Step := ;
+                END_IF;
+                
+            ELSIF TonStartDrum.Q THEN
+                // Таймаут — авария
+
+                Step := ;
+                DataHMI.StepAlarmCode := ;
+                RESET_TIMER(TonStartDrum);
+            END_IF;
+            
+            // -------------------------------------------------------
+
+            // ШАГ 3: ПРОГРЕВ
+
+            // -------------------------------------------------------
+
+        :
+            // Горелка включена, ждём таймер прогрева
+
+            TonPreheat(IN := BurnerFlame,
+                        PT := DataHMI.PreheatTime);
+            
+            IF TonPreheat.Q THEN
+                // Прогрев завершён
+
+                RESET_TIMER(TonPreheat);
+                Step := ;
+            END_IF;
+            
+            // Авария горелки во время прогрева — в FAULT
+
+            IF BurnerFatalError THEN
+                Step := ;
+                DataHMI.StepAlarmCode := ;
+                RESET_TIMER(TonPreheat);
+            END_IF;
+            
+            // -------------------------------------------------------
+
+            // ШАГ 4: ГОТОВ К РАБОТЕ
+
+            // -------------------------------------------------------
+
+        :
+            DrumReady := ;
+            
+            // Верхняя логика подала сигнал — продукт пошёл
+
+            IF SystemRunning THEN
+                Step := ;
+            END_IF;
+            
+            // Останов оператором
+
+            IF DataHMI.StopDrum THEN
+                DataHMI.StopDrum := ;
+                DrumReady := ;
+                Step := ;
+            END_IF;
+            
+            // -------------------------------------------------------
+
+            // ШАГ 5: РАБОТА
+
+            // -------------------------------------------------------
+
+        :
+            
+            // Авария горелки (после 3 попыток авто перезапуска)
+
+            IF BurnerFatalError THEN
+                DataHMI.StepAlarmCode := ;
+                Step := ;
+            END_IF;
+            
+            // Авария температуры на входе (не снизилась за таймер)
+
+            IF TempInAlarm THEN
+                DataHMI.StepAlarmCode := ;
+                Step := ;
+            END_IF;
+            
+            // Авария вентилятора — горелку выкл, продукт выгружаем
+
+            IF FanAlarm THEN
+                DataHMI.StepAlarmCode := ;
+                Step := ;
+            END_IF;
+            
+            // Нормальный останов оператором
+
+            IF DataHMI.StopDrum THEN
+                DataHMI.StopDrum := ;
+                DrumReady := ;
+                Step := ;
+            END_IF;
+            
+            // -------------------------------------------------------
+
+            // ШАГ 6: АВАРИЙНАЯ ВЫГРУЗКА ПРОДУКТА
+
+            // -------------------------------------------------------
+
+        :
+            // Горелка выключена (BurnerEnable = FALSE по выходам ниже)
+
+            // Барабан крутится — продукт проходит через барабан
+
+            // Вентилятор: при аварии вент — выкл, иначе — работает
+
+            TonUnload(IN := ,
+                       PT := DataHMI.UnloadTime);
+            
+            IF TonUnload.Q THEN
+                RESET_TIMER(TonUnload);
+                DrumReady := ;
+                Step := ;
+            END_IF;
+            
+            // -------------------------------------------------------
+
+            // ШАГ 7: ОХЛАЖДЕНИЕ
+
+            // -------------------------------------------------------
+
+        :
+            // Горелка выкл, барабан и вентилятор крутятся
+
+            TonCooldown(IN := ,
+                         PT := DataHMI.CooldownTime);
+            
+            IF TonCooldown.Q THEN
+                RESET_TIMER(TonCooldown);
+                // Запускаем таймер "барабан ещё тёплый"
+
+                WarmAfterStop := ;
+                Step := ;
+            END_IF;
+            
+            // -------------------------------------------------------
+
+            // ШАГ 8: АВАРИЯ
+
+            // -------------------------------------------------------
+
+        :
+            // Всё оборудование выключено (по выходам ниже)
+
+            // Сброс только оператором вручную
+
+            IF DataHMI.AlarmReset THEN
+                DataHMI.AlarmReset := ;
+                DataHMI.StepAlarmCode := ;
+                WarmAfterStop := ;
+                Step := ;
+            END_IF;
+            
+    END_CASE;
+END_REGION
+REGION Формирование выходных сигналов
+    // Вентилятор: работает во всех шагах кроме IDLE, FAULT
+
+    // и EMERGENCY_UNLOAD при аварии вентилятора
+
+    FanStart := (Step = ) OR
+    (Step = ) OR
+    (Step = ) OR
+    (Step = ) OR
+    (Step = ) OR
+    (Step =  AND NOT FanAlarm) OR
+    (Step = );
+    
+    // Барабан: работает во всех шагах кроме IDLE, START_FAN, FAULT
+
+    DrumStart := (Step = ) OR
+    (Step = ) OR
+    (Step = ) OR
+    (Step = ) OR
+    (Step = ) OR
+    (Step = );
+    
+    // Разрешение горелки: только в PREHEAT, READY, RUNNING
+
+    BurnerEnable := (Step = ) OR
+    (Step = ) OR
+    (Step = );
+    
+    // Авто режим горелки (регулирование): только в RUNNING
+
+    BurnerAuto := (Step = );
+    
+    // Разрешение блока регулирования температуры: только в RUNNING
+
+    TempControlEnable := (Step = );
+    
+    // Сигнал готовности для верхней логики
+
+    DrumReady := (Step = ) OR (Step = );
+END_REGION
+
+
+──────────────────────────────────────────────────────────────────────
+// Program blocks\2_ExtensionControl\Function\DryingDrum\DrumTempControl.xml
+──────────────────────────────────────────────────────────────────────
+FUNCTION_BLOCK "DrumTempControl"  // SCL  Block #24
+
+VAR_INPUT
+    TempOut : Real;  // Температура на выходе барабана, °C
+    TempIn : Real;  // Температура на входе барабана, °C
+    Enable : Bool;  // Разрешение работы блока
+    AlarmReset : Bool;  // Сброс аварии оператором
+    TempSetpoint : Real;  // Уставка температуры на выходе, °C
+    TempHysteresis : Real;  // Гистерезис, °C (например 15.0)
+    TempInLimit : Real;  // Максимальная допустимая T на входе, °C
+END_VAR
+VAR_OUTPUT
+    UpPower : Bool;  // Увеличить мощность горелки
+    BurnerEnable : Bool;  // Разрешение работы горелки
+    TempInAlarm : Bool;  // Авария: T_in превысила лимит и не снизилась
+END_VAR
+VAR
+    TonTempIn : TON_TIME;
+    TempInHighActive : Bool;  // Флаг: T_in сейчас выше лимита
+END_VAR
+VAR CONSTANT
+    TempInHysteresis : Real := 5.0;  // Гистерезис снятия флага превышения T_in, °C
+    TempInAlarmDelay : Time := T#1m;  // Таймер ожидания снижения T_in
+END_VAR
+
+// ==================== CODE ====================
+// Network 1
+// Блок регулирования мощности горелки сушильного барабана.
+    Входные сигналы:
+        TempOut          - температура на выходе барабана (4..20 мА, Real °C)
+        TempIn           - температура на входе барабана  (4..20 мА, Real °C)
+        Enable           - разрешение работы блока (от блока верхнего уровня)
+        AlarmReset       - сброс аварии оператором
+    Уставки передаются из DataHMI вызывающего блока:
+        TempSetpoint     - уставка температуры на выходе барабана
+        TempHysteresis   - зона нечувствительности (гистерезис)
+        TempInLimit      - максимально допустимая температура на входе
+
+REGION Регулирование мощности по T_out (гистерезис)
+    // Работаем только если блок разрешён и нет аварии
+
+    IF Enable AND NOT TempInAlarm THEN
+        
+        IF TempOut < (TempSetpoint - TempHysteresis) THEN
+            // Температура ниже нижней границы зоны — греем
+
+            UpPower := ;
+            
+        ELSIF TempOut > (TempSetpoint + TempHysteresis) THEN
+            // Температура выше верхней границы зоны — снижаем мощность
+
+            UpPower := ;
+            
+            // ELSE: зона нечувствительности — состояние UpPower не меняем
+
+        END_IF;
+        
+    ELSE
+        // Блок выключен или авария — снимаем сигнал увеличения мощности
+
+        UpPower := ;
+    END_IF;
+END_REGION
+REGION Контроль температуры на входе барабана
+    // Фиксируем факт превышения T_in
+
+    IF TempIn > TempInLimit THEN
+        TempInHighActive := ;
+    END_IF;
+    
+    // Снимаем флаг только если T_in вернулась в норму (с гистерезисом)
+
+    IF TempInHighActive AND (TempIn < (TempInLimit - )) THEN
+        TempInHighActive := ;
+    END_IF;
+    
+    // Запускаем таймер пока T_in превышена
+
+    TonTempIn(IN := TempInHighActive AND Enable,
+               PT := );
+    
+    // Авария фиксируется если таймер истёк — сброс только оператором
+
+    IF TonTempIn.Q THEN
+        TempInAlarm := ;
+    END_IF;
+    
+    // Сброс аварии оператором — только если T_in уже в норме
+
+    IF AlarmReset AND NOT TempInHighActive THEN
+        TempInAlarm := ;
+        RESET_TIMER(TonTempIn);
+    END_IF;
+END_REGION
+REGION Разрешение горелки
+    // Горелка разрешена если: блок активен, нет аварии T_in, T_in не превышена прямо сейчас
+
+    BurnerEnable := Enable AND NOT TempInAlarm AND NOT TempInHighActive;
+END_REGION
+
+
+──────────────────────────────────────────────────────────────────────
+// Program blocks\2_ExtensionControl\Function\ReverseConveyour\Config.xml
+──────────────────────────────────────────────────────────────────────
+FUNCTION_BLOCK "Config"  // SCL  Block #23
+
+VAR
+    Config_8_Bunker : "PositionConfig";
+    Config_6_Silos : "PositionConfig";
+END_VAR
+
+// ==================== CODE ====================
+// Network 1
+REGION Конфигурация 6 силосов
+    // Конфигурация для 6 силосов (бункеров) с 3 датчиками X,Y,Z
+
+    // Индексы позиций слева направо:
+
+    // 0 - основная 1-4 (состояние 1: 001)
+
+    // 1 - торможение перед 1-4 (состояние 4: 100)
+
+    // 2 - торможение перед 2-5 из 1-4 (состояние 5: 101)
+
+    // 3 - основная 2-5 (состояние 2: 010)
+
+    // 4 - торможение перед 2-5 из 3-6 (состояние 6: 110)
+
+    // 5 - торможение перед 3-6 (состояние 7: 111)
+
+    // 6 - основная 3-6 (состояние 3: 011)
+
+    
+    // Таблица декодирования: код = (X*4 + Y*2 + Z) (W всегда 0, поэтому используем индексы 0..7)
+
+    Config_6_Silos.DecodeTable := ;   // 0000 – нет пластины (XYZ=000)
+
+    Config_6_Silos.DecodeTable := ;    // 0001 -> основная 1-4 (индекс 0) [XYZ=001]
+
+    Config_6_Silos.DecodeTable := ;    // 0010 -> основная 2-5 (индекс 3) [XYZ=010]
+
+    Config_6_Silos.DecodeTable := ;    // 0011 -> основная 3-6 (индекс 6) [XYZ=011]
+
+    Config_6_Silos.DecodeTable := ;    // 0100 -> торможение перед 1-4 (индекс 1) [XYZ=100]
+
+    Config_6_Silos.DecodeTable := ;    // 0101 -> торможение перед 2-5 из 1-4 (индекс 2) [XYZ=101]
+
+    Config_6_Silos.DecodeTable := ;    // 0110 -> торможение перед 2-5 из 3-6 (индекс 4) [XYZ=110]
+
+    Config_6_Silos.DecodeTable := ;    // 0111 -> торможение перед 3-6 (индекс 5) [XYZ=111]
+
+    Config_6_Silos.DecodeTable := ;   // 1000 – не используется (W=1)
+
+    Config_6_Silos.DecodeTable := ;   // 1001 – не используется
+
+    Config_6_Silos.DecodeTable := ;   // 1010 – не используется
+
+    Config_6_Silos.DecodeTable := ;   // 1011 – не используется
+
+    Config_6_Silos.DecodeTable := ;   // 1100 – не используется
+
+    Config_6_Silos.DecodeTable := ;   // 1101 – не используется
+
+    Config_6_Silos.DecodeTable := ;   // 1110 – не используется
+
+    Config_6_Silos.DecodeTable := ;   // 1111 – не используется
+
+    
+    // Целевые индексы для силосов (основные позиции)
+
+    Config_6_Silos.SiloTarget := ;   // силос 1 -> основная 1-4
+
+    Config_6_Silos.SiloTarget := ;   // силос 2 -> основная 2-5
+
+    Config_6_Silos.SiloTarget := ;   // силос 3 -> основная 3-6
+
+    Config_6_Silos.SiloTarget := ;   // силос 4 -> основная 1-4
+
+    Config_6_Silos.SiloTarget := ;   // силос 5 -> основная 2-5
+
+    Config_6_Silos.SiloTarget := ;   // силос 6 -> основная 3-6
+
+    Config_6_Silos.SiloTarget := ;  // силос 7 не используется
+
+    Config_6_Silos.SiloTarget := ;  // силос 8 не используется
+
+    
+    // Точки торможения для каждой возможной цели (индекс цели)
+
+    // leftBrake – торможение при движении ВПЕРЁД (к увеличению индекса)
+
+    // rightBrake – торможение при движении НАЗАД (к уменьшению индекса)
+
+    Config_6_Silos.BrakePoints.leftBrake := ;  // цель 0 (1-4): движение вперёд невозможно
+
+    Config_6_Silos.BrakePoints.rightBrake := ;   // назад -> тормоз в индексе 1
+
+    Config_6_Silos.BrakePoints.leftBrake := ;  // не цель
+
+    Config_6_Silos.BrakePoints.rightBrake := ;
+    Config_6_Silos.BrakePoints.leftBrake := ;  // не цель
+
+    Config_6_Silos.BrakePoints.rightBrake := ;
+    Config_6_Silos.BrakePoints.leftBrake := ;   // цель 3 (2-5): вперёд -> тормоз в индексе 2
+
+    Config_6_Silos.BrakePoints.rightBrake := ;   // назад -> тормоз в индексе 4
+
+    Config_6_Silos.BrakePoints.leftBrake := ;  // не цель
+
+    Config_6_Silos.BrakePoints.rightBrake := ;
+    Config_6_Silos.BrakePoints.leftBrake := ;  // не цель
+
+    Config_6_Silos.BrakePoints.rightBrake := ;
+    Config_6_Silos.BrakePoints.leftBrake := ;   // цель 6 (3-6): вперёд -> тормоз в индексе 5
+
+    Config_6_Silos.BrakePoints.rightBrake := ;  // назад невозможно
+
+    // Остальные индексы 7..15 остаются -1 (по умолчанию)
+
+    
+    Config_6_Silos.MinIndex := ;
+    Config_6_Silos.MaxIndex := ;
+END_REGION
+REGION Конфигурация 8 бункеров
+    // Конфигурация для 8 бункеров (силосов) с 4 датчиками W,X,Y,Z
+
+    // Индексы позиций слева направо:
+
+    // 0 - основная 1-5 (состояние 1: 0001)
+
+    // 1 - торможение перед 1-5 (состояние 5: 0101)
+
+    // 2 - торможение перед 2-6 из 1-5 (состояние 6: 0110)
+
+    // 3 - основная 2-6 (состояние 2: 0010)
+
+    // 4 - торможение перед 2-6 из 3-7 (состояние 7: 0111)
+
+    // 5 - торможение перед 3-7 из 2-6 (состояние 8: 1000)
+
+    // 6 - основная 3-7 (состояние 3: 0011)
+
+    // 7 - торможение перед 3-7 из 4-8 (состояние 9: 1001)
+
+    // 8 - торможение перед 4-8 (состояние 10: 1010)
+
+    // 9 - основная 4-8 (состояние 4: 0100)
+
+    
+    // Таблица декодирования: код = (W*8 + X*4 + Y*2 + Z)
+
+    Config_8_Bunker.DecodeTable := ;   // 0000 – нет пластины
+
+    Config_8_Bunker.DecodeTable := ;    // 0001 -> основная 1-5 (индекс 0)
+
+    Config_8_Bunker.DecodeTable := ;    // 0010 -> основная 2-6 (индекс 3)
+
+    Config_8_Bunker.DecodeTable := ;    // 0011 -> основная 3-7 (индекс 6)
+
+    Config_8_Bunker.DecodeTable := ;    // 0100 -> основная 4-8 (индекс 9)
+
+    Config_8_Bunker.DecodeTable := ;    // 0101 -> торможение перед 1-5 (индекс 1)
+
+    Config_8_Bunker.DecodeTable := ;    // 0110 -> торможение перед 2-6 из 1-5 (индекс 2)
+
+    Config_8_Bunker.DecodeTable := ;    // 0111 -> торможение перед 2-6 из 3-7 (индекс 4)
+
+    Config_8_Bunker.DecodeTable := ;    // 1000 -> торможение перед 3-7 из 2-6 (индекс 5)
+
+    Config_8_Bunker.DecodeTable := ;    // 1001 -> торможение перед 3-7 из 4-8 (индекс 7)
+
+    Config_8_Bunker.DecodeTable := ;    // 1010 -> торможение перед 4-8 (индекс 8)
+
+    Config_8_Bunker.DecodeTable := ;   // 1011 – не используется
+
+    Config_8_Bunker.DecodeTable := ;   // 1100 – не используется
+
+    Config_8_Bunker.DecodeTable := ;   // 1101 – не используется
+
+    Config_8_Bunker.DecodeTable := ;   // 1110 – не используется
+
+    Config_8_Bunker.DecodeTable := ;   // 1111 – не используется
+
+    
+    // Целевые индексы для силосов (основные позиции)
+
+    Config_8_Bunker.SiloTarget := ;   // силос 1 -> основная 1-5
+
+    Config_8_Bunker.SiloTarget := ;   // силос 2 -> основная 2-6
+
+    Config_8_Bunker.SiloTarget := ;   // силос 3 -> основная 3-7
+
+    Config_8_Bunker.SiloTarget := ;   // силос 4 -> основная 4-8
+
+    Config_8_Bunker.SiloTarget := ;   // силос 5 -> основная 1-5
+
+    Config_8_Bunker.SiloTarget := ;   // силос 6 -> основная 2-6
+
+    Config_8_Bunker.SiloTarget := ;   // силос 7 -> основная 3-7
+
+    Config_8_Bunker.SiloTarget := ;   // силос 8 -> основная 4-8
+
+    
+    // Точки торможения для каждой возможной цели (индекс цели)
+
+    // leftBrake – торможение при движении ВПЕРЁД (к увеличению индекса)
+
+    // rightBrake – торможение при движении НАЗАД (к уменьшению индекса)
+
+    Config_8_Bunker.BrakePoints.leftBrake := ;  // цель 0 (1-5): движение вперёд невозможно
+
+    Config_8_Bunker.BrakePoints.rightBrake := ;   // назад -> тормоз в индексе 1
+
+    Config_8_Bunker.BrakePoints.leftBrake := ;  // не цель
+
+    Config_8_Bunker.BrakePoints.rightBrake := ;
+    Config_8_Bunker.BrakePoints.leftBrake := ;  // не цель
+
+    Config_8_Bunker.BrakePoints.rightBrake := ;
+    Config_8_Bunker.BrakePoints.leftBrake := ;   // цель 3 (2-6): вперёд -> тормоз в индексе 2
+
+    Config_8_Bunker.BrakePoints.rightBrake := ;   // назад -> тормоз в индексе 4
+
+    Config_8_Bunker.BrakePoints.leftBrake := ;  // не цель
+
+    Config_8_Bunker.BrakePoints.rightBrake := ;
+    Config_8_Bunker.BrakePoints.leftBrake := ;  // не цель
+
+    Config_8_Bunker.BrakePoints.rightBrake := ;
+    Config_8_Bunker.BrakePoints.leftBrake := ;   // цель 6 (3-7): вперёд -> тормоз в индексе 5
+
+    Config_8_Bunker.BrakePoints.rightBrake := ;   // назад -> тормоз в индексе 7
+
+    Config_8_Bunker.BrakePoints.leftBrake := ;  // не цель
+
+    Config_8_Bunker.BrakePoints.rightBrake := ;
+    Config_8_Bunker.BrakePoints.leftBrake := ;  // не цель
+
+    Config_8_Bunker.BrakePoints.rightBrake := ;
+    Config_8_Bunker.BrakePoints.leftBrake := ;   // цель 9 (4-8): вперёд -> тормоз в индексе 8
+
+    Config_8_Bunker.BrakePoints.rightBrake := ;  // назад невозможно
+
+    // Остальные индексы 10..15 остаются -1 (по умолчанию)
+
+    
+    Config_8_Bunker.MinIndex := ;
+    Config_8_Bunker.MaxIndex := ;
+END_REGION
+
+
+──────────────────────────────────────────────────────────────────────
+// Program blocks\2_ExtensionControl\Function\ReverseConveyour\PositioningReverseConveyor.xml
+──────────────────────────────────────────────────────────────────────
+FUNCTION_BLOCK "PositioningReverseConveyor"  // SCL  Block #17
+
+VAR_INPUT
+    Config : "PositionConfig";  // Конфигурация системы
+    Sensor_W : Bool;  // Датчик позиции W
+    Sensor_X : Bool;  // Датчик позиции X
+    Sensor_Y : Bool;  // Датчик позиции Y
+    Sensor_Z : Bool;  // Датчик позиции Z
+    LeftLimit : Bool;  // концевой выключатель слева (силос 1)
+    RightLimit : Bool;  // концевой выключатель справа (силос 8)
+    Operator_Silo : Int;  // выбранный силос (1..8)
+    StartCmd : Bool;  // команда "Пуск" (фронт)
+    StopCmd : Bool;  // команда "Стоп"
+    Reset : Bool;  // сброс аварии
+END_VAR
+VAR_OUTPUT
+    Drive_Dir : Int;  // 0=стоп, 1=вперёд (к силосу 8), 2=назад (к силосу 1)
+    Drive_Freq : Real;  // частота задания ПЧ (Гц)
+    AtTarget : Bool;  // флаг достижения цели
+    Error : Bool;  // общий сигнал ошибки
+    ErrorCode : Word;  // код ошибки (для диагностики)
+END_VAR
+VAR
+    state : Int;
+    target_idx : Int;  // целевой индекс
+    current_idx : Int := -1;  // текущий индекс (-1 = неизвестно)
+    last_known_idx : Int := -1;  // последний известный индекс
+    direction : Int;  // текущее направление движения
+    brake_idx : Int;  // индекс точки торможения
+    move_timer : TON_TIME;  // таймер контроля времени движения
+    homing_dir : Int;  // направление при хоуминге
+    homing_tried_both : Bool;  // флаг – пробовали оба направления
+    pending_target : Int;  // отложенная цель, если ушли в хоуминг
+    sensorCode : Int;
+    W : Int;
+    X : Int;
+    Y : Int;
+    Z : Int;
+END_VAR
+VAR CONSTANT
+    STATE_IDLE : Int;
+    STATE_MOVING : Int := 1;
+    STATE_HOMING : Int := 2;
+    STATE_ESTOP : Int := 3;
+    DIR_STOP : Int;
+    DIR_FORWARD : Int := 1;
+    DIR_BACKWARD : Int := 2;
+    SPEED_HIGH : Real := 50.0;
+    SPEED_LOW : Real := 10.0;
+    SPEED_ZERO : Real;
+    MAX_MOVE_TIME : Time := T#5m;  // Максимальное время премещения, для проверки застревания конвейера
+END_VAR
+
+// ==================== CODE ====================
+// Network 1
+// Инициализация
+
+IF NOT StartCmd THEN
+    Error := ;
+    ErrorCode := ;
+    AtTarget := ;
+    Drive_Dir := ;
+    Drive_Freq := ;
+    RESET_TIMER(move_timer);
+    homing_tried_both := ;
+    RETURN;
+END_IF;
+// -------------------------------------------------------------------------
+
+// Вычисление кода датчиков (0..15) для доступа к DecodeTable
+
+// -------------------------------------------------------------------------
+
+IF Sensor_W THEN
+    W := ;
+ELSE
+    W := ;
+END_IF;
+IF Sensor_X THEN
+    X := ;
+ELSE
+    X := ;
+END_IF;
+IF Sensor_Y THEN
+    Y := ;
+ELSE
+    Y := ;
+END_IF;
+IF Sensor_Z THEN
+    Z := ;
+ELSE
+    Z := ;
+END_IF;
+sensorCode := W + X + Y + Z;
+// -------------------------------------------------------------------------
+
+// Декодирование текущей позиции по сигналам датчиков
+
+// -------------------------------------------------------------------------
+
+current_idx := Config.DecodeTable[sensorCode];
+// Обновление последней известной позиции
+
+IF current_idx <>  THEN
+    last_known_idx := current_idx;
+END_IF;
+// -------------------------------------------------------------------------
+
+// Конечный автомат
+
+// -------------------------------------------------------------------------
+
+CASE state OF
+        
+        // ---------------------------------------------------------------------
+
+        // STATE_IDLE – ожидание команды
+
+        // ---------------------------------------------------------------------
+
+    :
+        Error := ;
+        ErrorCode := ;
+        AtTarget := ;
+        Drive_Dir := ;
+        Drive_Freq := ;
+        RESET_TIMER(move_timer);
+        
+        IF (Config.SiloTarget[Operator_Silo] >= Config.MinIndex AND Config.SiloTarget[Operator_Silo] <= Config.MaxIndex) THEN
+            // Определить целевой индекс по выбранному силосу
+
+            target_idx := Config.SiloTarget[Operator_Silo];
+            IF current_idx <>  THEN
+                // Позиция известна
+
+                IF target_idx = current_idx THEN
+                    AtTarget := ;
+                ELSE
+                    state := ;
+                    // Направление
+
+                    IF target_idx > current_idx THEN
+                        direction := ;
+                    ELSE
+                        direction := ;
+                    END_IF;
+                    // Получаем точку торможения из конфигурации
+
+                    IF direction =  THEN
+                        brake_idx := Config.BrakePoints[target_idx].leftBrake;
+                    ELSE
+                        brake_idx := Config.BrakePoints[target_idx].rightBrake;
+                    END_IF;
+                END_IF;
+            ELSE
+                // Позиция неизвестна – запоминаем цель и ищем
+
+                pending_target := target_idx;
+                homing_tried_both := ;
+                state := ;
+            END_IF;
+        END_IF;
+        
+        // ---------------------------------------------------------------------
+
+        // STATE_MOVING – движение к заданной цели
+
+        // ---------------------------------------------------------------------
+
+    :
+        AtTarget := ;
+        
+        // Если позиция известна, проверяем достижение цели и управляем скоростью
+
+        IF current_idx <>  THEN
+            IF current_idx = target_idx THEN
+                // Достигли цели
+
+                Drive_Dir := ;
+                Drive_Freq := ;
+                AtTarget := ;
+                state := ;
+            ELSE
+                // Управление скоростью: если достигли точки торможения – снижаем
+
+                IF current_idx = brake_idx THEN
+                    Drive_Freq := ;
+                ELSE
+                    Drive_Freq := ;
+                END_IF;
+                Drive_Dir := direction;
+            END_IF;
+            // Позиция неизвестна (между пластинами) – продолжаем движение с прежней скоростью и направлением
+
+            // Скорость остаётся той, которая была установлена ранее (высокая или низкая – сохраняем)
+
+            // Для простоты оставляем #Drive_Freq как есть (оно уже было установлено в предыдущем цикле)
+
+            // Направление тоже не меняем
+
+        END_IF;
+        
+        // Контроль времени движения (таймер работает всегда, когда мы в MOVING)
+
+        move_timer(IN := ,
+                    PT := );
+        IF move_timer.Q THEN
+            state := ;
+            Error := ;
+            ErrorCode := ;   // тайм-аут движения
+
+            Drive_Dir := ;
+            Drive_Freq := ;
+        END_IF;
+        
+        
+        // ---------------------------------------------------------------------
+
+        // STATE_HOMING – поиск позиции (движение с малой скоростью)
+
+        // ---------------------------------------------------------------------
+
+    :
+        AtTarget := ;
+        
+        // Если позиция появилась
+
+        IF current_idx <>  THEN
+            Drive_Dir := ;
+            Drive_Freq := ;
+            homing_tried_both := ;
+            
+            IF pending_target <>  THEN
+                target_idx := pending_target;
+                pending_target := ;
+                state := ;
+                IF target_idx > current_idx THEN
+                    direction := ;
+                ELSIF target_idx < current_idx THEN
+                    direction := ;
+                ELSE
+                    AtTarget := ;
+                    state := ;
+                END_IF;
+                IF direction =  THEN
+                    brake_idx := Config.BrakePoints[target_idx].leftBrake;
+                ELSE
+                    brake_idx := Config.BrakePoints[target_idx].rightBrake;
+                END_IF;
+            ELSE
+                state := ;
+            END_IF;
+        ELSE
+                // Продолжаем движение с малой скоростью
+
+            // Проверяем последнюю позцицию и вычисляем куда двигаться
+
+            IF NOT homing_tried_both THEN
+                IF last_known_idx <>  THEN
+                    IF last_known_idx <= (Config.MinIndex + Config.MaxIndex) /  THEN
+                        homing_dir := ;
+                    ELSE
+                        homing_dir := ;
+                    END_IF;
+                ELSE
+                    homing_dir := ; // просто движемся вправо
+
+                END_IF;
+            END_IF;
+            // Проверка концевиков
+
+            IF (homing_dir =  AND RightLimit) OR
+                (homing_dir =  AND LeftLimit) THEN
+                IF NOT homing_tried_both THEN
+                    // меняем направление
+
+                    IF homing_dir =  THEN
+                        homing_dir := ;
+                    ELSIF homing_dir =  THEN
+                        homing_dir := ;
+                    END_IF;
+                    homing_tried_both := ;
+                ELSE
+                    state := ;
+                    Error := ;
+                    ErrorCode := ;   // нет опорных позиций
+
+                    Drive_Dir := ;
+                    Drive_Freq := ;
+                END_IF;
+            END_IF;
+            // Управление
+
+            Drive_Dir := homing_dir;
+            Drive_Freq := ;
+            move_timer(IN := ,
+                        PT := );
+            IF move_timer.Q THEN
+                state := ;
+                Error := ;
+                ErrorCode := ;   // тайм-аут хоуминга
+
+                Drive_Dir := ;
+                Drive_Freq := ;
+            END_IF;
+        END_IF;
+        
+        // ---------------------------------------------------------------------
+
+        // STATE_ESTOP – аварийная остановка
+
+        // ---------------------------------------------------------------------
+
+    :
+        Drive_Dir := ;
+        Drive_Freq := ;
+        AtTarget := ;
+        IF Reset AND NOT LeftLimit AND NOT RightLimit THEN
+            state := ;
+            Error := ;
+            ErrorCode := ;
+        END_IF;
+END_CASE;
+// -------------------------------------------------------------------------
+
+// Принудительная остановка по команде оператора
+
+// -------------------------------------------------------------------------
+
+IF StopCmd AND state <>  THEN
+    state := ;
+    Drive_Dir := ;
+    Drive_Freq := ;
+    AtTarget := ;
+    RESET_TIMER(move_timer);
+END_IF;
+
+
+──────────────────────────────────────────────────────────────────────
+// Program blocks\2_ExtensionControl\MainRoutines\ExtensionControlMainRoutine.xml
+──────────────────────────────────────────────────────────────────────
+FUNCTION "ExtensionControlMainRoutine"  // SCL  Block #6
+
+VAR_OUTPUT
+    Ret_Val : Void;
+END_VAR
+
+// ==================== CODE ====================
+// Network 1
+REGION Блок распределения продукции реверсивным ковнейером
+    ();
+END_REGION
+REGION Блок управления комплексом сушики продукции
+    ();
+END_REGION
+
+
+──────────────────────────────────────────────────────────────────────
+// Program blocks\2_ExtensionControl\MainRoutines\MainRoutineDryingDrum.xml
+──────────────────────────────────────────────────────────────────────
+FUNCTION_BLOCK "MainRoutineDryingDrum"  // SCL  Block #12
+
+VAR_INPUT
+    1DD_SystemRunning : Bool;  // Система запущена, продукт пошёл в 1-й барабан
+    2DD_SystemRunning : Bool;  // Система запущена, продукт пошёл в 2-й барабан
+END_VAR
+VAR_OUTPUT
+    Drum1Ready : Bool;  // 1-й барабан прогрет и готов к работе
+    Drum2Ready : Bool;  // 2-й барабан прогрет и готов к работе
+END_VAR
+VAR
+    1DD_DrumControl : "DrumControl";
+    2DD_DrumControl : "DrumControl";  // --- Экземпляры блоков регулирования температуры ---
+    1DD_TempControl : "DrumTempControl";
+    2DD_TempControl : "DrumTempControl";  // --- Экземпляры горелок (уже вызваны выше, static переменные) ---
+END_VAR
+
+// ==================== CODE ====================
+// Network 1
+REGION 1 сушильный барабан  
+    REGION Регулирование температуры
+        (
+                           TempOut := "DB_MainRoutineAnalogInput".1DD_TempExit.DataHMI.ActualValue,
+                           TempIn := "DB_MainRoutineAnalogInput".1DD_TempEntry.DataHMI.ActualValue,
+                           Enable := 1DD_DrumControl.TempControlEnable,
+                           AlarmReset := 1DD_DrumControl.DataHMI.AlarmReset,
+                           TempSetpoint := 1DD_DrumControl.DataHMI.TempSetpoint,
+                           TempHysteresis := 1DD_DrumControl.DataHMI.TempHysteresis,
+                           TempInLimit := 1DD_DrumControl.DataHMI.TempInLimit);
+    END_REGION
+    REGION Горелка
+        // 1 горелка. Управление
+
+        "DB_MainRoutineActuator".1_Burner.enableCommon := 1DD_TempControl.BurnerEnable AND 1DD_DrumControl.BurnerEnable;
+        "DB_MainRoutineActuator".1_Burner.AutoStart := 1DD_DrumControl.BurnerAuto;
+        "DB_MainRoutineActuator".1_Burner.AutoUpPower := 1DD_TempControl.UpPower;
+    END_REGION
+    REGION Управление барабаном
+        (
+                           // Обратные связи ПЧ барабана
+
+                           DrumFeedback := "DB_MainRoutineMotor".1DD_1_VFD.FeedbackForward OR "DB_MainRoutineMotor".1DD_1_VFD.FeedbackReverse,
+                           DrumAlarm := "DB_MainRoutineMotor".1DD_1_VFD.AlarmCommon,
+                           // Обратные связи ПЧ вентилятора
+
+                           FanFeedback := "DB_MainRoutineMotor".1DD_2_VFD.FeedbackForward OR "DB_MainRoutineMotor".1DD_2_VFD.FeedbackReverse,
+                           FanAlarm := "DB_MainRoutineMotor".1DD_2_VFD.AlarmCommon,
+                           // Сигналы горелки
+
+                           BurnerFatalError := "DB_MainRoutineActuator".1_Burner.FatalError,
+                           TempInAlarm := 1DD_TempControl.TempInAlarm,
+                           BurnerFlame := "DB_MainRoutineDigitalInput".1GB_FireOK.OutputSignal,
+                           // Сигнал от верхней логики
+
+                           SystemRunning := 1DD_SystemRunning,
+                           // Выходы — команды пуска ПЧ
+
+                           FanStart => "DB_MainRoutineMotor".1DD_2_VFD.AutoForward,
+                           DrumStart => "DB_MainRoutineMotor".1DD_1_VFD.AutoForward,
+                           // Разрешение горелки и регулирования идут через TempControl и Burner выше
+
+                           DrumReady => Drum1Ready);
+    END_REGION
+END_REGION
+REGION 2 сушильный барабан  
+    REGION Регулирование температуры
+        (
+                           TempOut := "DB_MainRoutineAnalogInput".2DD_TempExit.DataHMI.ActualValue,
+                           TempIn := "DB_MainRoutineAnalogInput".2DD_TempEntry.DataHMI.ActualValue,
+                           Enable := 2DD_DrumControl.TempControlEnable,
+                           AlarmReset := 2DD_DrumControl.DataHMI.AlarmReset,
+                           TempSetpoint := 2DD_DrumControl.DataHMI.TempSetpoint,
+                           TempHysteresis := 2DD_DrumControl.DataHMI.TempHysteresis,
+                           TempInLimit := 2DD_DrumControl.DataHMI.TempInLimit);
+    END_REGION
+    REGION Горелка
+        // Управление
+
+        "DB_MainRoutineActuator".2_Burner.enableCommon := 2DD_TempControl.BurnerEnable AND 2DD_DrumControl.BurnerEnable;
+        "DB_MainRoutineActuator".2_Burner.AutoStart := 2DD_DrumControl.BurnerAuto;
+        "DB_MainRoutineActuator".2_Burner.AutoUpPower := 2DD_TempControl.UpPower;
+    END_REGION
+    REGION Управление барабаном
+        (
+                           // Обратные связи ПЧ барабана
+
+                           DrumFeedback := "DB_MainRoutineMotor".2DD_1_VFD.FeedbackForward OR "DB_MainRoutineMotor".2DD_1_VFD.FeedbackReverse,
+                           DrumAlarm := "DB_MainRoutineMotor".2DD_1_VFD.AlarmCommon,
+                           // Обратные связи ПЧ вентилятора
+
+                           FanFeedback := "DB_MainRoutineMotor".2DD_2_VFD.FeedbackForward OR "DB_MainRoutineMotor".2DD_2_VFD.FeedbackReverse,
+                           FanAlarm := "DB_MainRoutineMotor".2DD_2_VFD.AlarmCommon,
+                           // Сигналы горелки
+
+                           BurnerFatalError := "DB_MainRoutineActuator".2_Burner.FatalError,
+                           TempInAlarm := 2DD_TempControl.TempInAlarm,
+                           BurnerFlame := "DB_MainRoutineDigitalInput".2GB_FireOK.OutputSignal,
+                           // Сигнал от верхней логики
+
+                           SystemRunning := 2DD_SystemRunning,
+                           // Выходы — команды пуска ПЧ
+
+                           FanStart => "DB_MainRoutineMotor".2DD_2_VFD.AutoForward,
+                           DrumStart => "DB_MainRoutineMotor".2DD_1_VFD.AutoForward,
+                           // Разрешение горелки и регулирования идут через TempControl и Burner выше
+
+                           DrumReady => Drum2Ready);
+    END_REGION
+END_REGION
+
+
+──────────────────────────────────────────────────────────────────────
+// Program blocks\2_ExtensionControl\MainRoutines\MainRoutineReverseConveyor.xml
+──────────────────────────────────────────────────────────────────────
+FUNCTION_BLOCK "MainRoutineReverseConveyor"  // SCL  Block #22
+
+VAR
+    Silos : "PositioningReverseConveyor";
+    Bunker_1 : "PositioningReverseConveyor";
+    Bunker_2 : "PositioningReverseConveyor";
+    configuration : "Config";
+END_VAR
+
+// ==================== CODE ====================
+// Network 1
+REGION Вызов блока конфигурации перемещения
+    ();
+END_REGION
+REGION Логика перемщения между силосами суточного хранения
+    (Config := configuration.Config_6_Silos,
+           Sensor_W := ,
+           Sensor_X := "DB_MainRoutineDigitalInput".1RC_Pos_X.OutputSignal,
+           Sensor_Y := "DB_MainRoutineDigitalInput".1RC_Pos_Y.OutputSignal,
+           Sensor_Z := "DB_MainRoutineDigitalInput".1RC_Pos_Z.OutputSignal,
+           LeftLimit := "DB_MainRoutineDigitalInput".1RC_LimitSW_L.OutputSignal,
+           RightLimit := "DB_MainRoutineDigitalInput".1RC_LimitSW_R.OutputSignal);
+END_REGION
+REGION Логика перемещения между бункерами над печами
+    (Config := configuration.Config_8_Bunker,
+              Sensor_W := "DB_MainRoutineDigitalInput".2RC_Pos_W.OutputSignal,
+              Sensor_X := "DB_MainRoutineDigitalInput".2RC_Pos_X.OutputSignal,
+              Sensor_Y := "DB_MainRoutineDigitalInput".2RC_Pos_Y.OutputSignal,
+              Sensor_Z := "DB_MainRoutineDigitalInput".2RC_Pos_Z.OutputSignal,
+              LeftLimit := "DB_MainRoutineDigitalInput".2RC_LimitSW_L.OutputSignal,
+              RightLimit := "DB_MainRoutineDigitalInput".2RC_LimitSW_R.OutputSignal);
+    
+    (Config := configuration.Config_8_Bunker,
+              Sensor_W := "DB_MainRoutineDigitalInput".3RC_Pos_W.OutputSignal,
+              Sensor_X := "DB_MainRoutineDigitalInput".3RC_Pos_X.OutputSignal,
+              Sensor_Y := "DB_MainRoutineDigitalInput".3RC_Pos_Y.OutputSignal,
+              Sensor_Z := "DB_MainRoutineDigitalInput".3RC_Pos_Z.OutputSignal,
+              LeftLimit := "DB_MainRoutineDigitalInput".3RC_LimitSW_L.OutputSignal,
+              RightLimit := "DB_MainRoutineDigitalInput".3RC_LimitSW_R.OutputSignal);
+END_REGION
+
+
+──────────────────────────────────────────────────────────────────────
+// Program blocks\Counter.xml
+──────────────────────────────────────────────────────────────────────
+ORGANIZATION_BLOCK "Counter"  // SCL  Block #30
+
+VAR_INPUT
+    Initial_Call : Bool;  // Initial call of this OB
+    Event_Count : Int;  // Events discarded
+END_VAR
+
+// ==================== CODE ====================
+// Network 1
+// Блок обработки датчиков скорости
+
+();
+
+
+──────────────────────────────────────────────────────────────────────
+// Program blocks\Main.xml
+──────────────────────────────────────────────────────────────────────
+ORGANIZATION_BLOCK "Main"  // SCL  Block #1
+
+VAR_INPUT
+    Initial_Call : Bool;  // Initial call of this OB
+    Remanence : Bool;  // =True, if remanent data are available
+END_VAR
+
+// ==================== CODE ====================
+// Network 1
+();
+();
+
+
+──────────────────────────────────────────────────────────────────────
+// Program blocks\Utility\Control_Speed.xml
+──────────────────────────────────────────────────────────────────────
+FUNCTION_BLOCK "Control_Speed"  // SCL  Block #6
+
+VAR_INPUT
+    Enable : Bool;  // Запуск блока
+    SensorSignal : Bool;  // Сигнал от датчика
+    CycleTime : Time;  // Период вызова блока
+    LengthPerPulse : Real;  // Путь за один импульс, в метрах
+    WatchdogTime : Time;  // Максимальное время без импульсов
+END_VAR
+VAR_OUTPUT
+    Speed : Real;  // Текущая скорость (м/с)
+    Speed_m_min : Real;  // Скорость в м/мин
+    PulsesPerInterval : DInt;  // Количество импульсов за последний интервал
+    Valid : Bool;  // TRUE, если данные валидны (прошёл хотя бы один интервал)
+    Feedback : Bool;  // Обратная связь с датчика
+END_VAR
+VAR
+    pulseCnt : DInt;
+    callCnt : DInt;
+    cyclesPerAvg : DInt;
+    initDone : Bool;
+    watchdog : Bool;  // Сигнал проверки приходящего сигнала
+    watchdogTimer : TON_TIME;
+    WatchdogAlarm : Bool;
+END_VAR
+VAR CONSTANT
+    AveragingTime : Time := T#1s;  // Интервал усреднения скорости
+END_VAR
+
+// ==================== CODE ====================
+// Network 1
+// Проверка необходимсоти использования блока
+
+IF NOT Enable THEN
+    Speed := ;
+    Speed_m_min := ;
+    Valid := ;
+    PulsesPerInterval := ;
+    Feedback := ;
+    initDone := ;
+    WatchdogAlarm := ;
+    RETURN;
+END_IF;
+// Обратная связь по работе счетчика
+
+IF NOT WatchdogAlarm THEN
+    Feedback := ;
+ELSE
+    Feedback := ;
+END_IF;
+// Инициализация: вычисляем количество вызовов на интервал усреднения
+
+IF NOT initDone THEN
+    cyclesPerAvg := DINT_TO_REAL(TIME_TO_DINT()) / DINT_TO_REAL(TIME_TO_DINT(CycleTime));
+    initDone := ;
+END_IF;
+// Счетчик импульсов
+
+IF SensorSignal THEN
+    pulseCnt := pulseCnt + ;
+    watchdog := ;
+ELSE
+    watchdog := ;
+END_IF;
+// Таймер работы счетчика
+
+watchdogTimer(IN := watchdog,
+               PT := WatchdogTime,
+               Q => WatchdogAlarm
+);
+// Счётчик вызовов
+
+callCnt := callCnt + ;
+// Если наступило время обновления скорости
+
+IF callCnt >= cyclesPerAvg THEN
+    // Сохраняем число импульсов за интервал
+
+    PulsesPerInterval := pulseCnt;
+    
+    // Вычисляем скорость (м/с)
+
+    Speed := DINT_TO_REAL(pulseCnt) * LengthPerPulse;
+    Speed_m_min := Speed * ;
+    
+    Valid := ;
+    
+    // Сброс счётчиков
+
+    pulseCnt := ;
+    callCnt := ;
+END_IF;
+
+
+──────────────────────────────────────────────────────────────────────
+// Program blocks\Utility\Regulator_Flame.xml
+──────────────────────────────────────────────────────────────────────
+FUNCTION_BLOCK "Regulator_Flame"  // SCL  Block #21
+
+VAR_INPUT
+    Temp_IN : Bool;  // Температура на входе
+    Temp_OUT : Bool;  // Температура на выходе
+END_VAR
+VAR_OUTPUT
+    UpPower : Bool;  // Увеличить мощность
+    Alarm : Bool;  // Авария
+END_VAR
+VAR
+    SP_WorkTemp : Bool;  // Уставка рабочей температуры
+    MaxTemp : Bool;  // Максимальная температура
+    MinTemp : Bool;  // Минимальная температура
+END_VAR
+
+// ==================== CODE ====================
+// Network 1
+// (empty or non-SCL network)
+
+
+──────────────────────────────────────────────────────────────────────
+// Program blocks\Utility\RUNNING_TIMER.xml
+──────────────────────────────────────────────────────────────────────
+FUNCTION_BLOCK "RUNNING_TIMER"  // SCL  Block #20
+
+VAR_INPUT
+    Enable : Bool;
+    ResetTime : Bool;  // Сброс времени наработки
+END_VAR
+VAR_IN_OUT
+    RunningTime : "TimeStructure";  // Время наработки
+END_VAR
+VAR
+    ClockTrigger : R_TRIG;  // Такт времени наработки
+END_VAR
+
+// ==================== CODE ====================
+// Network 1
+// Такт времени наработки
+
+ClockTrigger(CLK := "Clock_1Hz");
+// Время наработки
+
+IF ClockTrigger.Q  AND Enable THEN
+    // Секунды
+
+    RunningTime.Seconds += ;
+    IF RunningTime.Seconds >=  THEN
+        RunningTime.Seconds := ;
+        // Минуты
+
+        RunningTime.Minutes += ;
+    END_IF;
+    IF RunningTime.Minutes >=  THEN
+        RunningTime.Minutes := ;
+        // Часы
+
+        RunningTime.Hours += ;
+    END_IF;
+    IF RunningTime.Hours >=  THEN
+        RunningTime.Hours := ;
+        // Дни
+
+        RunningTime.Days += ;
+    END_IF;
+END_IF;
+// Сброс времени наработки
+
+IF ResetTime THEN
+    RunningTime.Seconds := RunningTime.Minutes := RunningTime.Hours := ;
+    RunningTime.Days := ;
+END_IF;
+
+
+──────────────────────────────────────────────────────────────────────
+// Program blocks\Utility\V_TRIG.xml
+──────────────────────────────────────────────────────────────────────
+FUNCTION_BLOCK "V_TRIG"  // SCL  Block #25
+
+VAR_INPUT
+    IN : Variant;
+END_VAR
+VAR_OUTPUT
+    Q : Bool;
+    R : Bool;
+    F : Bool;
+END_VAR
+VAR
+    mInt : Int;
+    mReal : Real;
+END_VAR
+VAR_TEMP
+    retVal : Int;
+    DataType : UInt;
+    tInt : Int;
+    tReal : Real;
+END_VAR
+VAR CONSTANT
+    TYPE_INT : UInt := 1;
+    TYPE_REAL : UInt := 2;
+END_VAR
+
+// ==================== CODE ====================
+// Network 1
+REGION Проверка типа входных данных
+    IF IS_NULL(IN) THEN
+        RETURN;
+    ELSIF TypeOf(IN) = TypeOf(mInt) THEN
+        DataType := ;
+        retVal := MOVE_BLK_VARIANT(SRC := IN, COUNT := , SRC_INDEX := , DEST_INDEX := , DEST => tInt);
+    ELSIF TypeOf(IN) = TypeOf(mReal) THEN
+        DataType := ;
+        retVal := MOVE_BLK_VARIANT(SRC := IN, COUNT := , SRC_INDEX := , DEST_INDEX := , DEST => tReal);
+    END_IF;
+END_REGION
+REGION Проверка изменения величины
+    IF mInt > tInt THEN
+        Q := R := ;
+        F := ;
+    ELSIF mInt < tInt THEN
+        Q := F := ;
+        R := ;
+    ELSE
+        Q := R := F := ;
+    END_IF;
+END_REGION
+REGION Запоминание нового значения
+    CASE DataType OF
+        :
+            mInt := tInt;
+        :
+            mReal := tReal;
+    END_CASE;
+END_REGION
+
